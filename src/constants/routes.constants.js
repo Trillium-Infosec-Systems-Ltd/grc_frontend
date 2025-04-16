@@ -3,6 +3,6 @@ export const ROUTES = {
         ROOT: '/'
     },
     PRIVATE: {
-
+        ROOT: '/dashboard'
     },
 }
