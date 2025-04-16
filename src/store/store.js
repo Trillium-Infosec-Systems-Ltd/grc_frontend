@@ -1,33 +1,19 @@
-import { configureStore } from '@reduxjs/toolkit';
-import userReducer from '../features/user/userSlice';
-import { getLocalItem, isNullOrEmpty, setLocalItem } from '../utils/utils';
+import { configureStore } from "@reduxjs/toolkit";
+import combineReducers from "./combinedReducers.js";
+import { persistReducer, persistStore } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
-const loadFromLocalStorage = () => {
-  try {
-    const serializedState = getLocalItem('userState');
-    if (isNullOrEmpty(serializedState)) return undefined;
-    return { user: serializedState };
-  } catch (e) {
-    console.warn('Could not load user state', e);
-    return undefined;
-  }
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: [
+    "session",
+  ],
 };
+const persistedReducer = persistReducer(persistConfig, combineReducers);
 
-const saveToLocalStorage = (state) => {
-  try {
-    setLocalItem('userState', state.user);
-  } catch (e) {
-    console.warn('Could not save user state', e);
-  }
-};
-
-const store = configureStore({
-  reducer: {
-    user: userReducer,
-  },
-  preloadedState: loadFromLocalStorage(),
+export const store = configureStore({
+  reducer: persistedReducer,
 });
 
-store.subscribe(() => saveToLocalStorage(store.getState()));
-
-export { store };
+export const persistor = persistStore(store);

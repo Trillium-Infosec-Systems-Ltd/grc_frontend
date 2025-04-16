@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { removeLocalItem } from '../utils/utils';
+import { removeLocalItem } from '../../utils/utils';
 
 const initialState = {
   user: null,

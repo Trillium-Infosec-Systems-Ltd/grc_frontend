@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Input, Button, Switch, Typography } from 'antd';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../../features/user/userSlice';
 
 const { Title, Text } = Typography;
 
 const LoginForm = () => {
+    const dispatch = useDispatch();
+
+    const [stateRef, setStateRef] = useState({
+        rememberMe: true
+    })
+
     const onFinish = (values) => {
         console.log('Success:', values);
+
+        dispatch(setUser({ ...values, rememberMe: stateRef.rememberMe }))
     };
 
     return (
@@ -38,8 +48,12 @@ const LoginForm = () => {
                         <Input.Password placeholder="Your password" />
                     </Form.Item>
 
+                    {/* <Form.Item label="Switch" valuePropName="checked">
+                        <Switch />
+                    </Form.Item> */}
+
                     <div className="remember-me">
-                        <Switch defaultChecked className='bg-primary' />
+                        <Switch checked={stateRef.rememberMe} className={stateRef.rememberMe ? 'bg-primary' : ''} onChange={(e) => setStateRef({ ...stateRef, rememberMe: e })} />
                         <span style={{ marginLeft: 8 }}>Remember me</span>
                     </div>
 
