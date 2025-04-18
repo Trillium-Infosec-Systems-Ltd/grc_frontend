@@ -1,0 +1,29 @@
+.ant-menu-item-selected {
+    border-left: 5px solid #4FD1C5;
+    /* border-radius: 0 24px 24px 0; */
+    color: #4FD1C5 !important;
+    font-weight: 500;
+}
+
+.ant-menu-item-selected .anticon {
+    color: #4FD1C5 !important;
+}
+
+.ant-menu-item-selected .ant-menu-title-content {
+    color: #4FD1C5 !important;
+}
+
+
+.ant-menu-item {
+    color: #B1B1B1;
+}
+
+.ant-menu-title-content {
+    color: #B1B1B1;
+}
+
+.ant-menu-item .anticon,
+.ant-menu-item svg {
+    color: #B1B1B1;
+    fill: #B1B1B1;
+}

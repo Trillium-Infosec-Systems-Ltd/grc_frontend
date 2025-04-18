@@ -1,70 +1,94 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { Navigate, Outlet, useNavigate } from 'react-router-dom';
+import { Input, Layout, Menu, Space, theme } from 'antd';
+import {
+    UserOutlined,
+    SettingOutlined,
+    ProfileOutlined,
+    DashboardOutlined,
+    FileOutlined,
+    WarningOutlined,
+    GlobalOutlined,
+} from '@ant-design/icons';
 import { ROUTES } from '../constants/routes.constants';
-import { isNotNullOrEmpty, isNullOrEmpty } from '../utils/utils';
-import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
-import { Layout, Menu, theme } from 'antd';
+import logo from '../assets/logo/CYDEA-GRC.png';
+import { isNullOrEmpty } from '../utils/utils';
+import { SIDE_MENU } from '../constants/menu.constants';
 
-const { Header, Content, Footer, Sider } = Layout;
-const items = [UserOutlined, VideoCameraOutlined, UploadOutlined, UserOutlined].map(
-    (icon, index) => ({
-        key: String(index + 1),
-        icon: React.createElement(icon),
-        label: `nav ${index + 1}`,
-    }),
-);
+const { Header, Sider, Content } = Layout;
 
 const ProtectedLayout = () => {
+    const navigate = useNavigate();
     const user = useSelector((state) => state.session.user);
 
     if (isNullOrEmpty(user)) {
         return <Navigate to={ROUTES.PUBLIC.ROOT} replace />;
     }
 
-    const {
-        token: { colorBgContainer, borderRadiusLG },
-    } = theme.useToken();
-
     return (
-        // <div className="min-h-screen bg-gray-100">
-        <Layout style={{
-            height: '100vh',
-            minHeight: 360,
-        }}>
+        <Layout style={{ minHeight: '100vh' }}>
+            {/* Sidebar */}
             <Sider
-                breakpoint="lg"
-                collapsedWidth="0"
-                onBreakpoint={broken => {
-                    console.log(broken);
-                }}
-                onCollapse={(collapsed, type) => {
-                    console.log(collapsed, type);
-                }}
+                width={220}
+                style={{ background: '#fff', borderRight: '1px solid #f0f0f0' }}
             >
-                <div className="demo-logo-vertical" />
-                <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={items} />
-            </Sider>
-            <Layout>
-                <Header style={{ padding: 0, background: colorBgContainer }} />
-                <Content style={{ margin: '24px 16px 0' }}>
-                    <div
-                        style={{
-                            padding: 24,
-                            minHeight: 360,
-                            height: '95%',
-                            borderRadius: borderRadiusLG,
-                        }}
-                    >
-                        <Outlet />
+                <Space direction='vertical' size='large'>
+                    <div className="flex justify-center items-center py-4">
+                        <img src={logo} alt="Logo" className="w-32" />
                     </div>
+                    <Menu
+                        mode="inline"
+                        defaultSelectedKeys={[ROUTES.PRIVATE.ROOT]}
+                        selectedKeys={[window.location.pathname]}
+                        style={{ height: '100%', borderRight: 0 }}
+                        items={SIDE_MENU.map(item => ({
+                            ...item,
+                            style: { marginBottom: 12 },
+                            onClick: () => navigate(item?.key)
+                        }))}
+                    />
+                </Space>
+            </Sider>
+
+            <Layout>
+                <Header
+                    style={{
+                        background: '#fff',
+                        padding: '0 24px',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        borderBottom: '1px solid #f0f0f0',
+                    }}
+                >
+                    {/* <div></div> */}
+                    {/* <div> */}
+                        <Input size="large" placeholder="Search for something" prefix={<UserOutlined />} style={{
+                        borderRadius: 40,
+                        background: '#F5F7FA',
+                        color: '#8BA3CB',
+                        padding: '10px 20px'
+                    }} />
+
+                        <div className="flex items-center gap-4">
+                            <span className="text-gray-500">
+                                <SettingOutlined />
+                            </span>
+                            <img
+                                src="https://randomuser.me/api/portraits/men/32.jpg"
+                                className="w-9 h-9 rounded-full"
+                                alt="User"
+                            />
+                        </div>
+                    {/* </div> */}
+                </Header>
+
+                <Content style={{ margin: '24px', padding: 24, background: '#f9f9f9' }}>
+                    <Outlet />
                 </Content>
-                {/* <Footer style={{ textAlign: 'center' }}>
-                    Ant Design ©{new Date().getFullYear()} Created by Ant UED
-                </Footer> */}
             </Layout>
         </Layout>
-        // </div>
     );
 };
 
