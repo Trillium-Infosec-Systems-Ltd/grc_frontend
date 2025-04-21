@@ -8,7 +8,7 @@ import { ROUTES } from './routes.constants';
 export const SIDE_MENU = [
     {
         key: ROUTES.PRIVATE.ROOT,
-        // icon: <img src={DashboardIcon} alt="Dashboard" style={{ width: 18, height: 18 }} />,
+        // icon: <HomeFilled style={{ width: 18, height: 18 }} />,
         label: 'Dashboard',
     },
     {
