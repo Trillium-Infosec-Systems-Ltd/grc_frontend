@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Navigate, Outlet, useNavigate } from 'react-router-dom';
+import { Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Input, Layout, Menu, Space, theme } from 'antd';
 import {
     UserOutlined,
@@ -10,24 +10,29 @@ import {
     FileOutlined,
     WarningOutlined,
     GlobalOutlined,
+    BellOutlined,
+    SearchOutlined,
 } from '@ant-design/icons';
 import { ROUTES } from '../constants/routes.constants';
 import logo from '../assets/logo/CYDEA-GRC.png';
 import { isNullOrEmpty } from '../utils/utils';
 import { SIDE_MENU } from '../constants/menu.constants';
+import AvatarComp from '../components/Image/Avatar';
 
 const { Header, Sider, Content } = Layout;
 
 const ProtectedLayout = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const user = useSelector((state) => state.session.user);
+    const route = SIDE_MENU.find(item => item?.key === location.pathname);
 
     if (isNullOrEmpty(user)) {
         return <Navigate to={ROUTES.PUBLIC.ROOT} replace />;
     }
 
     return (
-        <Layout style={{ minHeight: '100vh' }}>
+        <Layout style={{ minHeight: '100vh', background: '#F5F7FA' }}>
             {/* Sidebar */}
             <Sider
                 width={220}
@@ -62,33 +67,45 @@ const ProtectedLayout = () => {
                         borderBottom: '1px solid #f0f0f0',
                     }}
                 >
-                    {/* <div></div> */}
-                    {/* <div> */}
-                        <Input size="large" placeholder="Search for something" prefix={<UserOutlined />} style={{
-                        borderRadius: 40,
-                        background: '#F5F7FA',
-                        color: '#8BA3CB',
-                        padding: '10px 20px'
-                    }} />
+                    <h2 style={{ fontSize: 18, fontWeight: 600 }}>{route?.label ?? ''}</h2>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                        <Input size="large" placeholder="Search for something" prefix={<SearchOutlined style={{ fontSize: '20px' }} />} style={{
+                            borderRadius: 40,
+                            background: '#F5F7FA',
+                            color: '#8BA3CB',
+                            padding: '10px',
+                            gap: 10
+                        }} />
 
-                        <div className="flex items-center gap-4">
-                            <span className="text-gray-500">
-                                <SettingOutlined />
+                        <div className="flex items-center gap-4" style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                            <span className="text-gray-500" style={{
+                                borderRadius: 50,
+                                lineHeight: 0,
+                                background: '#F5F7FA',
+                                color: '#8BA3CB',
+                                padding: '10px'
+                            }} >
+                                <SettingOutlined style={{ fontSize: '24px' }} />
                             </span>
-                            <img
-                                src="https://randomuser.me/api/portraits/men/32.jpg"
-                                className="w-9 h-9 rounded-full"
-                                alt="User"
-                            />
+                            <span className="text-gray-500" style={{
+                                borderRadius: 50,
+                                lineHeight: 0,
+                                background: '#F5F7FA',
+                                color: '#8BA3CB',
+                                padding: '10px'
+                            }} >
+                                <BellOutlined style={{ fontSize: '24px', color: '#FE5C73' }} />
+                            </span>
+                            <AvatarComp />
                         </div>
-                    {/* </div> */}
+                    </div>
                 </Header>
 
                 <Content style={{ margin: '24px', padding: 24, background: '#f9f9f9' }}>
                     <Outlet />
                 </Content>
             </Layout>
-        </Layout>
+        </Layout >
     );
 };
 
