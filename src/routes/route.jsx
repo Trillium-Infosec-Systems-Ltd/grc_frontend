@@ -15,7 +15,10 @@ export default function AppRoutes() {
 
         <Route element={<ProtectedLayout />}>
           <Route path={ROUTES.PRIVATE.ROOT} element={<Dashboard />} />
-          <Route path={ROUTES.PRIVATE.ASSETS} element={<AssetManagement />} />
+          <Route
+            path={ROUTES.PRIVATE.ASSETS.PARENT + '/*'}
+            element={<AssetManagement />}
+          />
           <Route
             path={ROUTES.PRIVATE.CONTROLS}
             element={<ControlsManagement />}
