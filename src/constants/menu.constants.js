@@ -12,7 +12,7 @@ export const SIDE_MENU = [
         label: 'Dashboard',
     },
     {
-        key: ROUTES.PRIVATE.ASSETS,
+        key: ROUTES.PRIVATE.ASSETS.PARENT,
         // icon: <AssetsIcon style={{ width: 18, height: 18 }} />,
         label: 'Assets',
     },

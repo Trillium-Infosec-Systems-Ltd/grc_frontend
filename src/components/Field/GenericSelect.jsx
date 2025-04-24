@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { Select, Spin } from 'antd';
 import debounce from 'lodash/debounce';
-import { callApi } from '@/api/callApi';
+import { callApi } from '../../axios/callApi';
 
 const GenericSelect = ({
   field,
-  mode = undefined, // 'multiple' for MultiLink
+  mode = undefined,
   value,
   onChange,
 }) => {
@@ -38,7 +38,12 @@ const GenericSelect = ({
   const debounceFetcher = useMemo(() => debounce(fetchOptions, 400), []);
 
   useEffect(() => {
-    fetchOptions();
+    if (field.options?.length) {
+      setOptions(field.options.map((opt) => ({ label: opt, value: opt })));
+    } 
+    // else if (field.link_to) {
+    //   fetchOptions();
+    // }
   }, []);
 
   return (
