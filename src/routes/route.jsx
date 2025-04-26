@@ -3,9 +3,9 @@ import { ROUTES } from '../constants/routes.constants';
 import Login from '../pages/Auth/Login/Login';
 import Dashboard from '../pages/Dashboard/Dashboard';
 import ProtectedLayout from '../layouts/ProtectedLayout';
-import RiskManagement from '../pages/Risk_Management/risk.management';
 import AssetManagement from '../pages/Assets_management/assets.management';
 import ControlsManagement from '../pages/Controls/controls.main';
+import RiskManagement from '../pages/Risks_management/risks.management';
 
 export default function AppRoutes() {
   return (
@@ -23,7 +23,7 @@ export default function AppRoutes() {
             path={ROUTES.PRIVATE.CONTROLS}
             element={<ControlsManagement />}
           />
-          <Route path={ROUTES.PRIVATE.RISK} element={<RiskManagement />} />
+          <Route path={ROUTES.PRIVATE.RISK.PARENT + '/*'} element={<RiskManagement />} />
         </Route>
       </Routes>
     </Router>

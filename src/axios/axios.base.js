@@ -11,7 +11,7 @@ export const createAxiosInstance = (
 ) => {
   const instance = axios.create({
     baseURL,
-    timeout: 10000,
+    timeout: 50000,
     headers: {
       'Content-Type': contentType,
     },

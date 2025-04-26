@@ -16,7 +16,12 @@ export const ROUTES = {
     COMPLIANCE: '/compliance',
     INCIDENT: '/incident',
     INCIDENT: '/incident',
-    RISK: '/risk',
+    RISK: {
+      PARENT: '/risk',
+      ROOT: '/',
+      CREATE: '/new',
+      EDIT: '/edit',
+    },
     REPORTS: '/reports',
     PROFILE: '/profile',
     SETTING: '/setting',

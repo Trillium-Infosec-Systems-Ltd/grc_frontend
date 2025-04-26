@@ -1,99 +1,79 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import TableBuilder from '../../../components/Table/Table.Builder';
 import { Button, Tag } from 'antd';
-
-const columns = [
-  {
-    title: 'Description',
-    dataIndex: 'description',
-    render: (text) => <b>{text}</b>,
-  },
-  {
-    title: 'Type',
-    dataIndex: 'type',
-  },
-  {
-    title: 'Criticality',
-    dataIndex: 'criticality',
-    render: (text) => (
-      <Tag color={text === 'Critical' ? 'volcano' : text === 'High' ? 'red' : 'orange'}>
-        {text}
-      </Tag>
-    ),
-  },
-  {
-    title: 'Owner',
-    dataIndex: 'owner',
-  },
-  {
-    title: 'Compliance Status',
-    dataIndex: 'compliance',
-  },
-  {
-    title: 'Last Updated',
-    dataIndex: 'updated',
-  },
-  {
-    title: 'Details',
-    render: (_, record) => (
-      <Button shape="round" onClick={() => console.log(record)}>
-        Manage
-      </Button>
-    ),
-  },
-];
-
-export const assetData = [
-  {
-    id: 1,
-    description: 'Web Server 1',
-    type: 'Server',
-    criticality: 'High',
-    owner: 'Ahsan A.',
-    compliance: 'Compliant (ISO 27001)',
-    updated: '20 Feb 2025',
-  },
-  {
-    id: 2,
-    description: 'Database 2',
-    type: 'Database',
-    criticality: 'Critical',
-    owner: 'Mahir M.',
-    compliance: 'Non-Compliant (PCI-DSS)',
-    updated: '18 Feb 2025',
-  },
-  {
-    id: 3,
-    description: 'Firewall 3',
-    type: 'Network Security',
-    criticality: 'High',
-    owner: 'SOC Team',
-    compliance: 'Compliant (NIST CSF)',
-    updated: '15 Feb 2025',
-  },
-  {
-    id: 4,
-    description: 'Endpoint 4',
-    type: 'Workstation',
-    criticality: 'Medium',
-    owner: 'IT Team',
-    compliance: 'Partially Compliant (CIS v8)',
-    updated: '10 Feb 2025',
-  },
-  {
-    id: 5,
-    description: 'Cloud Storage',
-    type: 'Cloud Resource',
-    criticality: 'High',
-    owner: 'M. Ali Aziz',
-    compliance: 'Compliant (SOC 2)',
-    updated: '21 Feb 2025',
-  },
-];
-
+import { getAssetsList } from '../../../services/assets.management.service'
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../../constants/routes.constants';
+import AppLoader from '../../../components/Loader/loader';
+import { FilterFilled } from '@ant-design/icons';
 
 const AssetsList = () => {
-  return <TableBuilder columns={columns} data={assetData} />;
+  const navigate = useNavigate();
+  const [stateRef, setStateRef] = useState({
+    isLoading: false,
+    assets: []
+  });
+
+  const { isLoading, assets } = stateRef;
+
+  useEffect(() => {
+    getAssetsList({ setter: setStateRef });
+  }, []);
+
+  const columns = [
+    {
+      title: 'Description',
+      dataIndex: 'asset_name',
+      render: (text) => <b>{text}</b>,
+    },
+    {
+      title: 'Type',
+      dataIndex: 'type',
+      render: (text, record) => <p style={{ cursor: 'pointer' }} onClick={() => navigate(ROUTES.PRIVATE.ASSETS.PARENT + ROUTES.PRIVATE.ASSETS.EDIT, {
+        state: { id: record?.id ?? null },
+      })}>{text}</p>,
+    },
+    {
+      title: 'Criticality',
+      dataIndex: 'criticality',
+      render: (text) => (
+        <Tag color={text === 'Critical' ? 'volcano' : text === 'High' ? 'red' : 'orange'}>
+          {text}
+        </Tag>
+      ),
+    },
+    {
+      title: 'Owner',
+      dataIndex: 'owner',
+    },
+    {
+      title: 'Compliance Status',
+      dataIndex: 'compliance',
+    },
+    {
+      title: 'Last Updated',
+      dataIndex: 'updated',
+    },
+    {
+      title: 'Details',
+      render: (_, record) => (
+        <Button shape="round" onClick={() => console.log(record)}>
+          Manage
+        </Button>
+      ),
+    },
+  ]
+
+  return <div>
+    <AppLoader isLoading={isLoading}>
+      <div className="table-header">
+        <h2 className="title">List of Assets</h2>
+        <div className="actions">
+          <span className="filter-btn"><FilterFilled /> Filter</span>
+          <span className="add-btn" onClick={() => navigate(ROUTES.PRIVATE.ASSETS.PARENT + ROUTES.PRIVATE.ASSETS.CREATE)}>+ Add New Asset</span>
+        </div>
+      </div><TableBuilder columns={columns} data={assets ?? []} />
+    </AppLoader></div>;
 };
 
 export default AssetsList;

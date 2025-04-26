@@ -42,7 +42,7 @@ export const SIDE_MENU = [
         label: 'Incident Management',
     },
     {
-        key: ROUTES.PRIVATE.RISK,
+        key: ROUTES.PRIVATE.RISK.PARENT,
         // icon: <AssetsIcon style={{ width: 18, height: 18 }} />,
         label: 'Risk Management',
     },

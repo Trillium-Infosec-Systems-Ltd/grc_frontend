@@ -2,7 +2,7 @@ import { createAxiosInstance } from './axios.base';
 const BASE_URLS = {
     auth: 'https://auth.api.com',
     private: 'https://private.api.com',
-    public: 'http://localhost:8000/api',
+    public: 'http://127.0.0.1:8000/api',
     formData: 'https://public.api.com',
 };
 

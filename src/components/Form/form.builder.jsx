@@ -2,16 +2,16 @@ import React from 'react';
 import { Form, Input, Select, DatePicker, Upload, Button } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import GenericSelect from '../Field/GenericSelect';
+import { isNotNullOrEmpty } from '../../utils/utils';
 
-const { Option } = Select;
 const { TextArea } = Input;
 
-const FormBuilder = ({ schema, onFinish, initialData = {} }) => {
+const FormBuilder = ({ schema = {}, onFinish, initialData = {} }) => {
     const [form] = Form.useForm();
 
     const defaultValues = {};
-    schema.fields.forEach((field) => {
-        if (field.default !== undefined) {
+    schema?.fields?.forEach((field) => {
+        if (isNotNullOrEmpty(field.default)) {
             defaultValues[field.fieldname] = field.default;
         }
     });
@@ -20,37 +20,37 @@ const FormBuilder = ({ schema, onFinish, initialData = {} }) => {
 
     const renderField = (field) => {
         const commonProps = {
-            name: field.fieldname,
-            label: field.label,
+            name: field?.fieldname ?? '',
+            label: field?.label ?? '',
             rules: [],
         };
 
         if (field.required) {
-            commonProps.rules.push({
+            commonProps?.rules?.push({
                 required: true,
                 message: `${field.label} is required`,
             });
         }
 
-        if (field.validation?.min_length || field.validation?.max_length) {
+        if (field?.validation?.min_length || field?.validation?.max_length) {
             commonProps.rules.push({
                 validator: (_, value) => {
                     if (value) {
                         const len = value.length;
                         if (
-                            field.validation.min_length &&
-                            len < field.validation.min_length
+                            isNotNullOrEmpty(field?.validation?.min_length) &&
+                            len < field?.validation?.min_length
                         ) {
                             return Promise.reject(
-                                `Minimum ${field.validation.min_length} characters required`
+                                `Minimum ${field?.validation?.min_length} characters required`
                             );
                         }
                         if (
-                            field.validation.max_length &&
-                            len > field.validation.max_length
+                            isNotNullOrEmpty(field?.validation?.max_length) &&
+                            len > field?.validation?.max_length
                         ) {
                             return Promise.reject(
-                                `Maximum ${field.validation.max_length} characters allowed`
+                                `Maximum ${field?.validation?.max_length} characters allowed`
                             );
                         }
                     }
@@ -59,14 +59,14 @@ const FormBuilder = ({ schema, onFinish, initialData = {} }) => {
             });
         }
 
-        if (field.validation?.regex) {
+        if (isNotNullOrEmpty(field?.validation?.regex)) {
             commonProps.rules.push({
                 pattern: new RegExp(field?.validation?.regex),
                 message: field?.validation?.message || `${field?.label} is invalid`,
             });
         }
 
-        switch (field.fieldtype) {
+        switch (field?.fieldtype) {
             case 'Data':
                 return (
                     <Form.Item {...commonProps}>
@@ -78,8 +78,8 @@ const FormBuilder = ({ schema, onFinish, initialData = {} }) => {
                 return (
                     <Form.Item {...commonProps}>
                         <GenericSelect field={field} />
-                        {/* <Select placeholder={`Select ${field.label}`}>
-                            {field.options.map((opt) => (
+                        {/* <Select placeholder={`Select ${field?.label}`}>
+                            {field?.options.map((opt) => (
                                 <Option key={opt} value={opt}>
                                     {opt}
                                 </Option>
@@ -105,7 +105,7 @@ const FormBuilder = ({ schema, onFinish, initialData = {} }) => {
             case 'Tags':
                 return (
                     <Form.Item {...commonProps}>
-                        <Select mode="tags" placeholder={`Enter ${field.label}`} />
+                        <Select mode="tags" placeholder={`Enter ${field?.label}`} />
                     </Form.Item>
                 );
 
@@ -116,7 +116,7 @@ const FormBuilder = ({ schema, onFinish, initialData = {} }) => {
                             field={field}
                             mode='multiple'
                         />
-                        {/* <Select mode="multiple" placeholder={`Select ${field.label}`} /> */}
+                        {/* <Select mode="multiple" placeholder={`Select ${field?.label}`} /> */}
                         {/* Later: Fetch data from API and populate options */}
                     </Form.Item>
                 );
@@ -127,7 +127,7 @@ const FormBuilder = ({ schema, onFinish, initialData = {} }) => {
                         <GenericSelect
                             field={field}
                         />
-                        {/* <Select placeholder={`Select ${field.label}`} /> */}
+                        {/* <Select placeholder={`Select ${field?.label}`} /> */}
                     </Form.Item>
                 );
 
@@ -156,8 +156,8 @@ const FormBuilder = ({ schema, onFinish, initialData = {} }) => {
             onFinish={onFinish}
             initialValues={initialValues}
         >
-            {schema.fields.map((field) => (
-                <div key={field.fieldname}>{renderField(field)}</div>
+            {schema?.fields?.map((field) => (
+                <div key={field?.fieldname}>{renderField(field)}</div>
             ))}
 
             <Form.Item>

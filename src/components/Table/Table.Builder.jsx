@@ -1,6 +1,5 @@
 import React from 'react';
-import { Table, Tag, Button, Select, Pagination } from 'antd';
-import { DownloadOutlined } from '@ant-design/icons';
+import { Table, Button, Select } from 'antd';
 import './table.style.css';
 
 const { Option } = Select;
@@ -8,37 +7,23 @@ const { Option } = Select;
 const TableBuilder = ({
     columns = [],
     data = [],
-    currentPage = 1,
-    pageSize = 10,
-    onPageChange,
+    pageSize = 5,
     onDownload,
     downloadFormat = 'csv',
-    onManage,
 }) => {
-    const paginationProps = {
-        current: currentPage,
-        pageSize,
-        total: data?.length ? data?.length : 0,
-        onChange: onPageChange,
-        showSizeChanger: false,
-        className: 'custom-pagination',
-    };
 
     return (
         <div className="table-container">
-            <div className="table-header">
-                <h2 className="title">List of Assets</h2>
-                <div className="actions">
-                    <span className="filter-btn">🔍 Filter</span>
-                    <span className="add-btn">+ Add New Asset</span>
-                </div>
-            </div>
 
             <Table
                 className="custom-table"
                 columns={columns}
                 dataSource={data}
-                pagination={false}
+                pagination={{
+                    pageSize,
+                    total: data?.length || 0,
+                    showSizeChanger: false,
+                }}
                 rowKey="id"
             />
 
@@ -56,7 +41,6 @@ const TableBuilder = ({
                     </Button>
                 </div>
 
-                <Pagination {...paginationProps} />
             </div>
         </div>
     );
