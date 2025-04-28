@@ -12,7 +12,12 @@ export const ROUTES = {
     },
     THREATS_HUB: '/threats-hub',
     VULNERABILITY: '/vulnerability',
-    CONTROLS: '/controls',
+    CONTROLS: {
+      PARENT: '/controls',
+      ROOT: '/',
+      CREATE: '/new',
+      EDIT: '/edit',
+    },
     COMPLIANCE: '/compliance',
     INCIDENT: '/incident',
     INCIDENT: '/incident',

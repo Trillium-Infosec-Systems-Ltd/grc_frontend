@@ -1,17 +1,12 @@
 import FormBuilder from '../../../components/Form/Form.Builder';
-import useFormHook from '../../../hooks/useFormHook';
+import { KEY } from '../../../constants/keys.constants';
+import { ROUTES } from '../../../constants/routes.constants';
 
 
-const RiskForm = () => {
-  const [form] = useFormHook('/schemas/risks');
+const RiskForm = ({ MODE = KEY.VIEW }) => {
 
   return (
-    <div>
-      <div className="table-header">
-        <h2 className="title">Add New Risk</h2>
-      </div>
-      <FormBuilder schema={form} onFinish={null} />
-    </div>
+    <FormBuilder screen='risks' title={MODE === KEY.EDIT ? 'Edit Risk' : 'Add New Rist'} redirect={ROUTES.PRIVATE.RISK.PARENT} MODE={MODE} />
   );
 };
 

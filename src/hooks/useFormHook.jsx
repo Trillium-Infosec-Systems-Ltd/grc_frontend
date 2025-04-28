@@ -4,15 +4,16 @@ import { APIS } from '../constants/api.constants';
 import { isNotNullOrEmpty } from '../utils/utils';
 import { message } from 'antd';
 import { KEY } from '../constants/keys.constants';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-const useFormHook = (screen, MODE = KEY.VIEW) => {
+const useFormHook = (screen, MODE = KEY.CREATE) => {
+  const navigate = useNavigate()
   const location = useLocation();
   const record_id = location?.state?.id ?? null;
 
   const [isLoading, setIsLoaing] = useState(false);
-  const [form, setForm] = useState({});
-  const [data, setData] = useState({});
+  const [schema, setForm] = useState({});
+  const [initialData, setData] = useState({});
 
   useEffect(() => {
     getFormSchema();
@@ -36,27 +37,36 @@ const useFormHook = (screen, MODE = KEY.VIEW) => {
     setIsLoaing(false)
   }, [screen, record_id]);
 
-  const submit = async (callback) => {
-    if (typeof callback === 'function' && isNotNullOrEmpty(callback)) {
-      try {
-        setIsLoaing(true);
-        let resp = await callback();
-        if (isNotNullOrEmpty(resp) && isNotNullOrEmpty(resp?.id)) {
-          message.success(resp?.message || 'Record saved successfully');
-        } else {
-          message.error(resp?.message || 'Failed to save record');
-        }
-        return result
-      } catch (err) {
-        console.error('Submit error:', err);
-        message.error('Failed to save record');
-      } finally {
-        setIsLoaing(false);
-      }
-    }
-  };
+  const submit = async (data = {}, redirect) => {
+    try {
+      setIsLoaing(true);
 
-  return [form, isLoading, data, submit];
+      let payload = { ...(MODE === KEY.EDIT ? APIS.UPDATE_RECORD : APIS.CREATE_RECORD) };
+      payload.URL = MODE === KEY.EDIT ? payload.URL + screen + '/' + data?.id : payload.URL + screen;
+      payload.PAYLOAD = data ?? {};
+
+      let result = await callApi(payload)
+
+      if (isNotNullOrEmpty(navigate) && isNotNullOrEmpty(result)) {
+        navigate(redirect)
+      }
+
+      let resp = await callback();
+      if (isNotNullOrEmpty(resp) && isNotNullOrEmpty(resp?.id)) {
+        message.success(resp?.message || 'Record saved successfully');
+      } else {
+        message.error(resp?.message || 'Failed to save record');
+      }
+      return result
+    } catch (err) {
+      console.error('Submit error:', err);
+      message.error('Failed to save record');
+    } finally {
+      setIsLoaing(false);
+    }
+  }
+
+  return [schema, isLoading, initialData, submit];
 };
 
 export default useFormHook;

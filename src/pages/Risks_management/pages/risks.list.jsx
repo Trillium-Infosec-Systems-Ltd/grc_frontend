@@ -1,116 +1,109 @@
-import React, { useState, useEffect } from 'react';
 import TableBuilder from '../../../components/Table/Table.Builder';
-import { Button, Tag } from 'antd';
+import { Tag } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../constants/routes.constants';
-
-const columns = [
-  {
-    title: 'Description',
-    dataIndex: 'description',
-    render: (text) => <b>{text}</b>,
-  },
-  {
-    title: 'Type',
-    dataIndex: 'type',
-  },
-  {
-    title: 'Criticality',
-    dataIndex: 'criticality',
-    render: (text) => (
-      <Tag color={text === 'Critical' ? 'volcano' : text === 'High' ? 'red' : 'orange'}>
-        {text}
-      </Tag>
-    ),
-  },
-  {
-    title: 'Owner',
-    dataIndex: 'owner',
-  },
-  {
-    title: 'Compliance Status',
-    dataIndex: 'compliance',
-  },
-  {
-    title: 'Last Updated',
-    dataIndex: 'updated',
-  },
-  {
-    title: 'Details',
-    render: (_, record) => (
-      <Button shape="round" onClick={() => console.log(record)}>
-        Manage
-      </Button>
-    ),
-  },
-];
-
-export const assetData = [
-  {
-    id: 1,
-    description: 'Web Server 1',
-    type: 'Server',
-    criticality: 'High',
-    owner: 'Ahsan A.',
-    compliance: 'Compliant (ISO 27001)',
-    updated: '20 Feb 2025',
-  },
-  {
-    id: 2,
-    description: 'Database 2',
-    type: 'Database',
-    criticality: 'Critical',
-    owner: 'Mahir M.',
-    compliance: 'Non-Compliant (PCI-DSS)',
-    updated: '18 Feb 2025',
-  },
-  {
-    id: 3,
-    description: 'Firewall 3',
-    type: 'Network Security',
-    criticality: 'High',
-    owner: 'SOC Team',
-    compliance: 'Compliant (NIST CSF)',
-    updated: '15 Feb 2025',
-  },
-  {
-    id: 4,
-    description: 'Endpoint 4',
-    type: 'Workstation',
-    criticality: 'Medium',
-    owner: 'IT Team',
-    compliance: 'Partially Compliant (CIS v8)',
-    updated: '10 Feb 2025',
-  },
-  {
-    id: 5,
-    description: 'Cloud Storage',
-    type: 'Cloud Resource',
-    criticality: 'High',
-    owner: 'M. Ali Aziz',
-    compliance: 'Compliant (SOC 2)',
-    updated: '21 Feb 2025',
-  },
-];
-
+import { FilterFilled } from '@ant-design/icons';
 
 const RiskList = () => {
   const navigate = useNavigate();
-  const [riskList, setRiskList] = useState([]);
 
-  useEffect(() => {
-    let result = getAssetsList();
-    setRiskList(result)
-  }, []);
+  const columns = [
+    {
+      title: '#',
+      dataIndex: 'index',
+      render: (_, __, index) => (
+        <b>{(index + 1).toString().padStart(2, '0')}.</b>
+      ),
+      width: 60,
+    },
+    {
+      title: 'Risk Title',
+      dataIndex: 'risk_title',
+      render: (text) => <b>{text}</b>,
+    },
+    {
+      title: 'Description',
+      dataIndex: 'description',
+      render: (text) => <i>{text}</i>,
+    },
+    {
+      title: 'Owner',
+      dataIndex: 'owner',
+    },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      render: (text) => <span>{text}</span>,
+    },
+    {
+      title: 'Likelihood',
+      dataIndex: 'likelihood',
+      render: (text) => {
+        let color = 'cyan';
+        if (text === 'High') color = 'volcano';
+        else if (text === 'Medium') color = 'orange';
+        else if (text === 'Low') color = 'cyan';
+        return <Tag color={color}>{text}</Tag>;
+      },
+    },
+    {
+      title: 'Decision',
+      dataIndex: 'decision',
+      render: (text) => <b>{text}</b>,
+    },
+    {
+      title: 'Decision Rationale',
+      dataIndex: 'decision_rationale',
+      render: (text) => <span>{text}</span>,
+    },
+    {
+      title: 'Residual',
+      dataIndex: 'residual',
+      render: (text) => {
+        let color = 'cyan';
+        if (text === 'High') color = 'volcano';
+        else if (text === 'Medium') color = 'orange';
+        else if (text === 'Low') color = 'cyan';
+        return <Tag color={color}>{text}</Tag>;
+      },
+    },
+    {
+      title: 'Date Reviewed',
+      dataIndex: 'date_reviewed',
+    },
+  ];
 
-  return <div>
-    <div className="table-header">
-      <h2 className="title">List of Risks</h2>
-      <div className="actions">
-        <span className="filter-btn">🔍 Filter</span>
-        <span className="add-btn" onClick={() => navigate(ROUTES.PRIVATE.RISK.PARENT + ROUTES.PRIVATE.RISK.CREATE)}>+ Add New Risk</span>
-      </div>
-    </div><TableBuilder columns={columns} data={riskList ?? []} /></div>;
+
+  return (
+    <div>
+      <TableBuilder
+        title='Risk Register'
+        screen='risks'
+        columns={columns}
+        headerLinks={[
+          {
+            Component: (
+              <span className="filter-btn">
+                <FilterFilled /> Filter
+              </span>
+            ),
+            label: '',
+            onClick: () => console.log('...clicked'),
+            className: '',
+          },
+          {
+            Component: null,
+            label: '+ Add New Risk',
+            className: 'add-btn',
+            onClick: () =>
+              navigate(
+                ROUTES.PRIVATE.RISK.PARENT + ROUTES.PRIVATE.RISK.CREATE
+              ),
+          },
+        ]}
+      />
+    </div>
+  );
 };
 
 export default RiskList;

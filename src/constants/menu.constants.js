@@ -27,7 +27,7 @@ export const SIDE_MENU = [
         label: 'Vulnerability Management',
     },
     {
-        key: ROUTES.PRIVATE.CONTROLS,
+        key: ROUTES.PRIVATE.CONTROLS.PARENT,
         // icon: <AssetsIcon style={{ width: 18, height: 18 }} />,
         label: 'Controls',
     },

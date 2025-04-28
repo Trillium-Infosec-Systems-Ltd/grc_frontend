@@ -16,21 +16,6 @@ const AssetsList = () => {
     {
       title: 'Type',
       dataIndex: 'type',
-      render: (text, record) => (
-        <p
-          style={{ cursor: 'pointer' }}
-          onClick={() =>
-            navigate(
-              ROUTES.PRIVATE.ASSETS.PARENT + ROUTES.PRIVATE.ASSETS.EDIT,
-              {
-                state: { id: record?.id ?? null },
-              }
-            )
-          }
-        >
-          {text}
-        </p>
-      ),
     },
     {
       title: 'Criticality',
@@ -60,7 +45,12 @@ const AssetsList = () => {
     {
       title: 'Details',
       render: (_, record) => (
-        <Button shape="round" onClick={() => console.log(record)}>
+        <Button shape="round" onClick={() => navigate(
+          ROUTES.PRIVATE.ASSETS.PARENT + ROUTES.PRIVATE.ASSETS.EDIT,
+          {
+            state: { id: record?.id ?? null },
+          }
+        )}>
           Manage
         </Button>
       ),

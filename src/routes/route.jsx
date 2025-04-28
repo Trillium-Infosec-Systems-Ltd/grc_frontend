@@ -6,6 +6,7 @@ import ProtectedLayout from '../layouts/ProtectedLayout';
 import AssetManagement from '../pages/Assets_management/assets.management';
 import ControlsManagement from '../pages/Controls/controls.main';
 import RiskManagement from '../pages/Risks_management/risks.management';
+import ProfileManagement from '../pages/Profile/Profile';
 
 export default function AppRoutes() {
   return (
@@ -20,10 +21,11 @@ export default function AppRoutes() {
             element={<AssetManagement />}
           />
           <Route
-            path={ROUTES.PRIVATE.CONTROLS}
+            path={ROUTES.PRIVATE.CONTROLS.PARENT + '/*'}
             element={<ControlsManagement />}
           />
           <Route path={ROUTES.PRIVATE.RISK.PARENT + '/*'} element={<RiskManagement />} />
+          <Route path={ROUTES.PRIVATE.PROFILE} element={<ProfileManagement />} />
         </Route>
       </Routes>
     </Router>

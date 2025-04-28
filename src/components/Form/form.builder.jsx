@@ -3,10 +3,15 @@ import { Form, Input, Select, DatePicker, Upload, Button } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import GenericSelect from '../Field/GenericSelect';
 import { isNotNullOrEmpty } from '../../utils/utils';
+import useFormHook from '../../hooks/useFormHook';
+import AppLoader from '../Loader/loader';
+import { KEY } from '../../constants/keys.constants';
 
 const { TextArea } = Input;
 
-const FormBuilder = ({ schema = {}, onFinish, initialData = {} }) => {
+const FormBuilder = ({ screen = 'assets', title = '', redirect = '', MODE = KEY.CREATE }) => {
+    const [schema, isLoading, initialData, submit] = useFormHook(screen, MODE);
+
     const [form] = Form.useForm();
 
     const defaultValues = {};
@@ -150,22 +155,27 @@ const FormBuilder = ({ schema = {}, onFinish, initialData = {} }) => {
     };
 
     return (
-        <Form
-            form={form}
-            layout="vertical"
-            onFinish={onFinish}
-            initialValues={initialValues}
-        >
-            {schema?.fields?.map((field) => (
-                <div key={field?.fieldname}>{renderField(field)}</div>
-            ))}
+        <AppLoader isLoading={isLoading}>
+            <div className="table-header">
+                <h2 className="title">{title ?? ''}</h2>
+            </div>
+            <Form
+                form={form}
+                layout="vertical"
+                onFinish={(fields) => submit({ ...fields, id: MODE === KEY.EDIT ? initialData?.id : null }, redirect)}
+                initialValues={initialValues}
+            >
+                {schema?.fields?.filter(field => field?.fieldtype !== 'Link')?.map((field) => (
+                    <div key={field?.fieldname}>{renderField(field)}</div>
+                ))}
 
-            <Form.Item>
-                <Button type="primary" className="bg-primary" htmlType="submit">
-                    Submit
-                </Button>
-            </Form.Item>
-        </Form>
+                <Form.Item>
+                    <Button type="primary" className="bg-primary" htmlType="submit">
+                        Submit
+                    </Button>
+                </Form.Item>
+            </Form>
+        </AppLoader>
     );
 };
 
