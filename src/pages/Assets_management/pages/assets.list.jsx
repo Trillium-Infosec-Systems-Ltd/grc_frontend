@@ -1,24 +1,11 @@
-import React, { useState, useEffect } from 'react';
 import TableBuilder from '../../../components/Table/Table.Builder';
 import { Button, Tag } from 'antd';
-import { getAssetsList } from '../../../services/assets.management.service'
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../constants/routes.constants';
-import AppLoader from '../../../components/Loader/loader';
 import { FilterFilled } from '@ant-design/icons';
 
 const AssetsList = () => {
   const navigate = useNavigate();
-  const [stateRef, setStateRef] = useState({
-    isLoading: false,
-    assets: []
-  });
-
-  const { isLoading, assets } = stateRef;
-
-  useEffect(() => {
-    getAssetsList({ setter: setStateRef });
-  }, []);
 
   const columns = [
     {
@@ -29,15 +16,31 @@ const AssetsList = () => {
     {
       title: 'Type',
       dataIndex: 'type',
-      render: (text, record) => <p style={{ cursor: 'pointer' }} onClick={() => navigate(ROUTES.PRIVATE.ASSETS.PARENT + ROUTES.PRIVATE.ASSETS.EDIT, {
-        state: { id: record?.id ?? null },
-      })}>{text}</p>,
+      render: (text, record) => (
+        <p
+          style={{ cursor: 'pointer' }}
+          onClick={() =>
+            navigate(
+              ROUTES.PRIVATE.ASSETS.PARENT + ROUTES.PRIVATE.ASSETS.EDIT,
+              {
+                state: { id: record?.id ?? null },
+              }
+            )
+          }
+        >
+          {text}
+        </p>
+      ),
     },
     {
       title: 'Criticality',
       dataIndex: 'criticality',
       render: (text) => (
-        <Tag color={text === 'Critical' ? 'volcano' : text === 'High' ? 'red' : 'orange'}>
+        <Tag
+          color={
+            text === 'Critical' ? 'volcano' : text === 'High' ? 'red' : 'orange'
+          }
+        >
           {text}
         </Tag>
       ),
@@ -62,18 +65,36 @@ const AssetsList = () => {
         </Button>
       ),
     },
-  ]
+  ];
 
-  return <div>
-    <AppLoader isLoading={isLoading}>
-      <div className="table-header">
-        <h2 className="title">List of Assets</h2>
-        <div className="actions">
-          <span className="filter-btn"><FilterFilled /> Filter</span>
-          <span className="add-btn" onClick={() => navigate(ROUTES.PRIVATE.ASSETS.PARENT + ROUTES.PRIVATE.ASSETS.CREATE)}>+ Add New Asset</span>
-        </div>
-      </div><TableBuilder columns={columns} data={assets ?? []} />
-    </AppLoader></div>;
+  return (
+    <div>
+      <TableBuilder
+        columns={columns}
+        headerLinks={[
+          {
+            Component: (
+              <span className="filter-btn">
+                <FilterFilled /> Filter
+              </span>
+            ),
+            label: '',
+            onClick: () => console.log('...clicked'),
+            className: '',
+          },
+          {
+            Component: null,
+            label: '+ Add New Asset',
+            className: 'add-btn',
+            onClick: () =>
+              navigate(
+                ROUTES.PRIVATE.ASSETS.PARENT + ROUTES.PRIVATE.ASSETS.CREATE
+              ),
+          },
+        ]}
+      />
+    </div>
+  );
 };
 
 export default AssetsList;
