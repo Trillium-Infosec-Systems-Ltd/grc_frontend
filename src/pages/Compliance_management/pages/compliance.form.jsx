@@ -6,7 +6,7 @@ import { ROUTES } from '../../../constants/routes.constants';
 const ComplianceForm = ({ MODE = KEY.VIEW }) => {
 
   return (
-    <FormBuilder screen='compliance' title={MODE === KEY.EDIT ? 'Edit Compliance' : 'Add New Compliance'} redirect={ROUTES.PRIVATE.COMPLIANCE.PARENT} MODE={MODE} />
+    <FormBuilder screen='complaince' title={MODE === KEY.EDIT ? 'Edit Compliance' : 'Add New Compliance'} redirect={ROUTES.PRIVATE.COMPLIANCE.PARENT} MODE={MODE} />
   );
 };
 

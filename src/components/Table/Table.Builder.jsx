@@ -1,9 +1,9 @@
 import { Table, Button, Select } from 'antd';
 import './table.style.css';
-import { useNavigate } from 'react-router-dom';
 import useTableHook from '../../hooks/useTableHook';
 import AppLoader from '../Loader/loader';
 import { isNotNullOrEmpty } from '../../utils/utils';
+import { v4 as uuidv4 } from 'uuid';
 
 const { Option } = Select;
 
@@ -19,13 +19,22 @@ const TableBuilder = ({
     headerLinks = [],
     actionsList = [],
 }) => {
-    const navigate = useNavigate();
 
-    const [schema, data, isLoading] = useTableHook(screen);
+    const [schema, data, isLoading, fetchData] = useTableHook(screen);
     const { items = [], total = 0, skip = 0, limit = 10 } = data ?? {};
     const { columns = [] } = schema ?? {};
 
     let columnList = [...(columns ?? []), ...(actionsList ?? [])]
+
+    const ensureRecordIds = (records = []) => {
+        return records.map((record, index) => {
+            return {
+                ...record,
+                t_row_record_id: uuidv4(),
+                _generatedId: true,
+            };
+        });
+    };
 
     return (
         <AppLoader isLoading={isLoading}>
@@ -55,17 +64,20 @@ const TableBuilder = ({
                 <Table
                     className="custom-table"
                     columns={columnList}
-                    dataSource={items ?? []}
+                    dataSource={ensureRecordIds(items ?? [])}
                     pagination={
                         pagination
                             ? {
+                                current: Math.floor(skip / limit) + 1,
                                 pageSize,
-                                total: items?.length || 0,
-                                showSizeChanger: false,
+                                total,
+                                onChange: (page, pageSize) => {
+                                    fetchData((page - 1) * pageSize, pageSize, schema);
+                                },
                             }
                             : false
                     }
-                    rowKey="id"
+                    rowKey="t_row_record_id"
                 />
 
                 {isExport && (

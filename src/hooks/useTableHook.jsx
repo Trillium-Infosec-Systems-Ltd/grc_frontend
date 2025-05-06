@@ -6,7 +6,7 @@ import { KEY } from '../constants/keys.constants';
 const useTableHook = (screen, MODE = KEY.VIEW) => {
   const [isLoading, setIsLoaing] = useState(false);
   const [stateRef, setStateRef] = useState({
-    data: {},
+    data: { total: 0, skip: 0, limit: 10, items: [] },
     schema: {},
   });
 
@@ -24,15 +24,18 @@ const useTableHook = (screen, MODE = KEY.VIEW) => {
       URL: APIS.TABLE_SCHEMA.URL + screen,
     });
 
-    await getTableData(tSchema ?? {})
+    await getTableData(0, 10, tSchema ?? {})
   }, [screen]);
 
-  const getTableData = useCallback(async (tschema = {}) => {
+  const getTableData = useCallback(async (skip = 0, limit = 10, tschema = {}) => {
     setIsLoaing(true);
 
     const result = await callApi({
       ...APIS.GET_RECORDS,
       URL: APIS.GET_RECORDS.URL + screen,
+      PARAMS: {
+        QUERY: { skip, limit },
+      },
     });
 
 
@@ -40,7 +43,7 @@ const useTableHook = (screen, MODE = KEY.VIEW) => {
     setIsLoaing(false);
   }, [screen]);
 
-  return [schema, data, isLoading];
+  return [schema, data, isLoading, getTableData];
 };
 
 export default useTableHook;

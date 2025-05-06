@@ -31,7 +31,7 @@ const ComplianceList = () => {
     <div>
       <TableBuilder
         title='All Compliance'
-        screen='compliance'
+        screen='complaince'
         actionsList={action}
         headerLinks={[
           {
