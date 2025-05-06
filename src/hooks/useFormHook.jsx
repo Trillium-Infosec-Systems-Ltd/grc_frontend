@@ -47,17 +47,27 @@ const useFormHook = (screen, MODE = KEY.CREATE) => {
 
       let result = await callApi(payload)
 
-      if (isNotNullOrEmpty(navigate) && isNotNullOrEmpty(result)) {
-        navigate(redirect)
+      if (result?.status === 200) {
+        message.success('Record saved successfully');
+        if (isNotNullOrEmpty(redirect)) {
+          navigate(redirect)
+        }
+      } else {
+        message.error(result?.response?.data?.detail || err?.message || 'Failed to save record')
       }
 
-      let resp = await callback();
-      if (isNotNullOrEmpty(resp) && isNotNullOrEmpty(resp?.id)) {
-        message.success(resp?.message || 'Record saved successfully');
-      } else {
-        message.error(resp?.message || 'Failed to save record');
-      }
-      return result
+
+      // if (isNotNullOrEmpty(navigate) && isNotNullOrEmpty(result)) {
+      //   navigate(redirect)
+      // }
+
+      // let resp = await callback();
+      // if (isNotNullOrEmpty(resp) && isNotNullOrEmpty(resp?.id)) {
+      //   message.success(resp?.message || 'Record saved successfully');
+      // } else {
+      //   message.error(resp?.message || 'Failed to save record');
+      // }
+      // return result
     } catch (err) {
       console.error('Submit error:', err);
       message.error('Failed to save record');

@@ -22,6 +22,7 @@ export const callApi = async (schema) => {
     HEADERS = {},
     CONTENT_TYPE = 'application/json',
     PAYLOAD = {},
+    PARAMS = {},
   } = schema;
 
   const client = getClientByType(SERVER, CONTENT_TYPE);
@@ -31,21 +32,22 @@ export const callApi = async (schema) => {
 
     switch (METHOD.toUpperCase()) {
       case API_METHOD.GET:
-        response = await client.get(URL, { params: PAYLOAD, headers: HEADERS });
+        response = await client.get(URL, { params: PARAMS?.QUERY ?? {}, headers: HEADERS });
         break;
 
       case API_METHOD.POST:
-        response = await client.post(URL, PAYLOAD, { headers: HEADERS });
+        response = await client.post(URL, PAYLOAD, { params: PARAMS?.QUERY ?? {}, headers: HEADERS });
         break;
 
       case API_METHOD.PUT:
-        response = await client.put(URL, PAYLOAD, { headers: HEADERS });
+        response = await client.put(URL, PAYLOAD, { params: PARAMS?.QUERY ?? {}, headers: HEADERS });
         break;
 
       case API_METHOD.DELETE:
         response = await client.delete(URL, {
           data: PAYLOAD,
           headers: HEADERS,
+          params: PARAMS?.QUERY ?? {},
         });
         break;
 
@@ -56,6 +58,7 @@ export const callApi = async (schema) => {
     return response.data;
   } catch (err) {
     console.error(`[callApi] ${METHOD} ${URL} failed:`, err);
-    throw err;
+    // throw err;
+    return err;
   }
 };

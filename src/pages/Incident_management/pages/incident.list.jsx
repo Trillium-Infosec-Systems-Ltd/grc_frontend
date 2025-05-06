@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../constants/routes.constants';
 import { FilterFilled } from '@ant-design/icons';
 
-const RiskList = () => {
+const IncidentList = () => {
   const navigate = useNavigate();
 
   const action = [
@@ -15,7 +15,7 @@ const RiskList = () => {
         <Button
           shape="round"
           onClick={() => navigate(
-            ROUTES.PRIVATE.RISK.PARENT + ROUTES.PRIVATE.RISK.EDIT,
+            ROUTES.PRIVATE.INCIDENT.PARENT + ROUTES.PRIVATE.INCIDENT.EDIT,
             { state: { id: record?.id ?? null } }
           )}
           className="view-details-button"
@@ -27,12 +27,11 @@ const RiskList = () => {
     },
   ];
 
-
   return (
     <div>
       <TableBuilder
-        title='Risk Register'
-        screen='risks'
+        title='List of Incident'
+        screen='incident'
         actionsList={action}
         headerLinks={[
           {
@@ -47,11 +46,11 @@ const RiskList = () => {
           },
           {
             Component: null,
-            label: '+ Add New Risk',
+            label: '+ Add New Incident',
             className: 'add-btn',
             onClick: () =>
               navigate(
-                ROUTES.PRIVATE.RISK.PARENT + ROUTES.PRIVATE.RISK.CREATE
+                ROUTES.PRIVATE.INCIDENT.PARENT + ROUTES.PRIVATE.INCIDENT.CREATE
               ),
           },
         ]}
@@ -60,4 +59,4 @@ const RiskList = () => {
   );
 };
 
-export default RiskList;
+export default IncidentList;

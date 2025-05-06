@@ -8,7 +8,6 @@ import { isNotNullOrEmpty } from '../../utils/utils';
 const { Option } = Select;
 
 const TableBuilder = ({
-    columns = [],
     pageSize = 5,
     onDownload,
     downloadFormat = 'csv',
@@ -18,10 +17,15 @@ const TableBuilder = ({
     isExport = true,
     pagination = true,
     headerLinks = [],
+    actionsList = [],
 }) => {
     const navigate = useNavigate();
 
-    const [data, isLoading] = useTableHook(screen);
+    const [schema, data, isLoading] = useTableHook(screen);
+    const { items = [], total = 0, skip = 0, limit = 10 } = data ?? {};
+    const { columns = [] } = schema ?? {};
+
+    let columnList = [...(columns ?? []), ...(actionsList ?? [])]
 
     return (
         <AppLoader isLoading={isLoading}>
@@ -50,13 +54,13 @@ const TableBuilder = ({
             <div className="table-container">
                 <Table
                     className="custom-table"
-                    columns={columns}
-                    dataSource={data}
+                    columns={columnList}
+                    dataSource={items ?? []}
                     pagination={
                         pagination
                             ? {
                                 pageSize,
-                                total: data?.length || 0,
+                                total: items?.length || 0,
                                 showSizeChanger: false,
                             }
                             : false

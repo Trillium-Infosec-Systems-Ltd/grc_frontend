@@ -7,41 +7,7 @@ import { FilterFilled } from '@ant-design/icons';
 const AssetsList = () => {
   const navigate = useNavigate();
 
-  const columns = [
-    {
-      title: 'Description',
-      dataIndex: 'asset_name',
-      render: (text) => <b>{text}</b>,
-    },
-    {
-      title: 'Type',
-      dataIndex: 'type',
-    },
-    {
-      title: 'Criticality',
-      dataIndex: 'criticality',
-      render: (text) => (
-        <Tag
-          color={
-            text === 'Critical' ? 'volcano' : text === 'High' ? 'red' : 'orange'
-          }
-        >
-          {text}
-        </Tag>
-      ),
-    },
-    {
-      title: 'Owner',
-      dataIndex: 'owner',
-    },
-    {
-      title: 'Compliance Status',
-      dataIndex: 'compliance',
-    },
-    {
-      title: 'Last Updated',
-      dataIndex: 'updated',
-    },
+  const actions = [
     {
       title: 'Details',
       render: (_, record) => (
@@ -60,7 +26,7 @@ const AssetsList = () => {
   return (
     <div>
       <TableBuilder
-        columns={columns}
+        actionsList={actions}
         headerLinks={[
           {
             Component: (

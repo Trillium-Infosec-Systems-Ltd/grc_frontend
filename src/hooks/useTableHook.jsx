@@ -5,24 +5,42 @@ import { KEY } from '../constants/keys.constants';
 
 const useTableHook = (screen, MODE = KEY.VIEW) => {
   const [isLoading, setIsLoaing] = useState(false);
-  const [data, setData] = useState([]);
+  const [stateRef, setStateRef] = useState({
+    data: {},
+    schema: {},
+  });
+
+  const { schema, data } = stateRef ?? {};
 
   useEffect(() => {
-    getTableData();
+    getTableSchema();
   }, [screen]);
 
-  const getTableData = useCallback(async () => {
+  const getTableSchema = useCallback(async () => {
+    setIsLoaing(true);
+
+    const tSchema = await callApi({
+      ...APIS.TABLE_SCHEMA,
+      URL: APIS.TABLE_SCHEMA.URL + screen,
+    });
+
+    await getTableData(tSchema ?? {})
+  }, [screen]);
+
+  const getTableData = useCallback(async (tschema = {}) => {
     setIsLoaing(true);
 
     const result = await callApi({
       ...APIS.GET_RECORDS,
       URL: APIS.GET_RECORDS.URL + screen,
     });
-    setData(result ?? []);
+
+
+    setStateRef(prev => ({ ...prev, data: result ?? {}, schema: tschema ?? {} }));
     setIsLoaing(false);
   }, [screen]);
 
-  return [data, isLoading];
+  return [schema, data, isLoading];
 };
 
 export default useTableHook;

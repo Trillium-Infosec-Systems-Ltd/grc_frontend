@@ -165,7 +165,7 @@ const FormBuilder = ({ screen = 'assets', title = '', redirect = '', MODE = KEY.
                 onFinish={(fields) => submit({ ...fields, id: MODE === KEY.EDIT ? initialData?.id : null }, redirect)}
                 initialValues={initialValues}
             >
-                {schema?.fields?.filter(field => field?.fieldtype !== 'Link')?.map((field) => (
+                {schema?.fields?.map((field) => (
                     <div key={field?.fieldname}>{renderField(field)}</div>
                 ))}
 

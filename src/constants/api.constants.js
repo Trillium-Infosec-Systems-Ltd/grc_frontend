@@ -5,6 +5,11 @@ export const API_METHOD = {
 };
 
 export const APIS = {
+  TABLE_SCHEMA: {
+    URL: '/table_meta/',
+    METHOD: API_METHOD.GET,
+    AUTH: false,
+  },
   FORM_SCHEMA: {
     URL: '/schemas/',
     METHOD: API_METHOD.GET,
@@ -26,5 +31,13 @@ export const APIS = {
     METHOD: API_METHOD.PUT,
     AUTH: false,
     PAYLOAD: {}
+  },
+  LINK_OPTIONS: {
+    URL: '/link-options',
+    METHOD: API_METHOD.GET,
+    AUTH: false,
+    PARAMS: {
+      QUERY: { document_type: '', field: '', search_term: '', limit: 10, offset: 0 },
+    }
   },
 };

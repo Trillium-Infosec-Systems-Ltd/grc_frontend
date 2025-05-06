@@ -1,10 +1,10 @@
 import TableBuilder from '../../../components/Table/Table.Builder';
-import { Button } from 'antd';
+import { Button, Tag } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../constants/routes.constants';
 import { FilterFilled } from '@ant-design/icons';
 
-const RiskList = () => {
+const ComplianceList = () => {
   const navigate = useNavigate();
 
   const action = [
@@ -15,7 +15,7 @@ const RiskList = () => {
         <Button
           shape="round"
           onClick={() => navigate(
-            ROUTES.PRIVATE.RISK.PARENT + ROUTES.PRIVATE.RISK.EDIT,
+            ROUTES.PRIVATE.CONTROLS.PARENT + ROUTES.PRIVATE.COMPLIACE.EDIT,
             { state: { id: record?.id ?? null } }
           )}
           className="view-details-button"
@@ -27,12 +27,11 @@ const RiskList = () => {
     },
   ];
 
-
   return (
     <div>
       <TableBuilder
-        title='Risk Register'
-        screen='risks'
+        title='All Compliance'
+        screen='compliance'
         actionsList={action}
         headerLinks={[
           {
@@ -47,11 +46,11 @@ const RiskList = () => {
           },
           {
             Component: null,
-            label: '+ Add New Risk',
+            label: '+ Add New Compliance',
             className: 'add-btn',
             onClick: () =>
               navigate(
-                ROUTES.PRIVATE.RISK.PARENT + ROUTES.PRIVATE.RISK.CREATE
+                ROUTES.PRIVATE.COMPLIANCE.PARENT + ROUTES.PRIVATE.COMPLIANCE.CREATE
               ),
           },
         ]}
@@ -60,4 +59,4 @@ const RiskList = () => {
   );
 };
 
-export default RiskList;
+export default ComplianceList;

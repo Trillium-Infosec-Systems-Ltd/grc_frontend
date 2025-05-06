@@ -17,12 +17,12 @@ export const SIDE_MENU = [
         label: 'Assets',
     },
     {
-        key: ROUTES.PRIVATE.THREATS_HUB,
+        key: ROUTES.PRIVATE.THREATS_HUB.PARENT,
         // icon: <ThreatsIcon style={{ width: 18, height: 18 }} />,
         label: 'Threats Hub',
     },
     {
-        key: ROUTES.PRIVATE.VULNERABILITY,
+        key: ROUTES.PRIVATE.VULNERABILITY.PARENT,
         // icon: <VulnerabilityIcon style={{ width: 18, height: 18 }} />,
         label: 'Vulnerability Management',
     },
@@ -32,12 +32,12 @@ export const SIDE_MENU = [
         label: 'Controls',
     },
     {
-        key: ROUTES.PRIVATE.COMPLIANCE,
+        key: ROUTES.PRIVATE.COMPLIANCE.PARENT,
         // icon: <AssetsIcon style={{ width: 18, height: 18 }} />,
         label: 'Compliance',
     },
     {
-        key: ROUTES.PRIVATE.INCIDENT,
+        key: ROUTES.PRIVATE.INCIDENT.PARENT,
         // icon: <AssetsIcon style={{ width: 18, height: 18 }} />,
         label: 'Incident Management',
     },

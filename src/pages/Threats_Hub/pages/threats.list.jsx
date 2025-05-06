@@ -1,38 +1,32 @@
 import TableBuilder from '../../../components/Table/Table.Builder';
-import { Button } from 'antd';
+import { Button, Tag } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../constants/routes.constants';
 import { FilterFilled } from '@ant-design/icons';
 
-const RiskList = () => {
+const ThreatsList = () => {
   const navigate = useNavigate();
 
   const action = [
-
     {
       title: 'Details',
       render: (_, record) => (
-        <Button
-          shape="round"
-          onClick={() => navigate(
-            ROUTES.PRIVATE.RISK.PARENT + ROUTES.PRIVATE.RISK.EDIT,
-            { state: { id: record?.id ?? null } }
-          )}
-          className="view-details-button"
-        >
+        <Button shape="round" onClick={() => navigate(
+          ROUTES.PRIVATE.THREATS_HUB.PARENT + ROUTES.PRIVATE.THREATS_HUB.EDIT,
+          {
+            state: { id: record?.id ?? null },
+          }
+        )}>
           Manage
         </Button>
       ),
-      align: 'center',
     },
   ];
-
 
   return (
     <div>
       <TableBuilder
-        title='Risk Register'
-        screen='risks'
+        screen='threats'
         actionsList={action}
         headerLinks={[
           {
@@ -47,11 +41,11 @@ const RiskList = () => {
           },
           {
             Component: null,
-            label: '+ Add New Risk',
+            label: '+ Add New Threat',
             className: 'add-btn',
             onClick: () =>
               navigate(
-                ROUTES.PRIVATE.RISK.PARENT + ROUTES.PRIVATE.RISK.CREATE
+                ROUTES.PRIVATE.THREATS_HUB.PARENT + ROUTES.PRIVATE.THREATS_HUB.CREATE
               ),
           },
         ]}
@@ -60,4 +54,4 @@ const RiskList = () => {
   );
 };
 
-export default RiskList;
+export default ThreatsList;
