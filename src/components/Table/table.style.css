@@ -1,0 +1,61 @@
+.table-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.table-header .title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #2d2d55;
+}
+
+.action {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.actions span {
+  color: #5d6ecb;
+  cursor: pointer;
+}
+
+.custom-table .ant-table-thead>tr>th {
+  background-color: #f9fafd;
+  font-weight: 500;
+  color: #2d2d55;
+}
+
+.custom-table .ant-table-tbody>tr>td {
+  vertical-align: middle;
+}
+
+.table-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.export {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.custom-pagination {
+  margin: 0;
+}
+
+.ml-3 {
+  margin-left: 12px;
+}
