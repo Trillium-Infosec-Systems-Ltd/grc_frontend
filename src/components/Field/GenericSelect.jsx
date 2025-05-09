@@ -7,14 +7,13 @@ import { APIS } from '../../constants/api.constants';
 const GenericSelect = ({
   field,
   mode = undefined,
-  value,
+  value = '',
   onChange,
 }) => {
   const [options, setOptions] = useState([]);
   const [fetching, setFetching] = useState(false);
 
   const fetchOptions = async (search = '') => {
-    // if(field?.field?.type === 'fieldtype' && )
     setFetching(true);
     try {
       let payload = { ...APIS.LINK_OPTIONS };
@@ -37,9 +36,9 @@ const GenericSelect = ({
 
   useEffect(() => {
     if (field.options?.length) {
-      setOptions(field.options.map((opt) => ({ label: opt, value: opt })));
+      setOptions(field?.options?.map((opt) => ({ label: opt ?? '', value: opt ?? '' })) ?? []);
     }
-    else if (field.link_to) {
+    else if (field?.link_to) {
       fetchOptions();
     }
   }, []);
@@ -47,7 +46,7 @@ const GenericSelect = ({
   return (
     <Select
       showSearch
-      value={value}
+      value={value ?? ''}
       mode={mode}
       labelInValue={false}
       filterOption={false}
