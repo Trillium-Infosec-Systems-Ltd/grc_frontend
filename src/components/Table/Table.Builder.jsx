@@ -70,7 +70,7 @@ const TableBuilder = ({
                             ? {
                                 current: Math.floor(skip / limit) + 1,
                                 pageSize,
-                                total,
+                                total: total ?? 0,
                                 onChange: (page, pageSize) => {
                                     fetchData((page - 1) * pageSize, pageSize, schema);
                                 },
