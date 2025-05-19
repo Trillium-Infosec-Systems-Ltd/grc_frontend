@@ -1,3 +1,7 @@
+export const API_CONTENT_TYPE = {
+  MULTIPART: 'multipart/form-data',
+};
+
 export const API_METHOD = {
   GET: 'GET',
   POST: 'POST',
@@ -39,5 +43,11 @@ export const APIS = {
     PARAMS: {
       QUERY: { document_type: '', field: '', search_term: '', limit: 10, offset: 0 },
     }
+  },
+  UPLOAD: {
+    URL: '/upload_files',
+    METHOD: API_METHOD.POST,
+    CONTENT_TYPE: API_CONTENT_TYPE.MULTIPART,
+    AUTH: false,
   },
 };
