@@ -29,16 +29,6 @@ const AssetsList = () => {
         actionsList={actions}
         headerLinks={[
           {
-            Component: (
-              <span className="filter-btn">
-                <FilterFilled /> Filter
-              </span>
-            ),
-            label: '',
-            onClick: () => console.log('...clicked'),
-            className: '',
-          },
-          {
             Component: null,
             label: '+ Add New Asset',
             className: 'add-btn',
