@@ -6,7 +6,7 @@ import { ROUTES } from '../../../constants/routes.constants';
 const RiskForm = ({ MODE = KEY.VIEW }) => {
 
   return (
-    <FormBuilder screen='risks' title={MODE === KEY.EDIT ? 'Edit Risk' : 'Add New Rist'} redirect={ROUTES.PRIVATE.RISK.PARENT} MODE={MODE} />
+    <FormBuilder screen='risks' title={MODE === KEY.EDIT ? 'Edit Risk' : 'Add New Risk'} redirect={ROUTES.PRIVATE.RISK.PARENT} MODE={MODE} />
   );
 };
 
