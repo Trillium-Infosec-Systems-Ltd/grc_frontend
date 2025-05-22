@@ -30,16 +30,6 @@ const ThreatsList = () => {
         actionsList={action}
         headerLinks={[
           {
-            Component: (
-              <span className="filter-btn">
-                <FilterFilled /> Filter
-              </span>
-            ),
-            label: '',
-            onClick: () => console.log('...clicked'),
-            className: '',
-          },
-          {
             Component: null,
             label: '+ Add New Threat',
             className: 'add-btn',

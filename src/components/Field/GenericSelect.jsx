@@ -7,9 +7,10 @@ import { APIS } from '../../constants/api.constants';
 const GenericSelect = ({
   field,
   mode = undefined,
-  value = '',
-  onChange,
+  ...rest
 }) => {
+  const { link_to, options: dropdownOptions, label, fieldtype } = field;
+
   const [options, setOptions] = useState([]);
   const [fetching, setFetching] = useState(false);
 
@@ -17,7 +18,7 @@ const GenericSelect = ({
     setFetching(true);
     try {
       let payload = { ...APIS.LINK_OPTIONS };
-      payload.PARAMS.QUERY.document_type = field?.link_to ?? '';
+      payload.PARAMS.QUERY.document_type = link_to ?? '';
       // payload.PARAMS.QUERY.field = field?.fieldname ?? '';
       // payload.PARAMS.QUERY.document_type = 'assets';
       payload.PARAMS.QUERY.field = '';
@@ -35,10 +36,10 @@ const GenericSelect = ({
   const debounceFetcher = useMemo(() => debounce(fetchOptions, 400), []);
 
   useEffect(() => {
-    if (field.options?.length) {
-      setOptions(field?.options?.map((opt) => ({ label: opt ?? '', value: opt ?? '' })) ?? []);
+    if (Array.isArray(dropdownOptions) && fieldtype === 'Select') {
+      setOptions(dropdownOptions?.map((opt) => ({ label: opt ?? '', value: opt ?? '' })) ?? []);
     }
-    else if (field?.link_to) {
+    else if (link_to) {
       fetchOptions();
     }
   }, []);
@@ -46,13 +47,10 @@ const GenericSelect = ({
   return (
     <Select
       showSearch
-      value={value ?? ''}
       mode={mode}
-      labelInValue={false}
-      filterOption={false}
+      {...rest}
       onSearch={debounceFetcher}
-      onChange={onChange}
-      placeholder={`Select ${field.label}`}
+      placeholder={`Select ${label}`}
       notFoundContent={fetching ? <Spin size="small" /> : null}
       options={options}
     />

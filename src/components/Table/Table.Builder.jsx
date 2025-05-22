@@ -4,6 +4,7 @@ import useTableHook from '../../hooks/useTableHook';
 import AppLoader from '../Loader/loader';
 import { isNotNullOrEmpty } from '../../utils/utils';
 import { v4 as uuidv4 } from 'uuid';
+import FilterPopover from '../Popover/Filters/Filter';
 
 const { Option } = Select;
 
@@ -16,6 +17,7 @@ const TableBuilder = ({
     isShowHeader = true,
     isExport = true,
     pagination = true,
+    filters = true,
     headerLinks = [],
     actionsList = [],
 }) => {
@@ -41,8 +43,15 @@ const TableBuilder = ({
             {isShowHeader && (
                 <div className="table-header">
                     <h2 className="title">{title ?? ''}</h2>
+
                     {isNotNullOrEmpty(headerLinks) && (
-                        <div className="actions">
+                        <div className="actions" style={{ display: 'flex', gap: '20px' }}>
+                            {filters && <FilterPopover
+                                screen={screen}
+                                onApply={(filters) => {
+                                    console.log('Applied filters:', filters);
+                                }}
+                            />}
                             {headerLinks?.map((link, index) =>
                                 isNotNullOrEmpty(link?.Component) ? (
                                     <div key={'table-h-link_' + index}>{link?.Component}</div>
@@ -62,6 +71,7 @@ const TableBuilder = ({
             )}
             <div className="table-container">
                 <Table
+                    name={`table_builder_${screen}`}
                     className="custom-table"
                     columns={columnList}
                     dataSource={ensureRecordIds(items ?? [])}
@@ -90,8 +100,8 @@ const TableBuilder = ({
                             >
                                 <Option value="xlsx">Portable document format (.pdf)</Option>
                                 <Option value="csv">comma separated values (.csv)</Option>
-                                <Option value="xlsx">HTML file(.html)</Option>
-                                <Option value="xlsx">Javascript Open Notaion (.json)</Option>
+                                <Option value="html">HTML file(.html)</Option>
+                                <Option value="json">Javascript Open Notaion (.json)</Option>
                             </Select>
                             <Button
                                 type="primary"

@@ -19,10 +19,12 @@ const useTableHook = (screen, MODE = KEY.VIEW) => {
   const getTableSchema = useCallback(async () => {
     setIsLoaing(true);
 
-    const tSchema = await callApi({
+    const result = await callApi({
       ...APIS.TABLE_SCHEMA,
       URL: APIS.TABLE_SCHEMA.URL + screen,
     });
+
+    const { data: tSchema = {} } = result;
 
     await getTableData(0, 10, tSchema ?? {})
   }, [screen]);
@@ -39,7 +41,7 @@ const useTableHook = (screen, MODE = KEY.VIEW) => {
     });
 
 
-    setStateRef(prev => ({ ...prev, data: result ?? {}, schema: tschema ?? {} }));
+    setStateRef(prev => ({ ...prev, data: result?.data ?? {}, schema: tschema ?? {} }));
     setIsLoaing(false);
   }, [screen]);
 
