@@ -1,4 +1,4 @@
-import { Form, Input, Select, DatePicker, Upload, Button } from 'antd';
+import { Form, Input, Select, DatePicker, Upload, Button, Radio } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { getValidators } from "../Form/validator";
 import GenericSelect from './GenericSelect'
@@ -13,6 +13,18 @@ const RenderField = ({ field = {}, ...rest }) => {
                 return <Input {...rest} />;
             case 'Select':
                 return <GenericSelect {...rest} field={field} />;
+            case 'Radio':
+                return (
+                    <Radio.Group {...rest} options={field?.options?.map(opt => ({ label: opt ?? '', value: opt ?? '' }))} />
+
+                    // <Radio.Group {...rest}>
+                    //     {field?.options?.map((opt) => (
+                    //         <Radio key={opt?.value ?? opt} value={opt?.value ?? opt}>
+                    //             {opt?.label ?? opt}
+                    //         </Radio>
+                    //     ))}
+                    // </Radio.Group>
+                );
             case 'LongText':
                 return <TextArea {...rest} rows={4} />;
             case 'Date':
