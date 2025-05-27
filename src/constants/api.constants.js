@@ -41,7 +41,7 @@ export const APIS = {
     METHOD: API_METHOD.GET,
     AUTH: false,
     PARAMS: {
-      QUERY: { document_type: '', field: '', search_term: '', limit: 10, offset: 0 },
+      QUERY: { document_type: '', field: '', search_term: '', offset: 0 },
     }
   },
   UPLOAD: {
