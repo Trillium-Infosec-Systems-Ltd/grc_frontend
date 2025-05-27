@@ -26,7 +26,7 @@ const ThreatsList = () => {
   return (
     <div>
       <TableBuilder
-        screen='threats'
+        screen='threat'
         actionsList={action}
         headerLinks={[
           {
