@@ -15,7 +15,7 @@ const ComplianceList = () => {
         <Button
           shape="round"
           onClick={() => navigate(
-            ROUTES.PRIVATE.CONTROLS.PARENT + ROUTES.PRIVATE.COMPLIACE.EDIT,
+            ROUTES.PRIVATE.COMPLIANCE.PARENT + ROUTES.PRIVATE.COMPLIANCE.EDIT,
             { state: { id: record?.id ?? null } }
           )}
           className="view-details-button"
