@@ -11,6 +11,10 @@ import ThreatsHub from '../pages/Threats_Hub/threats.main';
 import ComplianceManagement from '../pages/Compliance_management/compliance.main';
 import VulnerabilityManagement from '../pages/Vulnerability_management/vulnerability.main';
 import IncidentManagement from '../pages/Incident_management/incident.main';
+import AssetTypes from '../pages/Administration/Asset_types/asset_types';
+import ControlQuestions from '../pages/Administration/Control_questions/controlQuestions';
+import ComplianceQuestions from '../pages/Administration/Compliance_questions/complianceQuestions';
+import Departments from '../pages/Administration/Departments/departments';
 
 export default function AppRoutes() {
   return (
@@ -46,6 +50,22 @@ export default function AppRoutes() {
           />
           <Route path={ROUTES.PRIVATE.RISK.PARENT + '/*'} element={<RiskManagement />} />
           <Route path={ROUTES.PRIVATE.PROFILE} element={<ProfileManagement />} />
+          <Route
+            path={ROUTES.PRIVATE.ADMINISTRATION.CHILD.ASSET_TYPE.PARENT + '/*'}
+            element={<AssetTypes />}
+          />
+          <Route
+            path={ROUTES.PRIVATE.ADMINISTRATION.CHILD.DEPARTMENTS.PARENT + '/*'}
+            element={<Departments />}
+          />
+          <Route
+            path={ROUTES.PRIVATE.ADMINISTRATION.CHILD.CONTROL_QUESTIONS.PARENT + '/*'}
+            element={<ControlQuestions />}
+          />
+          <Route
+            path={ROUTES.PRIVATE.ADMINISTRATION.CHILD.COMPLIANCE_QUESTIONS.PARENT + '/*'}
+            element={<ComplianceQuestions />}
+          />
         </Route>
       </Routes>
     </Router>

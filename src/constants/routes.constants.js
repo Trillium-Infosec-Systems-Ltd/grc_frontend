@@ -1,3 +1,9 @@
+const NESTED_ROUTES = {
+  ROOT: '/',
+  CREATE: '/new',
+  EDIT: '/edit',
+}
+
 export const ROUTES = {
   PUBLIC: {
     ROOT: '/',
@@ -6,48 +12,55 @@ export const ROUTES = {
     ROOT: '/dashboard',
     ASSETS: {
       PARENT: '/assets',
-      ROOT: '/',
-      CREATE: '/new',
-      EDIT: '/edit',
+      ...NESTED_ROUTES
     },
     THREATS_HUB: {
       PARENT: '/threats',
-      ROOT: '/',
-      CREATE: '/new',
-      EDIT: '/edit',
+      ...NESTED_ROUTES
     },
     VULNERABILITY: {
       PARENT: '/vulnerability',
-      ROOT: '/',
-      CREATE: '/new',
-      EDIT: '/edit',
+      ...NESTED_ROUTES
     },
     CONTROLS: {
       PARENT: '/controls',
-      ROOT: '/',
-      CREATE: '/new',
-      EDIT: '/edit',
+      ...NESTED_ROUTES
     },
     COMPLIANCE: {
       PARENT: '/compliance',
-      ROOT: '/',
-      CREATE: '/new',
-      EDIT: '/edit',
+      ...NESTED_ROUTES
     },
     INCIDENT: {
       PARENT: '/incident',
-      ROOT: '/',
-      CREATE: '/new',
-      EDIT: '/edit',
+      ...NESTED_ROUTES
     },
     RISK: {
       PARENT: '/risk',
-      ROOT: '/',
-      CREATE: '/new',
-      EDIT: '/edit',
+      ...NESTED_ROUTES
     },
     REPORTS: '/reports',
     PROFILE: '/profile',
     SETTING: '/setting',
+    ADMINISTRATION: {
+      PARENT: '/administration',
+      CHILD: {
+        ASSET_TYPE: {
+          PARENT: '/asset_types',
+          ...NESTED_ROUTES
+        },
+        DEPARTMENTS: {
+          PARENT: '/departments',
+          ...NESTED_ROUTES
+        },
+        CONTROL_QUESTIONS: {
+          PARENT: '/control_questions',
+          ...NESTED_ROUTES
+        },
+        COMPLIANCE_QUESTIONS: {
+          PARENT: '/compliance_questions',
+          ...NESTED_ROUTES
+        },
+      }
+    },
   },
 };

@@ -15,7 +15,7 @@ import {
 } from '@ant-design/icons';
 import { ROUTES } from '../constants/routes.constants';
 import logo from '../assets/logo/CYDEA-GRC.png';
-import { isNullOrEmpty } from '../utils/utils';
+import { isNotNullOrEmpty, isNullOrEmpty } from '../utils/utils';
 import { SIDE_MENU } from '../constants/menu.constants';
 import AvatarComp from '../components/Image/Avatar';
 
@@ -47,11 +47,23 @@ const ProtectedLayout = () => {
                         defaultSelectedKeys={[ROUTES.PRIVATE.ROOT]}
                         selectedKeys={[window.location.pathname]}
                         style={{ height: '100%', borderRight: 0 }}
-                        items={SIDE_MENU.map(item => ({
-                            ...item,
-                            style: { marginBottom: 12 },
-                            onClick: () => navigate(item?.key)
-                        }))}
+                        items={SIDE_MENU.map(item => {
+                            let newItem = {
+                                ...item,
+                                style: { marginBottom: 12 },
+                                onClick: () => navigate(item?.key)
+                            }
+                            if (isNotNullOrEmpty(item?.children)) {
+                                delete newItem.onClick
+                                // newItem.onClick = () => navigate(item.children[0]?.key)
+                                newItem.children = item.children.map(child => ({
+                                    ...child,
+                                    style: { marginBottom: 12 },
+                                    onClick: () => navigate(child?.key)
+                                }))
+                            }
+                            return newItem
+                        })}
                     />
                 </Space>
             </Sider>
