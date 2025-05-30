@@ -1,9 +1,11 @@
-import TableBuilder from '../../../components/Table/Table.Builder';
+import TableBuilder from '../../../../components/Table/Table.Builder';
 import { Button, Tag } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../constants/routes.constants';
+import { ROUTES } from '../../../../constants/routes.constants';
 
-const AssetsList = () => {
+const { ASSET_TYPE } = ROUTES.PRIVATE.ADMINISTRATION.CHILD;
+
+const AssetTypesList = () => {
   const navigate = useNavigate();
 
   const actions = [
@@ -11,7 +13,7 @@ const AssetsList = () => {
       title: 'Details',
       render: (_, record) => (
         <Button shape="round" onClick={() => navigate(
-          ROUTES.PRIVATE.ASSETS.PARENT + ROUTES.PRIVATE.ASSETS.EDIT,
+          ASSET_TYPE.PARENT + ASSET_TYPE.EDIT,
           {
             state: { id: record?.id ?? null },
           }
@@ -25,15 +27,17 @@ const AssetsList = () => {
   return (
     <div>
       <TableBuilder
+      title='List of Asset Types'
+      screen='asset_type'
         actionsList={actions}
         headerLinks={[
           {
             Component: null,
-            label: '+ Add New Asset',
+            label: '+ Add New Asset Type',
             className: 'add-btn',
             onClick: () =>
               navigate(
-                ROUTES.PRIVATE.ASSETS.PARENT + ROUTES.PRIVATE.ASSETS.CREATE
+                ASSET_TYPE.PARENT + ASSET_TYPE.CREATE
               ),
           },
         ]}
@@ -42,4 +46,4 @@ const AssetsList = () => {
   );
 };
 
-export default AssetsList;
+export default AssetTypesList;
