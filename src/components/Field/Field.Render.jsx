@@ -1,10 +1,11 @@
-import { Form, Input, Select, DatePicker, Upload, Button, Radio } from 'antd';
+import { Form, Input, Select, DatePicker, Upload, Button, Radio, Typography } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { getValidators } from "../Form/validator";
 import GenericSelect from './GenericSelect'
 import { useMemo } from 'react';
 
 const { TextArea } = Input;
+const { Text } = Typography;
 
 const RenderField = ({ field = {}, ...rest }) => {
     const formField = useMemo(() => {
@@ -16,14 +17,6 @@ const RenderField = ({ field = {}, ...rest }) => {
             case 'Radio':
                 return (
                     <Radio.Group {...rest} options={field?.options?.map(opt => ({ label: opt ?? '', value: opt ?? '' }))} />
-
-                    // <Radio.Group {...rest}>
-                    //     {field?.options?.map((opt) => (
-                    //         <Radio key={opt?.value ?? opt} value={opt?.value ?? opt}>
-                    //             {opt?.label ?? opt}
-                    //         </Radio>
-                    //     ))}
-                    // </Radio.Group>
                 );
             case 'LongText':
                 return <TextArea {...rest} rows={4} />;
@@ -36,10 +29,14 @@ const RenderField = ({ field = {}, ...rest }) => {
                 return <GenericSelect {...rest} field={field} mode="multiple" />;
             case 'Link':
                 return <GenericSelect {...rest} field={field} />;
+            case 'Text':
+                return <Text style={{ maxWidth: '100%' }} {...rest} field={field}>
+                    {field?.content ?? ''}
+                </Text>
             default:
                 return null;
         }
-    }, [field])
+    }, [field, rest])
 
     return formField
 };
