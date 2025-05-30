@@ -46,13 +46,14 @@ const GenericSelect = ({
 
   return (
     <Select
+      loading={fetching}
       showSearch
       mode={mode}
       {...rest}
-      onSearch={debounceFetcher}
+      onSearch={link_to ? debounceFetcher : undefined}
       placeholder={`Select ${label}`}
-      notFoundContent={fetching ? <Spin size="small" /> : null}
-      options={options}
+      filterOption={link_to ? false : true}
+      options={options && options.length > 0 ? options : []}
     />
   );
 };
