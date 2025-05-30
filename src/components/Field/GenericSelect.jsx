@@ -9,7 +9,7 @@ const GenericSelect = ({
   mode = undefined,
   ...rest
 }) => {
-  const { link_to, options: dropdownOptions, label, fieldtype } = field;
+  const { link_to, options: dropdownOptions, label, fieldtype, target_field = '' } = field;
 
   const [options, setOptions] = useState([]);
   const [fetching, setFetching] = useState(false);
@@ -21,11 +21,11 @@ const GenericSelect = ({
       payload.PARAMS.QUERY.document_type = link_to ?? '';
       // payload.PARAMS.QUERY.field = field?.fieldname ?? '';
       // payload.PARAMS.QUERY.document_type = 'assets';
-      payload.PARAMS.QUERY.field = '';
+      payload.PARAMS.QUERY.field = target_field ?? '';
       payload.PARAMS.QUERY.search_term = search ?? '';
 
       const res = await callApi(payload);
-      setOptions(res ?? []);
+      setOptions(res?.data ?? []);
     } catch (err) {
       console.error('Select search error', err);
     } finally {
@@ -36,7 +36,7 @@ const GenericSelect = ({
   const debounceFetcher = useMemo(() => debounce(fetchOptions, 400), []);
 
   useEffect(() => {
-    if (Array.isArray(dropdownOptions) && fieldtype === 'Select') {
+    if (Array.isArray(dropdownOptions)) {
       setOptions(dropdownOptions?.map((opt) => ({ label: opt ?? '', value: opt ?? '' })) ?? []);
     }
     else if (link_to) {
@@ -46,13 +46,14 @@ const GenericSelect = ({
 
   return (
     <Select
+      loading={fetching}
       showSearch
       mode={mode}
       {...rest}
-      onSearch={debounceFetcher}
+      onSearch={link_to ? debounceFetcher : undefined}
       placeholder={`Select ${label}`}
-      notFoundContent={fetching ? <Spin size="small" /> : null}
-      options={options}
+      filterOption={link_to ? false : true}
+      options={options && options.length > 0 ? options : []}
     />
   );
 };

@@ -2,7 +2,6 @@ import TableBuilder from '../../../components/Table/Table.Builder';
 import { Button, Tag } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../constants/routes.constants';
-import { FilterFilled } from '@ant-design/icons';
 
 const AssetsList = () => {
   const navigate = useNavigate();

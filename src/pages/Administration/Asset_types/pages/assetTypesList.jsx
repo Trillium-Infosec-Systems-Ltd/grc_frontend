@@ -1,18 +1,19 @@
-import TableBuilder from '../../../components/Table/Table.Builder';
+import TableBuilder from '../../../../components/Table/Table.Builder';
 import { Button, Tag } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../constants/routes.constants';
-import { FilterFilled } from '@ant-design/icons';
+import { ROUTES } from '../../../../constants/routes.constants';
 
-const ThreatsList = () => {
+const { ASSET_TYPE } = ROUTES.PRIVATE.ADMINISTRATION.CHILD;
+
+const AssetTypesList = () => {
   const navigate = useNavigate();
 
-  const action = [
+  const actions = [
     {
       title: 'Details',
       render: (_, record) => (
         <Button shape="round" onClick={() => navigate(
-          ROUTES.PRIVATE.THREATS_HUB.PARENT + ROUTES.PRIVATE.THREATS_HUB.EDIT,
+          ASSET_TYPE.PARENT + ASSET_TYPE.EDIT,
           {
             state: { id: record?.id ?? null },
           }
@@ -26,16 +27,17 @@ const ThreatsList = () => {
   return (
     <div>
       <TableBuilder
-        screen='threat'
-        actionsList={action}
+      title='List of Asset Types'
+      screen='asset_type'
+        actionsList={actions}
         headerLinks={[
           {
             Component: null,
-            label: '+ Add New Threat',
+            label: '+ Add New Asset Type',
             className: 'add-btn',
             onClick: () =>
               navigate(
-                ROUTES.PRIVATE.THREATS_HUB.PARENT + ROUTES.PRIVATE.THREATS_HUB.CREATE
+                ASSET_TYPE.PARENT + ASSET_TYPE.CREATE
               ),
           },
         ]}
@@ -44,4 +46,4 @@ const ThreatsList = () => {
   );
 };
 
-export default ThreatsList;
+export default AssetTypesList;

@@ -33,14 +33,20 @@ const FormBuilder = ({ screen = 'assets', title = '', redirect = '', MODE = KEY.
 
     const fieldList = useMemo(() => (
         schema?.fields?.map((field) => {
-            if (!field?.hidden) {
+            console.log({ field });
+
+            const { hidden = false, fieldname = '', label = '', span = 24, fieldtype } = field;
+            if (!hidden) {
                 const commonProps = {
-                    ...field,
-                    name: field?.fieldname ?? '',
+                    // ...field,
+                    label,
+                    name: fieldname ?? '',
                     rules: getValidators(field),
+
                 };
-                return <Col xs={24} sm={24} md={field?.span ?? 24} key={field?.fieldname}>
-                    {field?.fieldtype !== 'File' ? <Form.Item {...commonProps} ><RenderField field={field} /></Form.Item>
+
+                return <Col xs={24} sm={24} md={span} key={fieldname}>
+                    {fieldtype !== 'File' ? <Form.Item {...commonProps} ><RenderField field={field} /></Form.Item>
                         :
                         <Form.Item
                             {...commonProps}

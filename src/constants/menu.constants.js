@@ -5,60 +5,73 @@
 import { ROUTES } from './routes.constants';
 // ... import all other icons
 
+const {PRIVATE} = ROUTES;
+
 export const SIDE_MENU = [
     {
-        key: ROUTES.PRIVATE.ROOT,
+        key: PRIVATE.ROOT,
         // icon: <HomeFilled style={{ width: 18, height: 18 }} />,
         label: 'Dashboard',
     },
     {
-        key: ROUTES.PRIVATE.ASSETS.PARENT,
+        key: PRIVATE.ASSETS.PARENT,
         // icon: <AssetsIcon style={{ width: 18, height: 18 }} />,
         label: 'Assets',
     },
     {
-        key: ROUTES.PRIVATE.THREATS_HUB.PARENT,
+        key: PRIVATE.THREATS_HUB.PARENT,
         // icon: <ThreatsIcon style={{ width: 18, height: 18 }} />,
         label: 'Threats Hub',
     },
     {
-        key: ROUTES.PRIVATE.VULNERABILITY.PARENT,
+        key: PRIVATE.VULNERABILITY.PARENT,
         // icon: <VulnerabilityIcon style={{ width: 18, height: 18 }} />,
         label: 'Vulnerability Management',
     },
     {
-        key: ROUTES.PRIVATE.CONTROLS.PARENT,
+        key: PRIVATE.CONTROLS.PARENT,
         // icon: <AssetsIcon style={{ width: 18, height: 18 }} />,
         label: 'Controls',
     },
     {
-        key: ROUTES.PRIVATE.COMPLIANCE.PARENT,
+        key: PRIVATE.COMPLIANCE.PARENT,
         // icon: <AssetsIcon style={{ width: 18, height: 18 }} />,
         label: 'Compliance',
     },
     {
-        key: ROUTES.PRIVATE.INCIDENT.PARENT,
+        key: PRIVATE.INCIDENT.PARENT,
         // icon: <AssetsIcon style={{ width: 18, height: 18 }} />,
         label: 'Incident Management',
     },
     {
-        key: ROUTES.PRIVATE.RISK.PARENT,
+        key: PRIVATE.RISK.PARENT,
         // icon: <AssetsIcon style={{ width: 18, height: 18 }} />,
         label: 'Risk Management',
     },
     {
-        key: ROUTES.PRIVATE.REPORTS,
+        key: PRIVATE.REPORTS,
         // icon: <AssetsIcon style={{ width: 18, height: 18 }} />,
         label: 'Reports',
     },
     {
-        key: ROUTES.PRIVATE.PROFILE,
+        key: PRIVATE.PROFILE,
         // icon: <AssetsIcon style={{ width: 18, height: 18 }} />,
         label: 'Profile',
     },
     {
-        key: ROUTES.PRIVATE.SETTING,
+        key: PRIVATE.SETTING,
         // icon: <AssetsIcon style={{ width: 18, height: 18 }} />,
         label: 'Setting',
+    },
+    {
+        key: PRIVATE.ADMINISTRATION.PARENT,
+        // icon: <AssetsIcon style={{ width: 18, height: 18 }} />,
+        label: 'Administartion',
+        children: [
+            { key: PRIVATE.ADMINISTRATION.CHILD.ASSET_TYPE.PARENT, label: 'Asset Types' },
+            { key: PRIVATE.ADMINISTRATION.CHILD.DEPARTMENTS.PARENT, label: 'Departments' },
+            { key: PRIVATE.ADMINISTRATION.CHILD.CONTROL_QUESTIONS.PARENT, label: 'Control Questions' },
+            { key: PRIVATE.ADMINISTRATION.CHILD.COMPLIANCE_QUESTIONS.PARENT, label: 'Compliance Questions' },
+        ]
     },
 ];

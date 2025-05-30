@@ -1,18 +1,19 @@
-import TableBuilder from '../../../components/Table/Table.Builder';
+import TableBuilder from '../../../../components/Table/Table.Builder';
 import { Button, Tag } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../constants/routes.constants';
-import { FilterFilled } from '@ant-design/icons';
+import { ROUTES } from '../../../../constants/routes.constants';
 
-const ThreatsList = () => {
+const { COMPLIANCE_QUESTIONS } = ROUTES.PRIVATE.ADMINISTRATION.CHILD;
+
+const ComplianceQuestionsList = () => {
   const navigate = useNavigate();
 
-  const action = [
+  const actions = [
     {
       title: 'Details',
       render: (_, record) => (
         <Button shape="round" onClick={() => navigate(
-          ROUTES.PRIVATE.THREATS_HUB.PARENT + ROUTES.PRIVATE.THREATS_HUB.EDIT,
+          COMPLIANCE_QUESTIONS.PARENT + COMPLIANCE_QUESTIONS.EDIT,
           {
             state: { id: record?.id ?? null },
           }
@@ -26,16 +27,17 @@ const ThreatsList = () => {
   return (
     <div>
       <TableBuilder
-        screen='threat'
-        actionsList={action}
+      title='List of Compliance Questions'
+      screen='complaince_question'
+        actionsList={actions}
         headerLinks={[
           {
             Component: null,
-            label: '+ Add New Threat',
+            label: '+ Add New Question',
             className: 'add-btn',
             onClick: () =>
               navigate(
-                ROUTES.PRIVATE.THREATS_HUB.PARENT + ROUTES.PRIVATE.THREATS_HUB.CREATE
+                COMPLIANCE_QUESTIONS.PARENT + COMPLIANCE_QUESTIONS.CREATE
               ),
           },
         ]}
@@ -44,4 +46,4 @@ const ThreatsList = () => {
   );
 };
 
-export default ThreatsList;
+export default ComplianceQuestionsList;

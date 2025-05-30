@@ -5,8 +5,27 @@ import AppLoader from '../Loader/loader';
 import { isNotNullOrEmpty } from '../../utils/utils';
 import { v4 as uuidv4 } from 'uuid';
 import FilterPopover from '../Popover/Filters/Filter';
+import { createStyles } from 'antd-style';
 
 const { Option } = Select;
+
+const useStyle = createStyles(({ css, token }) => {
+  const { antCls } = token;
+  return {
+    customTable: css`
+      ${antCls}-table {
+        ${antCls}-table-container {
+          ${antCls}-table-body,
+          ${antCls}-table-content {
+            scrollbar-width: thin;
+            scrollbar-color: #eaeaea transparent;
+            scrollbar-gutter: stable;
+          }
+        }
+      }
+    `,
+  };
+});
 
 const TableBuilder = ({
     pageSize = 5,
@@ -21,6 +40,7 @@ const TableBuilder = ({
     headerLinks = [],
     actionsList = [],
 }) => {
+    const { styles } = useStyle();
 
     const [schema, data, isLoading, fetchData] = useTableHook(screen);
     const { items = [], total = 0, skip = 0, limit = 10 } = data ?? {};
@@ -72,9 +92,11 @@ const TableBuilder = ({
             <div className="table-container">
                 <Table
                     name={`table_builder_${screen}`}
-                    className="custom-table"
+                    // className="custom-table"
+                    className={styles.customTable}
                     columns={columnList}
                     dataSource={ensureRecordIds(items ?? [])}
+                    scroll={{ x: 'max-content' }}
                     pagination={
                         pagination
                             ? {

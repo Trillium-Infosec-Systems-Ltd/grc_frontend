@@ -1,18 +1,19 @@
-import TableBuilder from '../../../components/Table/Table.Builder';
+import TableBuilder from '../../../../components/Table/Table.Builder';
 import { Button, Tag } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../constants/routes.constants';
-import { FilterFilled } from '@ant-design/icons';
+import { ROUTES } from '../../../../constants/routes.constants';
 
-const ThreatsList = () => {
+const { DEPARTMENTS } = ROUTES.PRIVATE.ADMINISTRATION.CHILD;
+
+const DepartmentList = () => {
   const navigate = useNavigate();
 
-  const action = [
+  const actions = [
     {
       title: 'Details',
       render: (_, record) => (
         <Button shape="round" onClick={() => navigate(
-          ROUTES.PRIVATE.THREATS_HUB.PARENT + ROUTES.PRIVATE.THREATS_HUB.EDIT,
+          DEPARTMENTS.PARENT + DEPARTMENTS.EDIT,
           {
             state: { id: record?.id ?? null },
           }
@@ -26,16 +27,17 @@ const ThreatsList = () => {
   return (
     <div>
       <TableBuilder
-        screen='threat'
-        actionsList={action}
+        title='List of Departments'
+        screen='department'
+        actionsList={actions}
         headerLinks={[
           {
             Component: null,
-            label: '+ Add New Threat',
+            label: '+ Add New Department',
             className: 'add-btn',
             onClick: () =>
               navigate(
-                ROUTES.PRIVATE.THREATS_HUB.PARENT + ROUTES.PRIVATE.THREATS_HUB.CREATE
+                DEPARTMENTS.PARENT + DEPARTMENTS.CREATE
               ),
           },
         ]}
@@ -44,4 +46,4 @@ const ThreatsList = () => {
   );
 };
 
-export default ThreatsList;
+export default DepartmentList;
