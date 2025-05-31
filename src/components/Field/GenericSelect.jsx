@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { Select, Spin } from 'antd';
 import debounce from 'lodash/debounce';
 import { callApi } from '../../axios/callApi';
-import { APIS } from '../../constants/api.constants';
+import { APIS } from '../../constants/apiConstants';
 
 const GenericSelect = ({
   field,

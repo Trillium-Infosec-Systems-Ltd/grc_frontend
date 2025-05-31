@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { callApi } from '../axios/callApi';
-import { APIS } from '../constants/api.constants';
-import { KEY } from '../constants/keys.constants';
+import { APIS } from '../constants/apiConstants';
+import { KEY } from '../constants/keysConstants';
 
 const useTableHook = (screen, MODE = KEY.VIEW) => {
   const [isLoading, setIsLoaing] = useState(false);

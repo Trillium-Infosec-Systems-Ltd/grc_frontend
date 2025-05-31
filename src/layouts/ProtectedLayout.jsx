@@ -1,22 +1,15 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { Input, Layout, Menu, Space, theme } from 'antd';
+import { Input, Layout, Menu, Space } from 'antd';
 import {
-    UserOutlined,
     SettingOutlined,
-    ProfileOutlined,
-    DashboardOutlined,
-    FileOutlined,
-    WarningOutlined,
-    GlobalOutlined,
     BellOutlined,
     SearchOutlined,
 } from '@ant-design/icons';
-import { ROUTES } from '../constants/routes.constants';
+import { ROUTES } from '../constants/routesConstants';
 import logo from '../assets/logo/CYDEA-GRC.png';
 import { isNotNullOrEmpty, isNullOrEmpty } from '../utils/utils';
-import { SIDE_MENU } from '../constants/menu.constants';
+import { SIDE_MENU } from '../constants/menuConstants';
 import AvatarComp from '../components/Image/Avatar';
 
 const { Header, Sider, Content } = Layout;

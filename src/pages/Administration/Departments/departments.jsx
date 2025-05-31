@@ -1,8 +1,8 @@
 import { Route, Routes } from 'react-router-dom';
-import { ROUTES } from '../../../constants/routes.constants';
-import { KEY } from '../../../constants/keys.constants';
-import DepartmentList from './pages/departmentList';
-import DepartmentForm from './pages/departmentForm';
+import { ROUTES } from '../../../constants/routesConstants';
+import { KEY } from '../../../constants/keysConstants';
+import DepartmentList from './pages/DepartmentList';
+import DepartmentForm from './pages/DepartmentForm';
 
 const { DEPARTMENTS } = ROUTES.PRIVATE.ADMINISTRATION.CHILD;
 

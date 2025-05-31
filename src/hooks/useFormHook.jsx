@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { callApi } from '../axios/callApi';
-import { APIS } from '../constants/api.constants';
+import { APIS } from '../constants/apiConstants';
 import { isNotNullOrEmpty } from '../utils/utils';
 import { message, Modal, notification } from 'antd';
-import { KEY } from '../constants/keys.constants';
+import { KEY } from '../constants/keysConstants';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const useFormHook = (screen, MODE = KEY.CREATE) => {
@@ -21,21 +21,46 @@ const useFormHook = (screen, MODE = KEY.CREATE) => {
 
   const getFormSchema = useCallback(async () => {
     setIsLoaing(true)
-    const result = await callApi({ ...APIS.FORM_SCHEMA, URL: APIS.FORM_SCHEMA.URL + screen });
-    setForm(result?.data ?? {});
+    let result = null;
+
     if (MODE === KEY.EDIT) {
-      await getFormData()
-      return;
+      result = await callApi({ ...APIS.FORM_SCHEMA, URL: APIS.FORM_SCHEMA.URL + screen + '/' + record_id });
+    } else {
+      result = await callApi({ ...APIS.FORM_SCHEMA, URL: APIS.FORM_SCHEMA.URL + screen });
     }
+
+    if (result.status === 200) {
+      const { data = [] } = result;
+      let initial = {};
+
+      for (let field of data?.fields ?? []) {
+        const { fieldname, default_value, default: initialVal } = field;
+        initial[fieldname] = default_value ?? initialVal;
+      }
+      setForm(data ?? {});
+      setData(initial ?? {});
+    }
+
     setIsLoaing(false)
   }, [screen]);
 
-  const getFormData = useCallback(async () => {
-    setIsLoaing(true)
-    const result = await callApi({ ...APIS.GET_RECORDS, URL: APIS.GET_RECORDS.URL + screen + '/' + record_id });
-    setData(result?.data ?? {});
-    setIsLoaing(false)
-  }, [screen, record_id]);
+  // const getFormSchema = useCallback(async () => {
+  //   setIsLoaing(true)
+  //   const result = await callApi({ ...APIS.FORM_SCHEMA, URL: APIS.FORM_SCHEMA.URL + screen });
+  //   setForm(result?.data ?? {});
+  //   if (MODE === KEY.EDIT) {
+  //     await getFormData()
+  //     return;
+  //   }
+  //   setIsLoaing(false)
+  // }, [screen]);
+
+  // const getFormData = useCallback(async () => {
+  //   setIsLoaing(true)
+  //   const result = await callApi({ ...APIS.GET_RECORDS, URL: APIS.GET_RECORDS.URL + screen + '/' + record_id });
+  //   setData(result?.data ?? {});
+  //   setIsLoaing(false)
+  // }, [screen, record_id]);
 
   const submit = async (data = {}, redirect) => {
 

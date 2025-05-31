@@ -1,6 +1,6 @@
-import FormBuilder from '../../../../components/Form/Form.Builder';
-import { KEY } from '../../../../constants/keys.constants';
-import { ROUTES } from '../../../../constants/routes.constants';
+import FormBuilder from '../../../../components/Form/FormBuilder';
+import { KEY } from '../../../../constants/keysConstants';
+import { ROUTES } from '../../../../constants/routesConstants';
 
 const { DEPARTMENTS } = ROUTES.PRIVATE.ADMINISTRATION.CHILD;
 

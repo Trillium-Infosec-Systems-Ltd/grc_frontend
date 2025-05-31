@@ -1,4 +1,4 @@
-import { createAxiosInstance } from './axios.base';
+import { createAxiosInstance } from './axiosBase';
 export const BASE_URLS = {
     auth: 'https://auth.api.com',
     private: 'https://private.api.com',

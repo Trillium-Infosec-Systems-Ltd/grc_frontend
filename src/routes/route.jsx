@@ -1,20 +1,20 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ROUTES } from '../constants/routes.constants';
+import { ROUTES } from '../constants/routesConstants';
 import Login from '../pages/Auth/Login/Login';
 import Dashboard from '../pages/Dashboard/Dashboard';
 import ProtectedLayout from '../layouts/ProtectedLayout';
-import AssetManagement from '../pages/Assets_management/assets.management';
-import ControlsManagement from '../pages/Controls/controls.main';
-import RiskManagement from '../pages/Risks_management/risks.management';
+import AssetManagement from '../pages/AssetsManagement/AssetsManagement';
+import ThreatsHub from '../pages/ThreatsHub/ThreatsMain';
+import VulnerabilityManagement from '../pages/VulnerabilityManagement/VulnerabilityManagement';
+import ControlsManagement from '../pages/Controls/ControlsMain';
+import ComplianceManagement from '../pages/ComplianceManagement/ComplianceManagement';
+import IncidentManagement from '../pages/IncidentManagement/IncidentManagement';
+import RiskManagement from '../pages/RisksManagement/RisksManagement';
 import ProfileManagement from '../pages/Profile/Profile';
-import ThreatsHub from '../pages/Threats_Hub/threats.main';
-import ComplianceManagement from '../pages/Compliance_management/compliance.main';
-import VulnerabilityManagement from '../pages/Vulnerability_management/vulnerability.main';
-import IncidentManagement from '../pages/Incident_management/incident.main';
-import AssetTypes from '../pages/Administration/Asset_types/asset_types';
-import ControlQuestions from '../pages/Administration/Control_questions/controlQuestions';
-import ComplianceQuestions from '../pages/Administration/Compliance_questions/complianceQuestions';
+import AssetTypes from '../pages/Administration/AssetTypes/AssetTypes';
 import Departments from '../pages/Administration/Departments/departments';
+import ControlQuestions from '../pages/Administration/ControlQuestions/ControlQuestions';
+import ComplianceQuestions from '../pages/Administration/ComplianceQuestions/ComplianceQuestions';
 
 export default function AppRoutes() {
   return (

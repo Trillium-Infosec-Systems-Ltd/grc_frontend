@@ -3,9 +3,9 @@ import { Button, Tag } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../../constants/routesConstants';
 
-const { DEPARTMENTS } = ROUTES.PRIVATE.ADMINISTRATION.CHILD;
+const { COMPLIANCE_QUESTIONS } = ROUTES.PRIVATE.ADMINISTRATION.CHILD;
 
-const DepartmentList = () => {
+const ComplianceQuestionsList = () => {
   const navigate = useNavigate();
 
   const actions = [
@@ -13,7 +13,7 @@ const DepartmentList = () => {
       title: 'Details',
       render: (_, record) => (
         <Button shape="round" onClick={() => navigate(
-          DEPARTMENTS.PARENT + DEPARTMENTS.EDIT,
+          COMPLIANCE_QUESTIONS.PARENT + COMPLIANCE_QUESTIONS.EDIT,
           {
             state: { id: record?.id ?? null },
           }
@@ -27,17 +27,17 @@ const DepartmentList = () => {
   return (
     <div>
       <TableBuilder
-        title='List of Departments'
-        screen='department'
+      title='List of Compliance Questions'
+      screen='complaince_question'
         actionsList={actions}
         headerLinks={[
           {
             Component: null,
-            label: '+ Add New Department',
+            label: '+ Add New Question',
             className: 'add-btn',
             onClick: () =>
               navigate(
-                DEPARTMENTS.PARENT + DEPARTMENTS.CREATE
+                COMPLIANCE_QUESTIONS.PARENT + COMPLIANCE_QUESTIONS.CREATE
               ),
           },
         ]}
@@ -46,4 +46,4 @@ const DepartmentList = () => {
   );
 };
 
-export default DepartmentList;
+export default ComplianceQuestionsList;

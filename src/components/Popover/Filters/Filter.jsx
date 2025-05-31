@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { Popover, Form, Button, Space, Spin, Col, Row } from 'antd';
 import useFormHook from '../../../hooks/useFormHook';
 import { FilterFilled } from '@ant-design/icons';
-import RenderField from '../../Field/Field.Render';
+import RenderField from '../../Field/FieldRender';
 
 const FilterPopover = ({ screen = '', onApply }) => {
     const [schema, isLoading] = useFormHook(screen);

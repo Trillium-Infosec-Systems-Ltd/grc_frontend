@@ -1,5 +1,5 @@
 import { AuthAPI, privateAPI, PublicAPI, FormDataAPI } from './index';
-import { API_METHOD } from '../constants/api.constants';
+import { API_METHOD } from '../constants/apiConstants';
 import { isNotNullOrEmpty } from '../utils/utils';
 
 const getClientByType = (type = 'public', contentType = 'application/json') => {

@@ -3,7 +3,7 @@ import { Form, Input, Button, Switch, Typography } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../../../features/user/userSlice';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../constants/routes.constants';
+import { ROUTES } from '../../../constants/routesConstants';
 import { isNotNullOrEmpty } from '../../../utils/utils';
 
 const { Title, Text } = Typography;
