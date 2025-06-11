@@ -1,13 +1,13 @@
-import { useCallback, useEffect, useState } from 'react';
-import { callApi } from '../axios/callApi';
-import { APIS } from '../constants/apiConstants';
-import { isNotNullOrEmpty } from '../utils/utils';
-import { message, Modal, notification } from 'antd';
-import { KEY } from '../constants/keysConstants';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useCallback, useEffect, useState } from "react";
+import { callApi } from "../axios/callApi";
+import { APIS } from "../constants/apiConstants";
+import { isNotNullOrEmpty } from "../utils/utils";
+import { message, Modal, notification } from "antd";
+import { KEY } from "../constants/keysConstants";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const useFormHook = (screen, MODE = KEY.CREATE) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const location = useLocation();
   const record_id = location?.state?.id ?? null;
 
@@ -20,13 +20,19 @@ const useFormHook = (screen, MODE = KEY.CREATE) => {
   }, [screen]);
 
   const getFormSchema = useCallback(async () => {
-    setIsLoaing(true)
+    setIsLoaing(true);
     let result = null;
 
     if (MODE === KEY.EDIT) {
-      result = await callApi({ ...APIS.FORM_SCHEMA, URL: APIS.FORM_SCHEMA.URL + screen + '/' + record_id });
+      result = await callApi({
+        ...APIS.FORM_SCHEMA,
+        URL: APIS.FORM_SCHEMA.URL + screen + "/" + record_id,
+      });
     } else {
-      result = await callApi({ ...APIS.FORM_SCHEMA, URL: APIS.FORM_SCHEMA.URL + screen });
+      result = await callApi({
+        ...APIS.FORM_SCHEMA,
+        URL: APIS.FORM_SCHEMA.URL + screen,
+      });
     }
 
     if (result.status === 200) {
@@ -41,7 +47,7 @@ const useFormHook = (screen, MODE = KEY.CREATE) => {
       setData(initial ?? {});
     }
 
-    setIsLoaing(false)
+    setIsLoaing(false);
   }, [screen]);
 
   // const getFormSchema = useCallback(async () => {
@@ -63,57 +69,60 @@ const useFormHook = (screen, MODE = KEY.CREATE) => {
   // }, [screen, record_id]);
 
   const submit = async (data = {}, redirect) => {
-
-    console.log('Submit Schema', schema, data);
-
     try {
       setIsLoaing(true);
 
       const newData = { ...data };
 
-      let fileField = schema?.fields?.find(field => field?.fieldtype === 'File');
+      let fileField = schema?.fields?.find(
+        (field) => field?.fieldtype === "File"
+      );
 
       if (fileField) {
-        newData[fileField.fieldname] = newData[fileField.fieldname]?.filter(file => file?.status === 'uploaded')?.map(file => file.name);
+        newData[fileField.fieldname] = newData[fileField.fieldname]
+          ?.filter((file) => file?.status === "uploaded")
+          ?.map((file) => file.name);
       }
 
       if (fileField && data?.fileList.length !== 0) {
         let attachmentResult = await uploadAttachment(data?.fileList);
 
         if (attachmentResult.status === 200) {
-          delete newData.fileList
-          newData[fileField.fieldname] = [...newData[fileField.fieldname], ...(attachmentResult?.data?.uploaded_paths ?? [])];
+          delete newData.fileList;
+          newData[fileField.fieldname] = [
+            ...newData[fileField.fieldname],
+            ...(attachmentResult?.data?.uploaded_paths ?? []),
+          ];
 
-          saveRecordHandle(newData, redirect)
+          saveRecordHandle(newData, redirect);
         }
       } else {
-
-        delete newData.fileList
-        saveRecordHandle(newData, redirect)
-
-
+        delete newData.fileList;
+        saveRecordHandle(newData, redirect);
       }
     } catch (err) {
-      console.error('Submit error:', err);
-      message.error('Failed to save record');
+      console.error("Submit error:", err);
+      message.error("Failed to save record");
     } finally {
       setIsLoaing(false);
     }
   };
 
   const saveRecordHandle = async (data, redirect) => {
-    let payload = { ...(MODE === KEY.EDIT ? APIS.UPDATE_RECORD : APIS.CREATE_RECORD) };
-    payload.URL = MODE === KEY.EDIT ? payload.URL + screen + '/' + data?.id : payload.URL + screen;
+    let payload = {
+      ...(MODE === KEY.EDIT ? APIS.UPDATE_RECORD : APIS.CREATE_RECORD),
+    };
+    payload.URL =
+      MODE === KEY.EDIT
+        ? payload.URL + screen + "/" + record_id
+        : payload.URL + screen;
     payload.PAYLOAD = data ?? {};
 
-    let result = await callApi(payload)
-
-    console.log('result', result);
-
+    let result = await callApi(payload);
 
     if (result?.status === 200) {
       if (isNotNullOrEmpty(redirect)) {
-        navigate(redirect)
+        navigate(redirect);
       }
 
       // notification.success({ message: 'Record saved successfully' })
@@ -124,11 +133,14 @@ const useFormHook = (screen, MODE = KEY.CREATE) => {
       //   onOk() {
       //   },
       // });
-
     } else {
-      message.error(result?.response?.data?.detail || err?.message || 'Failed to save record')
+      message.error(
+        result?.response?.data?.detail ||
+          err?.message ||
+          "Failed to save record"
+      );
     }
-  }
+  };
 
   return [schema, isLoading, initialData, submit];
 };
@@ -136,27 +148,25 @@ const useFormHook = (screen, MODE = KEY.CREATE) => {
 export default useFormHook;
 
 const uploadAttachment = async (files) => {
-
   try {
     // setIsLoaing(true);
 
-    let formData = new FormData()
+    let formData = new FormData();
     // formData.append('files', files)
-    files.forEach(file => {
-      formData.append('files', file);
+    files.forEach((file) => {
+      formData.append("files", file);
     });
 
     let payload = { ...APIS.UPLOAD };
     payload.PAYLOAD = formData ?? {};
 
-    let result = await callApi(payload)
+    let result = await callApi(payload);
 
     return result;
-
   } catch (err) {
-    console.error('Submit error:', err);
-    message.error('Failed to save record');
+    console.error("Submit error:", err);
+    message.error("Failed to save record");
   } finally {
     // setIsLoaing(false);
   }
-}
+};
