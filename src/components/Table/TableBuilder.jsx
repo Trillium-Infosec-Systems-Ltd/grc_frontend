@@ -1,143 +1,133 @@
-import { Table, Button, Select } from 'antd';
-import './tableStyle.css';
-import useTableHook from '../../hooks/useTableHook';
-import AppLoader from '../Loader/Loader';
-import { isNotNullOrEmpty } from '../../utils/utils';
-import { v4 as uuidv4 } from 'uuid';
-import FilterPopover from '../Popover/Filters/Filter';
-import { createStyles } from 'antd-style';
+import { Table, Button, Select, Typography } from "antd";
+import "./tableStyle.css";
+import useTableHook from "../../hooks/useTableHook";
+import AppLoader from "../Loader/Loader";
+import { isNotNullOrEmpty } from "../../utils/utils";
+import { v4 as uuidv4 } from "uuid";
+import FilterPopover from "../Popover/Filters/Filter";
+import DropdownButton from "../Button/DropdownButton";
 
 const { Option } = Select;
-
-const useStyle = createStyles(({ css, token }) => {
-  const { antCls } = token;
-  return {
-    customTable: css`
-      ${antCls}-table {
-        ${antCls}-table-container {
-          ${antCls}-table-body,
-          ${antCls}-table-content {
-            scrollbar-width: thin;
-            scrollbar-color: #eaeaea transparent;
-            scrollbar-gutter: stable;
-          }
-        }
-      }
-    `,
-  };
-});
+const { Title } = Typography;
 
 const TableBuilder = ({
-    pageSize = 5,
-    onDownload,
-    downloadFormat = 'csv',
-    screen = 'assets',
-    title = 'List of Assets',
-    isShowHeader = true,
-    isExport = true,
-    pagination = true,
-    filters = true,
-    headerLinks = [],
-    actionsList = [],
+  pageSize = 5,
+  onDownload,
+  downloadFormat = "csv",
+  screen = "assets",
+  title = "List of Assets",
+  isShowHeader = true,
+  isExport = true,
+  pagination = true,
+  filters = true,
+  headerLinks = [],
+  actionsList = [],
 }) => {
-    const { styles } = useStyle();
+  const [schema, data, isLoading, fetchData] = useTableHook(screen);
+  const { items = [], total = 0, skip = 0, limit = 10 } = data ?? {};
+  const { columns = [] } = schema ?? {};
 
-    const [schema, data, isLoading, fetchData] = useTableHook(screen);
-    const { items = [], total = 0, skip = 0, limit = 10 } = data ?? {};
-    const { columns = [] } = schema ?? {};
+  let columnList = [
+    ...(columns ?? []),
+    ...(actionsList?.map((action) => ({ ...action, fixed: "right" })) ?? []),
+  ];
 
-    let columnList = [...(columns ?? []), ...(actionsList ?? [])]
+  const ensureRecordIds = (records = []) => {
+    return records.map((record, index) => {
+      return {
+        ...record,
+        t_row_record_id: uuidv4(),
+        _generatedId: true,
+      };
+    });
+  };
 
-    const ensureRecordIds = (records = []) => {
-        return records.map((record, index) => {
-            return {
-                ...record,
-                t_row_record_id: uuidv4(),
-                _generatedId: true,
-            };
-        });
-    };
+  const tableProps = {
+    size: "small",
+  };
+  return (
+    <AppLoader isLoading={isLoading}>
+      {isShowHeader && (
+        <div className="table-header">
+          <Title level={4}>{title ?? ""}</Title>
 
-    return (
-        <AppLoader isLoading={isLoading}>
-            {isShowHeader && (
-                <div className="table-header">
-                    <h2 className="title">{title ?? ''}</h2>
+          <DropdownButton />
 
-                    {isNotNullOrEmpty(headerLinks) && (
-                        <div className="actions" style={{ display: 'flex', gap: '20px' }}>
-                            {filters && <FilterPopover
-                                screen={screen}
-                                onApply={(filters) => {
-                                    console.log('Applied filters:', filters);
-                                }}
-                            />}
-                            {headerLinks?.map((link, index) =>
-                                isNotNullOrEmpty(link?.Component) ? (
-                                    <div key={'table-h-link_' + index}>{link?.Component}</div>
-                                ) : (
-                                    <span
-                                        key={'table-h-link_' + index}
-                                        className={link?.className ?? ''}
-                                        onClick={link?.onClick}
-                                    >
-                                        {link?.label ?? ''}
-                                    </span>
-                                )
-                            )}
-                        </div>
-                    )}
-                </div>
-            )}
-            <div className="table-container">
-                <Table
-                    name={`table_builder_${screen}`}
-                    // className="custom-table"
-                    className={styles.customTable}
-                    columns={columnList}
-                    dataSource={ensureRecordIds(items ?? [])}
-                    scroll={{ x: 'max-content' }}
-                    pagination={
-                        pagination
-                            ? {
-                                current: Math.floor(skip / limit) + 1,
-                                pageSize,
-                                total: total ?? 0,
-                                onChange: (page, pageSize) => {
-                                    fetchData((page - 1) * pageSize, pageSize, schema);
-                                },
-                            }
-                            : false
-                    }
-                    rowKey="t_row_record_id"
+          {isNotNullOrEmpty(headerLinks) && (
+            <div className="actions" style={{ display: "flex", gap: "20px" }}>
+              {filters && (
+                <FilterPopover
+                  screen={screen}
+                  onApply={(filters) => {
+                    console.log("Applied filters:", filters);
+                  }}
                 />
-
-                {isExport && (
-                    <div className="table-footer">
-                        <div className="export">
-                            <span>Download List of Assets as</span>
-                            <Select
-                                defaultValue={downloadFormat}
-                                style={{ width: 220, marginLeft: 10 }}
-                            >
-                                <Option value="xlsx">Portable document format (.pdf)</Option>
-                                <Option value="csv">comma separated values (.csv)</Option>
-                                <Option value="html">HTML file(.html)</Option>
-                                <Option value="json">Javascript Open Notaion (.json)</Option>
-                            </Select>
-                            <Button
-                                type="primary"
-                                className="ml-3 bg-primary"
-                                onClick={onDownload}
-                            >
-                                Download
-                            </Button>
-                        </div>
-                    </div>
-                )}
+              )}
+              {headerLinks?.map((link, index) =>
+                isNotNullOrEmpty(link?.Component) ? (
+                  <div key={"table-h-link_" + index}>{link?.Component}</div>
+                ) : (
+                  <span
+                    key={"table-h-link_" + index}
+                    className={link?.className ?? ""}
+                    onClick={link?.onClick}
+                  >
+                    {link?.label ?? ""}
+                  </span>
+                )
+              )}
             </div>
-        </AppLoader>
-    );
+          )}
+        </div>
+      )}
+      <div className="table-container">
+        <Table
+          name={`table_builder_${screen}`}
+          columns={columnList}
+          dataSource={ensureRecordIds(items ?? [])}
+          scroll={{ x: "max-content" }}
+          tableProps={tableProps}
+          pagination={
+            pagination
+              ? {
+                  current: Math.floor(skip / limit) + 1,
+                  pageSize,
+                  total: total ?? 0,
+                  onChange: (page, pageSize) => {
+                    fetchData((page - 1) * pageSize, pageSize, schema);
+                  },
+                }
+              : false
+          }
+          rowKey="t_row_record_id"
+        />
+
+        {isExport && (
+          <div className="table-footer">
+            <div className="export">
+              <span>Download List of Assets as</span>
+              <Select
+                defaultValue={downloadFormat}
+                style={{ width: 220, marginLeft: 10 }}
+              >
+                <Option value="xlsx">Portable document format (.pdf)</Option>
+                <Option value="csv">comma separated values (.csv)</Option>
+                <Option value="html">HTML file(.html)</Option>
+                <Option value="json">Javascript Open Notaion (.json)</Option>
+              </Select>
+              <Button
+                type="primary"
+                className="ml-3 bg-primary"
+                onClick={onDownload}
+              >
+                Download
+              </Button>
+            </div>
+          </div>
+        )}
+      </div>
+    </AppLoader>
+  );
 };
 
 export default TableBuilder;
