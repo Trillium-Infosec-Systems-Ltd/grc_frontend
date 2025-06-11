@@ -31,7 +31,7 @@ const RenderField = ({ field = {}, ...rest }) => {
                 return <GenericSelect {...rest} field={field} />;
             case 'Text':
                 return <Text style={{ maxWidth: '100%' }} {...rest} field={field}>
-                    {field?.content ?? ''}
+                    {field?.default_value ?? ''}
                 </Text>
             default:
                 return null;
