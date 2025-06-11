@@ -30,7 +30,7 @@ const ComplianceList = () => {
   return (
     <div>
       <TableBuilder
-        title='All Compliance'
+        title='Clauses'
         screen='complaince'
         actionsList={action}
         headerLinks={[
