@@ -1,23 +1,42 @@
-import { Table } from "antd";
+import { Checkbox, Table } from "antd";
 
-const columns = [
-  { title: "#", dataIndex: "searial_no", key: "searial_no" },
-  {
-    title: "Question",
-    dataIndex: "question",
-    key: "question",
-    ellipsis: true,
-  },
-  { title: "Yes / No", dataIndex: "answer", key: "answer" },
-];
+const QuestionTable = ({ value = [], onChange }) => {
+  const handleCheck = (id, checked) => {
+    const updated = value.map((item) =>
+      item.id === id ? { ...item, answer: checked ? "yes" : "no" } : item
+    );
+    onChange(updated);
+  };
 
-const QuestionTable = ({ field, ...rest }) => {
-  const { questions = [] } = field;
+  const columns = [
+    {
+      title: "#",
+      dataIndex: "index",
+      render: (_, __, idx) => String(idx + 1).padStart(2, "0"),
+      width: 60,
+    },
+    {
+      title: "Control Questions",
+      dataIndex: "question",
+      width: "80%",
+    },
+    {
+      title: "Yes / No",
+      dataIndex: "answer",
+      align: "center",
+      render: (_, record) => (
+        <Checkbox
+          checked={record.answer === "yes"}
+          onChange={(e) => handleCheck(record.id, e.target.checked)}
+        />
+      ),
+    },
+  ];
 
   return (
     <Table
       columns={columns}
-      dataSource={questions}
+      dataSource={value}
       scroll={{ x: "max-content" }}
     />
   );
