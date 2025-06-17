@@ -29,7 +29,7 @@
   --Paragrph-text: #6f7071;
   --support: #438c43;
   --selected: #f3f5f9;
-  
+
   /* UI Colors */
   --button: #fcbc13;
   --bg-light: #ebf3ee;
@@ -37,32 +37,36 @@
   --bg-danger: #e1251b;
   --bg-danger-hover: #ad170f;
   --border-light: #ebf3ee;
-  
+
   --btn-primary-color: #fff;
   --btn-primary-bg: var(--green);
-  
+
   --btn-default-color: #3c3d3e;
   --btn-default-bg: #e1e5ee;
   --btn-default-border: var(--nevada);
-  
+
   --input-label-color: var(--btn-default-color);
-  
+
   --table-border: #e5e7eb;
-  
+
   --ant-tabs-ink-bar-color: var(--green);
-  
+
   /* cydea.tech Colors */
-  
+
   /* Brand Colors */
   --cydea-primary: #4fd1c5;
   --cydea-heading: #718ebf;
   --cydea-purple: #343c6a;
   --cydea-light-navy: #dfeaf2;
   --cydea-navy-blue: #718ebf;
-  
+  --cydea-success: #0aafaf;
+  --cydea-golden: #ffbb38;
+  --cydea-danger: #fe5c73;
+  --cydea-violet: #ac39d4;
+
   /* UI Colors */
   --cydea-bg-primary: var(--cydea-primary);
-  
+
   /* Input & select field color */
   --input-color: var(--cydea-navy-blue);
   --input-select-color: var(--cydea-navy-blue);
@@ -91,6 +95,22 @@ body {
   font-family: var(--font-family-base) !important;
   background-color: var(--input-diable-background);
   margin: 0px !important;
+}
+
+.text-primary {
+  color: var(--cydea-primary);
+}
+.text-success {
+  color: var(--cydea-success);
+}
+.text-golden {
+  color: var(--cydea-golden);
+}
+.text-danger {
+  color: var(--cydea-danger);
+}
+.text-violet {
+  color: var(--cydea-violet);
 }
 
 h4.ant-typography {
@@ -2339,13 +2359,13 @@ a {
   font-style: normal;
   font-weight: 400;
   } */
-  
-  .ant-select-outlined:not(.ant-select-customize-input) .ant-select-selector {
-    color: var(--cydea-navy-blue);
-    border: 1px solid var(--cydea-light-navy);
-    border-radius: 10px;
-    background: #ffffff;
-  }
+
+.ant-select-outlined:not(.ant-select-customize-input) .ant-select-selector {
+  color: var(--cydea-navy-blue);
+  border: 1px solid var(--cydea-light-navy);
+  border-radius: 10px;
+  background: #ffffff;
+}
 
 .ant-input-outlined:focus,
 .ant-select-selector:focus,
