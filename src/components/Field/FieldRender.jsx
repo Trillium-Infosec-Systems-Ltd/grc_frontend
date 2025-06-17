@@ -1,19 +1,13 @@
 import {
-  Form,
   Input,
   Select,
   DatePicker,
-  Upload,
-  Button,
   Radio,
   Typography,
   InputNumber,
 } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
-import { getValidators } from "../Form/validator";
 import GenericSelect from "./GenericSelect";
 import { useMemo } from "react";
-import QuestionTable from "./QuestionTable";
 
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -48,8 +42,6 @@ const RenderField = ({ field = {}, ...rest }) => {
         return <GenericSelect {...rest} field={field} mode="multiple" />;
       case "Link":
         return <GenericSelect {...rest} field={field} />;
-      case "question_table":
-        return <QuestionTable {...rest} field={field} />;
       case "Text":
         return (
           <Text style={{ maxWidth: "100%" }} {...rest} field={field}>
