@@ -75,7 +75,7 @@ const columnPropertiesUpdator = (columns = []) => {
 
         // const lines = record[key.key].split("\n");
         const lines = record[key.key];
-        
+
         // const lines =
         //   key.key !== "control_id"
         //     ? record[key.key]
@@ -98,6 +98,9 @@ const columnPropertiesUpdator = (columns = []) => {
           cellStyle.maxWidth = "400px";
         }
 
+        let cellValClasses = "";
+        if (key?.isColorful) cellValClasses = colColorSwitcher(lines);
+
         return Array.isArray(lines) ? (
           <ul style={cellStyle}>
             {lines.map((line, index) =>
@@ -109,10 +112,41 @@ const columnPropertiesUpdator = (columns = []) => {
             )}
           </ul>
         ) : (
-          <p style={cellStyle}>{lines}</p>
+          <p className={cellValClasses} style={cellStyle}>
+            {lines}
+          </p>
         );
       },
     };
   });
   return columns;
+};
+
+const colColorSwitcher = (caseValue) => {
+  let colorClass = "";
+  switch (caseValue) {
+    case "Compliant":
+    case "Low":
+      colorClass = "text-primary";
+      break;
+      
+    case "Partially Compliant":
+    case "Medium":
+      colorClass = "text-golden";
+      break;
+
+    case "Non-Compliant":
+    case "High":
+      colorClass = "text-danger";
+      break;
+
+    case "Critical":
+      colorClass = "text-violet";
+      break;
+
+    default:
+      break;
+  }
+
+  return colorClass;
 };
