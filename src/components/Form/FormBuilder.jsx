@@ -44,13 +44,13 @@ const FormBuilder = ({
   const fieldList = useMemo(
     () =>
       schema?.fields?.map((field) => {
-        console.log({ field });
-
         const {
           hidden = false,
           fieldname = "",
           label = "",
           span = 24,
+          min,
+          max,
           fieldtype,
         } = field;
         if (!hidden) {
@@ -60,6 +60,9 @@ const FormBuilder = ({
             name: fieldname ?? "",
             rules: getValidators(field),
           };
+
+          if(min) commonProps.min = min;
+          if(max) commonProps.max = max;
 
           return (
             <Col xs={24} sm={24} md={span} key={fieldname}>
@@ -103,9 +106,7 @@ const FormBuilder = ({
         <Row gutter={16}>{fieldList}</Row>
 
         <Form.Item style={{ display: "flex", justifyContent: "end" }}>
-          <Button htmlType="submit">
-            Submit
-          </Button>
+          <Button htmlType="submit">Submit</Button>
         </Form.Item>
       </Form>
     </AppLoader>
