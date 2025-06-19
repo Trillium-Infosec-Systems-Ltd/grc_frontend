@@ -8,6 +8,7 @@ import { getValidators } from "./validator";
 import { UploadOutlined } from "@ant-design/icons";
 import RenderField from "../Field/FieldRender";
 import QuestionTable from "../Field/QuestionTable";
+import FormListField from "../Field/FormListField";
 
 const { Title } = Typography;
 

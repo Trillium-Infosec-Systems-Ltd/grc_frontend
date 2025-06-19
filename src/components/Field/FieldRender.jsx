@@ -8,6 +8,7 @@ import {
 } from "antd";
 import GenericSelect from "./GenericSelect";
 import { useMemo } from "react";
+import FormListField from "./FormListField";
 
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -48,6 +49,8 @@ const RenderField = ({ field = {}, ...rest }) => {
             {field?.default_value ?? ""}
           </Text>
         );
+      case "form_list_question":
+        return <FormListField fieldname={field?.fieldname} />;
       default:
         return null;
     }
