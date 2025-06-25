@@ -9,6 +9,7 @@ import {
 import GenericSelect from "./GenericSelect";
 import { useMemo } from "react";
 import FormListField from "./FormListField";
+import QuestionTable from "./QuestionTable";
 
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -50,7 +51,9 @@ const RenderField = ({ field = {}, ...rest }) => {
           </Text>
         );
       case "form_list_question":
-        return <FormListField fieldname={field?.fieldname} />;
+        return <FormListField fieldname={field?.fieldname} form={rest.form} />;
+      case "question_table":
+        return <QuestionTable fieldname={field?.fieldname} form={rest.form} />;
       default:
         return null;
     }

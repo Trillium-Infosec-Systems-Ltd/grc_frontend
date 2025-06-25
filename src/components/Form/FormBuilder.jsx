@@ -7,8 +7,6 @@ import { buildInitialValues } from "./utils";
 import { getValidators } from "./validator";
 import { UploadOutlined } from "@ant-design/icons";
 import RenderField from "../Field/FieldRender";
-import QuestionTable from "../Field/QuestionTable";
-import FormListField from "../Field/FormListField";
 
 const { Title } = Typography;
 
@@ -81,13 +79,9 @@ const FormBuilder = ({
                     <Button icon={<UploadOutlined />}>Upload File</Button>
                   </Upload>
                 </Form.Item>
-              ) : fieldtype === "question_table" ? (
-                <Form.Item {...commonProps} valuePropName="value">
-                  <QuestionTable />;
-                </Form.Item>
               ) : (
                 <Form.Item {...commonProps}>
-                  <RenderField field={field} />
+                  <RenderField field={field} form={form} />
                 </Form.Item>
               )}
             </Col>
@@ -111,6 +105,13 @@ const FormBuilder = ({
       >
         <Row gutter={16}>{fieldList}</Row>
 
+        {/* <Form.Item noStyle shouldUpdate>
+          {() => (
+            <Typography>
+              <pre>{JSON.stringify(form.getFieldsValue(), null, 2)}</pre>
+            </Typography>
+          )}
+        </Form.Item> */}
         <Form.Item style={{ display: "flex", justifyContent: "end" }}>
           <Button htmlType="submit">Submit</Button>
         </Form.Item>
