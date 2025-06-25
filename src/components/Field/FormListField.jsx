@@ -1,6 +1,7 @@
 import { Button, Form, Popconfirm, Table, Input, InputNumber } from "antd";
 import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
 import { getValidators } from "../Form/validator";
+import { useEffect } from "react";
 
 export const SERIAL_NO_COLUMN = {
   title: "Sr. No.",
@@ -11,20 +12,42 @@ export const SERIAL_NO_COLUMN = {
   render: (_, record, index) => <p style={{ maxWidth: "20px" }}>{index + 1}</p>,
 };
 
-const FormListField = ({ fieldname }) => {
+const FormListField = ({ fieldname, form }) => {
+  let formRecord = JSON.parse(JSON.stringify(form.getFieldsValue()));
+
+  useEffect(() => {
+    console.log(form.getFieldsValue());
+    let formData = JSON.parse(JSON.stringify(form.getFieldsValue()));
+
+    if (formData) {
+      let totalQuestions = formData?.question || [];
+
+      if (totalQuestions?.length > 1) {
+        totalQuestions = totalQuestions?.map((quest, index) => ({
+          ...quest,
+          wheightage:
+            index === 0
+              ? 1
+              : Number((1 / (totalQuestions?.length - 1)).toFixed(2)),
+        }));
+      } else if (totalQuestions?.length === 1) {
+        totalQuestions[0].wheightage = 2;
+      }
+      form.setFieldValue("question", totalQuestions);
+    }
+  }, [formRecord?.question?.length]);
+
   return (
     <div className="childTableContainer">
       <Form.List name={fieldname}>
         {(fields, { add, remove }) => {
-          const totalQuestions = fields.length;
-
           const columns = [
             SERIAL_NO_COLUMN,
             {
               title: "Question",
               dataIndex: "question",
               width: "75%",
-              render: (_, record, rowIndex) => (
+              render: (_, record) => (
                 <Form.Item
                   name={[record.name, "question"]}
                   style={{ margin: 0 }}
@@ -36,27 +59,15 @@ const FormListField = ({ fieldname }) => {
             },
             {
               title: "Weightage",
-              dataIndex: "weightage",
+              dataIndex: "wheightage",
               width: "15%",
-              render: (_, record, rowIndex) => {
-                let weightage = 2;
-                if (totalQuestions > 1) {
-                  if (rowIndex === 0) {
-                    weightage = 1;
-                  } else {
-                    weightage = (1 / (totalQuestions - 1)).toFixed(2);
-                  }
-                }
+              render: (_, record) => {
                 return (
                   <Form.Item
-                    name={[record.name, "weightage"]}
+                    name={[record.name, "wheightage"]}
                     style={{ margin: 0 }}
                   >
-                    <InputNumber
-                      readOnly
-                      value={weightage}
-                      style={{ width: "100%" }}
-                    />
+                    <InputNumber readOnly style={{ width: "100%" }} />
                   </Form.Item>
                 );
               },
@@ -96,7 +107,6 @@ const FormListField = ({ fieldname }) => {
 
           return (
             <Table
-              // scroll={{ x: "80vw", y: "max-content" }}
               columns={columns}
               dataSource={fields.map((field) => ({
                 ...field,
