@@ -8,8 +8,12 @@ export const SERIAL_NO_COLUMN = {
   key: "sr_no",
   fixed: "left",
   width: "Sr. No.".length * 9,
-  align: "left",
-  render: (_, record, index) => <p style={{ maxWidth: "20px" }}>{index + 1}</p>,
+  align: "center",
+  render: (_, record, index) => (
+    <p style={{ maxWidth: "100%", display: "flex", justifyContent: "center" }}>
+      {index + 1}
+    </p>
+  ),
 };
 
 const FormListField = ({ fieldname, form }) => {
@@ -41,6 +45,8 @@ const FormListField = ({ fieldname, form }) => {
     <div className="childTableContainer">
       <Form.List name={fieldname}>
         {(fields, { add, remove }) => {
+          console.log({ fields });
+
           const columns = [
             SERIAL_NO_COLUMN,
             {
