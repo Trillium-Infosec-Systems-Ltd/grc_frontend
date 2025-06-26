@@ -1,68 +1,39 @@
-import { Checkbox, Table, Form, Input, Typography, Progress } from "antd";
+import { Checkbox, Table, Form, Input } from "antd";
 import { SERIAL_NO_COLUMN } from "./FormListField";
 import { useEffect, useState } from "react";
-
-const { Text } = Typography;
 
 const QuestionTable = ({ fieldname, form }) => {
   let formData = JSON.parse(JSON.stringify(form.getFieldsValue()));
 
-  const [percentage, setPercentage] = useState(86);
-
-  console.log({ formData });
+  // const [percentage, setPercentage] = useState(86);
 
   useEffect(() => {
     if (formData) {
-      let status = formData?.compliance_status || "Status";
+      let status = formData?.compliance_status || "";
       let currentPercentage =
         formData?.control_assessment
           ?.filter((quest) => quest?.answer)
-          .reduce((a, b) => a?.weight + b?.weight, 0) || 0;
+          ?.reduce((a, b) => {
+            return (a += b?.weight);
+          }, 0) || 0;
 
       currentPercentage = (currentPercentage / 2) * 100;
       status =
-        currentPercentage <= 65
-          ? "Non Compliant"
-          : currentPercentage > 85
-          ? `Compliance`
-          : "Partially Compliant";
+        currentPercentage > 85
+          ? `Compliant`
+          : currentPercentage > 65
+          ? "Partially Compliant"
+          : "Non Compliant";
 
       form.setFieldValue("compliance_status", status);
-      setPercentage(currentPercentage);
+      // form.setFieldValue("control_assessment", formData?.control_assessment);
     }
   }, [formData]);
 
   return (
     <div className="childTableContainer">
-      <Progress
-        percent={percentage}
-        percentPosition={{ align: "center", type: "inner" }}
-        strokeWidth={30}
-        strokeColor={
-          percentage === 0
-            ? "Status"
-            : percentage <= 65
-            ? "#fe5c73"
-            : percentage > 85
-            ? `#4fd1c5`
-            : "#ffbb38"
-        }
-        format={(percent) =>
-          percent === 0
-            ? "Status"
-            : percent <= 65
-            ? "Non Compliant"
-            : percent > 85
-            ? `Compliance`
-            : "Partially Compliant"
-        }
-        // format={percent => `${percent}%`}
-        showInfo={true}
-      />
       <Form.List name={fieldname}>
-        {(fields, { add, remove }) => {
-          console.log({ fields });
-
+        {(fields) => {
           const columns = [
             SERIAL_NO_COLUMN,
             {
