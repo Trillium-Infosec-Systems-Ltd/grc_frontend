@@ -10,6 +10,7 @@ import GenericSelect from "./GenericSelect";
 import { useMemo } from "react";
 import FormListField from "./FormListField";
 import QuestionTable from "./QuestionTable";
+import AssessmentProgress from "./AssessmentProgress";
 
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -44,6 +45,8 @@ const RenderField = ({ field = {}, ...rest }) => {
         return <GenericSelect {...rest} field={field} mode="multiple" />;
       case "Link":
         return <GenericSelect {...rest} field={field} />;
+      case "AssessmentProgress":
+        return <AssessmentProgress {...rest} field={field} form={rest.form} />;
       case "Text":
         return (
           <Text style={{ maxWidth: "100%" }} {...rest} field={field}>
