@@ -97,6 +97,9 @@ body {
   margin: 0px !important;
 }
 
+.bg-primary {
+  background-color: var(--cydea-primary);
+}
 .text-primary {
   color: var(--cydea-primary);
 }
