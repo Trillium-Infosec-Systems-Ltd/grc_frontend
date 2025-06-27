@@ -9,23 +9,39 @@ const QuestionTable = ({ fieldname, form }) => {
 
   useEffect(() => {
     if (formData) {
-      let status = formData?.compliance_status || "";
-      let currentPercentage =
-        formData?.control_assessment
-          ?.filter((quest) => quest?.answer)
-          ?.reduce((a, b) => {
+      let status = formData?.compliance_status || "Non Compliant";
+      let controlRating = formData?.rating || "Low";
+      let currentPercentage = formData?.control_ratting_percentage || 0;
+      let sQuestions = formData?.control_assessment?.filter(
+        (quest) => quest?.answer
+      );
+
+      if (sQuestions?.length === 0) {
+        status = "Non Compliant";
+        controlRating = "Low";
+      } else {
+        currentPercentage =
+          sQuestions?.reduce((a, b) => {
             return (a += b?.weight);
           }, 0) || 0;
+        currentPercentage = (currentPercentage / 2) * 100;
 
-      currentPercentage = (currentPercentage / 2) * 100;
-      status =
-        currentPercentage > 85
-          ? `Compliant`
-          : currentPercentage > 65
-          ? "Partially Compliant"
-          : "Non Compliant";
+        if (sQuestions?.length < formData?.control_assessment?.length) {
+          status = "Partially Compliant";
+        } else {
+          status = "Compliant";
+        }
+        controlRating =
+          currentPercentage > 85
+            ? "High"
+            : currentPercentage > 65
+            ? "Medium"
+            : "Low";
+      }
 
       form.setFieldValue("compliance_status", status);
+      form.setFieldValue("rating", controlRating);
+      form.setFieldValue("control_ratting_percentage", currentPercentage);
       // form.setFieldValue("control_assessment", formData?.control_assessment);
     }
   }, [formData]);
