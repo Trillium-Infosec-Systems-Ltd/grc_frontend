@@ -106,7 +106,7 @@ const columnPropertiesUpdator = (columns = []) => {
             {lines.map((line, index) =>
               line.trim() ? (
                 <>
-                  <li key={index}>{line}</li>{" "}
+                  <li key={index + '_cell_list'}>{line}</li>{" "}
                 </>
               ) : null
             )}
