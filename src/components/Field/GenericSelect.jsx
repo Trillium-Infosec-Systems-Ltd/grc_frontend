@@ -1,33 +1,37 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import { Select, Spin } from 'antd';
-import debounce from 'lodash/debounce';
-import { callApi } from '../../axios/callApi';
-import { APIS } from '../../constants/apiConstants';
+import React, { useEffect, useState, useMemo } from "react";
+import { Select, Spin } from "antd";
+import debounce from "lodash/debounce";
+import { callApi } from "../../axios/callApi";
+import { APIS } from "../../constants/apiConstants";
 
-const GenericSelect = ({
-  field,
-  mode = undefined,
-  ...rest
-}) => {
-  const { link_to, options: dropdownOptions, label, fieldtype, target_field = '' } = field;
+const GenericSelect = ({ field, mode = undefined, ...rest }) => {
+  // console.log({ rest });
+
+  const {
+    link_to,
+    options: dropdownOptions,
+    label,
+    fieldtype,
+    target_field = "",
+  } = field;
 
   const [options, setOptions] = useState([]);
   const [fetching, setFetching] = useState(false);
 
-  const fetchOptions = async (search = '') => {
+  const fetchOptions = async (search = "") => {
     setFetching(true);
     try {
       let payload = { ...APIS.LINK_OPTIONS };
-      payload.PARAMS.QUERY.document_type = link_to ?? '';
+      payload.PARAMS.QUERY.document_type = link_to ?? "";
       // payload.PARAMS.QUERY.field = field?.fieldname ?? '';
       // payload.PARAMS.QUERY.document_type = 'assets';
-      payload.PARAMS.QUERY.field = target_field ?? '';
-      payload.PARAMS.QUERY.search_term = search ?? '';
+      payload.PARAMS.QUERY.field = target_field ?? "";
+      payload.PARAMS.QUERY.search_term = search ?? "";
 
       const res = await callApi(payload);
       setOptions(res?.data ?? []);
     } catch (err) {
-      console.error('Select search error', err);
+      console.error("Select search error", err);
     } finally {
       setFetching(false);
     }
@@ -37,9 +41,13 @@ const GenericSelect = ({
 
   useEffect(() => {
     if (Array.isArray(dropdownOptions)) {
-      setOptions(dropdownOptions?.map((opt) => ({ label: opt ?? '', value: opt ?? '' })) ?? []);
-    }
-    else if (link_to) {
+      setOptions(
+        dropdownOptions?.map((opt) => ({
+          label: opt ?? "",
+          value: opt ?? "",
+        })) ?? []
+      );
+    } else if (link_to) {
       fetchOptions();
     }
   }, []);

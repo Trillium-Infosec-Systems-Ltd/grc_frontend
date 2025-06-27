@@ -52,6 +52,7 @@ const FormBuilder = ({
           min,
           max,
           fieldtype,
+          disabled = false,
         } = field;
         if (!hidden) {
           const commonProps = {
@@ -81,7 +82,7 @@ const FormBuilder = ({
                 </Form.Item>
               ) : (
                 <Form.Item {...commonProps}>
-                  <RenderField field={field} form={form} />
+                  <RenderField field={field} form={form} disabled={disabled} />
                 </Form.Item>
               )}
             </Col>
