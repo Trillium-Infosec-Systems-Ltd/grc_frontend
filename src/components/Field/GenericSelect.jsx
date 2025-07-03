@@ -3,6 +3,7 @@ import { Select, Spin } from "antd";
 import debounce from "lodash/debounce";
 import { callApi } from "../../axios/callApi";
 import { APIS } from "../../constants/apiConstants";
+import { isNotNullOrEmpty, isNullOrEmpty } from "../../utils/utils";
 
 const GenericSelect = ({ field, mode = undefined, ...rest }) => {
   // console.log({ rest });
@@ -13,7 +14,12 @@ const GenericSelect = ({ field, mode = undefined, ...rest }) => {
     label,
     fieldtype,
     target_field = "",
+    fieldname = "",
+    isFetchingData = false,
+    fetch_to = null,
   } = field;
+
+  const { screen = "", value = "", form } = rest;
 
   const [options, setOptions] = useState([]);
   const [fetching, setFetching] = useState(false);
@@ -51,6 +57,61 @@ const GenericSelect = ({ field, mode = undefined, ...rest }) => {
       fetchOptions();
     }
   }, []);
+
+  useEffect(() => {
+    if (isFetchingData && isNotNullOrEmpty(value) && isNullOrEmpty(fetch_to)) {
+      fetchDataByValue();
+    }
+  }, [value, fieldname]);
+
+  const fetchDataByValue = async () => {
+    if (screen === "risks") {
+      if (fieldname === "associated_assets") {
+        try {
+          let payload = { ...APIS.ASSETS_INFO };
+          payload.URL = payload.URL + value ?? "";
+
+          const res = await callApi(payload);
+
+          const { asset_type = "", criticality_level = "" } = res?.data ?? {};
+
+          form.setFieldValue("type", asset_type);
+          form.setFieldValue("asset_value", criticality_level);
+
+          console.log({ res });
+
+          // setOptions(res?.data ?? []);
+        } catch (err) {
+          console.error("Select search error", err);
+        }
+      } else if (fieldname === "associated_threats") {
+        try {
+          let payload = { ...APIS.THREAT_INFO };
+          payload.URL = payload.URL + value ?? "";
+          payload.PARAMS.QUERY.asset_value =
+            form.getFieldValue("asset_value") ?? "";
+
+          const res = await callApi(payload);
+
+          const {
+            likelihood = "",
+            vulnerabilities = "",
+            control_id = "",
+            ease_of_exploitation = "",
+            risk = "",
+          } = res?.data ?? {};
+
+          form.setFieldValue("threat_probability", likelihood);
+          form.setFieldValue("ease_of_exploitation", ease_of_exploitation);
+          form.setFieldValue("related_vulnerabilities", vulnerabilities);
+          form.setFieldValue("control_ids", control_id);
+          form.setFieldValue("residual_risk", risk);
+        } catch (err) {
+          console.error("Select search error", err);
+        }
+      }
+    }
+  };
 
   return (
     <Select
