@@ -27,6 +27,7 @@ const ThreatsList = () => {
     <div>
       <TableBuilder
         screen='threat'
+        title='Threat Library (Structured Directory View)'
         actionsList={action}
         headerLinks={[
           {
