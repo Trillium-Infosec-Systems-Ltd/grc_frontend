@@ -73,10 +73,10 @@ const GenericSelect = ({ field, mode = undefined, ...rest }) => {
 
           const res = await callApi(payload);
 
-          const { asset_type = "", criticality_level = "" } = res?.data ?? {};
+          const { asset_type = "", asset_value = "" } = res?.data ?? {};
 
           form.setFieldValue("type", asset_type);
-          form.setFieldValue("asset_value", criticality_level);
+          form.setFieldValue("asset_value", asset_value);
 
           console.log({ res });
 
