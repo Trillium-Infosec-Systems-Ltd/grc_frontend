@@ -15,6 +15,7 @@ import AssetTypes from '../pages/Administration/AssetTypes/AssetTypes';
 import Departments from '../pages/Administration/Departments/departments';
 import ControlQuestions from '../pages/Administration/ControlQuestions/ControlQuestions';
 import ComplianceQuestions from '../pages/Administration/ComplianceQuestions/ComplianceQuestions';
+import Organizations from '../pages/Administration/Organizations/Organizations';
 
 export default function AppRoutes() {
   return (
@@ -65,6 +66,10 @@ export default function AppRoutes() {
           <Route
             path={ROUTES.PRIVATE.ADMINISTRATION.CHILD.COMPLIANCE_QUESTIONS.PARENT + '/*'}
             element={<ComplianceQuestions />}
+          />
+          <Route
+            path={ROUTES.PRIVATE.ADMINISTRATION.CHILD.ORGANIZATIONS.PARENT + '/*'}
+            element={<Organizations />}
           />
         </Route>
       </Routes>

@@ -33,11 +33,11 @@ export const SIDE_MENU = [
         // icon: <AssetsIcon style={{ width: 18, height: 18 }} />,
         label: 'Controls',
     },
-    // {
-    //     key: PRIVATE.COMPLIANCE.PARENT,
-    //     // icon: <AssetsIcon style={{ width: 18, height: 18 }} />,
-    //     label: 'Compliance',
-    // },
+    {
+        key: PRIVATE.COMPLIANCE.PARENT,
+        // icon: <AssetsIcon style={{ width: 18, height: 18 }} />,
+        label: 'Compliance',
+    },
     // {
     //     key: PRIVATE.INCIDENT.PARENT,
     //     // icon: <AssetsIcon style={{ width: 18, height: 18 }} />,
@@ -72,6 +72,7 @@ export const SIDE_MENU = [
             { key: PRIVATE.ADMINISTRATION.CHILD.DEPARTMENTS.PARENT, label: 'Departments' },
             { key: PRIVATE.ADMINISTRATION.CHILD.CONTROL_QUESTIONS.PARENT, label: 'Control Questions' },
             // { key: PRIVATE.ADMINISTRATION.CHILD.COMPLIANCE_QUESTIONS.PARENT, label: 'Compliance Questions' },
+            { key: PRIVATE.ADMINISTRATION.CHILD.ORGANIZATIONS.PARENT, label: 'Organizations' },
         ]
     },
 ];

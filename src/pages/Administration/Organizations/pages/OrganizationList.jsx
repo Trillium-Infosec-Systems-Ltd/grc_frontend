@@ -1,11 +1,11 @@
-import TableBuilder from "../../../components/Table/TableBuilder";
+import TableBuilder from "../../../../components/Table/TableBuilder";
 import { Button, Tag } from "antd";
 import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../../constants/routesConstants";
+import { ROUTES } from "../../../../constants/routesConstants";
 
-const { ASSETS } = ROUTES.PRIVATE;
+const { ORGANIZATIONS } = ROUTES.PRIVATE.ADMINISTRATION.CHILD;
 
-const AssetsList = () => {
+const OrganizationList = () => {
   const navigate = useNavigate();
 
   const actions = [
@@ -15,7 +15,7 @@ const AssetsList = () => {
         <Button
           shape="round"
           onClick={() =>
-            navigate(ASSETS.PARENT + ASSETS.EDIT, {
+            navigate(ORGANIZATIONS.PARENT + ORGANIZATIONS.EDIT, {
               state: { id: record?.id ?? null },
             })
           }
@@ -29,20 +29,15 @@ const AssetsList = () => {
   return (
     <div>
       <TableBuilder
+        title="List of Organizations"
+        screen="organization"
         actionsList={actions}
         headerLinks={[
           {
             Component: null,
-            label: "+ Add New Asset",
+            label: "+ Add New Organization",
             className: "add-btn",
-            onClick: () => navigate(ASSETS.PARENT + ASSETS.CREATE),
-            links: [
-              {
-                label: <span>New Asset</span>,
-                key: "1",
-                onClick: () => navigate(ASSETS.PARENT + ASSETS.CREATE),
-              },
-            ],
+            onClick: () => navigate(ORGANIZATIONS.PARENT + ORGANIZATIONS.CREATE),
           },
         ]}
       />
@@ -50,4 +45,4 @@ const AssetsList = () => {
   );
 };
 
-export default AssetsList;
+export default OrganizationList;

@@ -105,7 +105,7 @@ const TableBuilder = ({
         {isExport && (
           <div className="table-footer">
             <div className="export">
-              <span>Download List of Assets as</span>
+              <span>Download List as</span>
               <Select
                 defaultValue={downloadFormat}
                 style={{ width: 220, marginLeft: 10 }}

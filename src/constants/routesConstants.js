@@ -60,6 +60,10 @@ export const ROUTES = {
           PARENT: '/compliance_questions',
           ...NESTED_ROUTES
         },
+        ORGANIZATIONS: {
+          PARENT: '/organizations',
+          ...NESTED_ROUTES
+        },
       }
     },
   },
