@@ -17,12 +17,45 @@ export const APIS = {
   FORM_SCHEMA: {
     URL: "/schemas/",
     METHOD: API_METHOD.GET,
-    AUTH: false,
+    AUTH: true,
+    SERVER: 'private'
+  },
+  GET_AUTH: {
+    URL: "/auth/",
+    METHOD: API_METHOD.GET,
+    AUTH: true,
+    SERVER: 'private'
+  },
+  POST_AUTH: {
+    URL: "/auth/",
+    METHOD: API_METHOD.POST,
+    AUTH: true,
+    PAYLOAD: {},
+    SERVER: 'private'
+  },
+  UPDATE_AUTH: {
+    URL: "/auth/",
+    METHOD: API_METHOD.PUT,
+    AUTH: true,
+    PAYLOAD: {},
+    SERVER: 'private'
   },
   GET_RECORDS: {
     URL: "/data/",
     METHOD: API_METHOD.GET,
     AUTH: false,
+  },
+  CREATE_RECORD: {
+    URL: "/data/",
+    METHOD: API_METHOD.POST,
+    AUTH: false,
+    PAYLOAD: {},
+  },
+  UPDATE_RECORD: {
+    URL: "/data/",
+    METHOD: API_METHOD.PUT,
+    AUTH: false,
+    PAYLOAD: {},
   },
   CREATE_RECORD: {
     URL: "/data/",
