@@ -20,6 +20,8 @@ const RenderField = ({ field = {}, ...rest }) => {
     switch (field?.fieldtype) {
       case "Data":
         return <Input {...rest} />;
+      case "Password":
+        return <Input.Password {...rest} />;
       case "Float":
         return <InputNumber {...rest} min={field.min} max={field.max} />;
       case "Select":
