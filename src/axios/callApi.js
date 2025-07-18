@@ -1,14 +1,14 @@
-import { AuthAPI, privateAPI, PublicAPI, FormDataAPI } from './index';
-import { API_METHOD } from '../constants/apiConstants';
-import { isNotNullOrEmpty } from '../utils/utils';
+import { AuthAPI, privateAPI, PublicAPI, FormDataAPI } from "./index";
+import { API_METHOD } from "../constants/apiConstants";
+import { isNotNullOrEmpty } from "../utils/utils";
 
-const getClientByType = (type = 'public', contentType = 'application/json') => {
+const getClientByType = (type = "public", contentType = "application/json") => {
   switch (type) {
-    case 'auth':
+    case "auth":
       return AuthAPI;
-    case 'private':
+    case "private":
       return privateAPI;
-    case 'formData':
+    case "formData":
       return FormDataAPI;
     default:
       return PublicAPI;
@@ -19,9 +19,10 @@ export const callApi = async (schema) => {
   const {
     URL,
     METHOD = API_METHOD.GET,
-    SERVER = 'public',
+    AUTH = false,
+    SERVER = "public",
     HEADERS = {},
-    CONTENT_TYPE = 'application/json',
+    CONTENT_TYPE = "application/json",
     PAYLOAD = {},
     PARAMS = {},
   } = schema;
@@ -36,31 +37,40 @@ export const callApi = async (schema) => {
     });
   }
 
-  let headers = {
-    ...HEADERS,
-    'Content-Type': CONTENT_TYPE,
-  }
+  // let headers = {
+  //   ...HEADERS,
+  //   "Content-Type": CONTENT_TYPE,
+  // };
 
   try {
     let response;
 
     switch (METHOD.toUpperCase()) {
       case API_METHOD.GET:
-        response = await client.get(finalUrl, { params: PARAMS?.QUERY ?? {}, headers });
+        response = await client.get(finalUrl, {
+          params: PARAMS?.QUERY ?? {},
+          // headers,
+        });
         break;
 
       case API_METHOD.POST:
-        response = await client.post(finalUrl, PAYLOAD, { params: PARAMS?.QUERY ?? {}, headers });
+        response = await client.post(finalUrl, PAYLOAD, {
+          params: PARAMS?.QUERY ?? {},
+          // headers,
+        });
         break;
 
       case API_METHOD.PUT:
-        response = await client.put(finalUrl, PAYLOAD, { params: PARAMS?.QUERY ?? {}, headers });
+        response = await client.put(finalUrl, PAYLOAD, {
+          params: PARAMS?.QUERY ?? {},
+          // headers,
+        });
         break;
 
       case API_METHOD.DELETE:
         response = await client.delete(finalUrl, {
           data: PAYLOAD,
-          headers,
+          // headers,
           params: PARAMS?.QUERY ?? {},
         });
         break;
