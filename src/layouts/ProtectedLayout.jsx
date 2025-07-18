@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { Input, Layout, Menu, Space, Typography } from "antd";
+import { Dropdown, Input, Layout, Menu, Space, Typography } from "antd";
 import {
   SettingOutlined,
   BellOutlined,
@@ -11,6 +11,7 @@ import logo from "../assets/logo/CYDEA-GRC.png";
 import { isNotNullOrEmpty, isNullOrEmpty } from "../utils/utils";
 import { SIDE_MENU } from "../constants/menuConstants";
 import AvatarComp from "../components/Image/Avatar";
+import useAuthHook from "../hooks/useAuthHook";
 
 const { Header, Sider, Content } = Layout;
 const { Title } = Typography;
@@ -18,6 +19,8 @@ const { Title } = Typography;
 const ProtectedLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { logout } = useAuthHook();
+
   const user = useSelector((state) => state.session.user);
   const route = SIDE_MENU.find((item) => item?.key === location.pathname);
 
@@ -116,7 +119,30 @@ const ProtectedLayout = () => {
               >
                 <BellOutlined style={{ fontSize: "24px", color: "#FE5C73" }} />
               </span>
-              <AvatarComp />
+
+              <Dropdown
+                menu={{
+                  items: [
+                    {
+                      label: (
+                        <span className="text-danger" onClick={logout}>
+                          Sign Out
+                        </span>
+                      ),
+                      key: "0",
+                    },
+                  ],
+                }}
+                trigger={["click"]}
+              >
+                <a onClick={(e) => e.preventDefault()}>
+                  <Space>
+                    {/* Click me */}
+                    <AvatarComp />
+                    {/* <DownOutlined /> */}
+                  </Space>
+                </a>
+              </Dropdown>
             </div>
           </div>
         </Header>

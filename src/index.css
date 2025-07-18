@@ -110,7 +110,7 @@ body {
   color: var(--cydea-golden);
 }
 .text-danger {
-  color: var(--cydea-danger);
+  color: var(--cydea-danger) !important;
 }
 .text-violet {
   color: var(--cydea-violet);
