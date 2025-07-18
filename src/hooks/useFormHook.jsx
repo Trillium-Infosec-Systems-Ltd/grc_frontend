@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { callApi } from "../axios/callApi";
 import { APIS } from "../constants/apiConstants";
 import { isNotNullOrEmpty } from "../utils/utils";
-import { message, Modal, notification } from "antd";
+import { message } from "antd";
 import { KEY } from "../constants/keysConstants";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -50,24 +50,6 @@ const useFormHook = (screen, MODE = KEY.CREATE) => {
     setIsLoaing(false);
   }, [screen]);
 
-  // const getFormSchema = useCallback(async () => {
-  //   setIsLoaing(true)
-  //   const result = await callApi({ ...APIS.FORM_SCHEMA, URL: APIS.FORM_SCHEMA.URL + screen });
-  //   setForm(result?.data ?? {});
-  //   if (MODE === KEY.EDIT) {
-  //     await getFormData()
-  //     return;
-  //   }
-  //   setIsLoaing(false)
-  // }, [screen]);
-
-  // const getFormData = useCallback(async () => {
-  //   setIsLoaing(true)
-  //   const result = await callApi({ ...APIS.GET_RECORDS, URL: APIS.GET_RECORDS.URL + screen + '/' + record_id });
-  //   setData(result?.data ?? {});
-  //   setIsLoaing(false)
-  // }, [screen, record_id]);
-
   const submit = async (data = {}, redirect) => {
     try {
       setIsLoaing(true);
@@ -110,7 +92,13 @@ const useFormHook = (screen, MODE = KEY.CREATE) => {
 
   const saveRecordHandle = async (data, redirect) => {
     let payload = {
-      ...(MODE === KEY.EDIT ? APIS.UPDATE_RECORD : APIS.CREATE_RECORD),
+      ...(MODE === KEY.EDIT
+        ? screen?.toLowerCase() === "users"
+          ? APIS.UPDATE_AUTH
+          : APIS.UPDATE_RECORD
+        : screen?.toLowerCase() === "users"
+        ? APIS.POST_AUTH
+        : APIS.CREATE_RECORD),
     };
     payload.URL =
       MODE === KEY.EDIT
@@ -121,24 +109,14 @@ const useFormHook = (screen, MODE = KEY.CREATE) => {
     let result = await callApi(payload);
 
     if (result?.status === 200) {
+      message.success(
+        MODE === KEY.EDIT
+          ? "Record updated successfully"
+          : "Record saved successfully"
+      );
       if (isNotNullOrEmpty(redirect)) {
         navigate(redirect);
       }
-
-      // notification.success({ message: 'Record saved successfully' })
-
-      // Modal.success({
-      //   title: 'Success',
-      //   content: 'Record saved successfully',
-      //   onOk() {
-      //   },
-      // });
-    } else {
-      message.error(
-        result?.response?.data?.detail ||
-          err?.message ||
-          "Failed to save record"
-      );
     }
   };
 

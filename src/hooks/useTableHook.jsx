@@ -33,9 +33,12 @@ const useTableHook = (screen, MODE = KEY.VIEW) => {
     async (skip = 0, limit = 10, tschema = {}) => {
       setIsLoaing(true);
 
+      let apiConfig = { ...APIS.GET_RECORDS };
+      if (screen?.toLowerCase() === "users") apiConfig = { ...APIS.GET_AUTH };
+
       const result = await callApi({
-        ...APIS.GET_RECORDS,
-        URL: APIS.GET_RECORDS.URL + screen,
+        ...apiConfig,
+        URL: apiConfig.URL + screen,
         PARAMS: {
           QUERY: { skip, limit },
         },
@@ -106,7 +109,7 @@ const columnPropertiesUpdator = (columns = []) => {
             {lines.map((line, index) =>
               line.trim() ? (
                 <>
-                  <li key={index + '_cell_list'}>{line}</li>{" "}
+                  <li key={index + "_cell_list"}>{line}</li>{" "}
                 </>
               ) : null
             )}
@@ -129,7 +132,7 @@ const colColorSwitcher = (caseValue) => {
     case "Low":
       colorClass = "text-primary";
       break;
-      
+
     case "Partially Compliant":
     case "Medium":
       colorClass = "text-golden";
