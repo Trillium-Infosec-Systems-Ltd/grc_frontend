@@ -16,6 +16,7 @@ import Departments from '../pages/Administration/Departments/departments';
 import ControlQuestions from '../pages/Administration/ControlQuestions/ControlQuestions';
 import ComplianceQuestions from '../pages/Administration/ComplianceQuestions/ComplianceQuestions';
 import Organizations from '../pages/Administration/Organizations/Organizations';
+import UserManagement from '../pages/UserManagement/UserManagement';
 
 export default function AppRoutes() {
   return (
@@ -50,6 +51,7 @@ export default function AppRoutes() {
             element={<IncidentManagement />}
           />
           <Route path={ROUTES.PRIVATE.RISK.PARENT + '/*'} element={<RiskManagement />} />
+          <Route path={ROUTES.PRIVATE.USERS.PARENT + '/*'} element={<UserManagement />} />
           <Route path={ROUTES.PRIVATE.PROFILE} element={<ProfileManagement />} />
           <Route
             path={ROUTES.PRIVATE.ADMINISTRATION.CHILD.ASSET_TYPE.PARENT + '/*'}
