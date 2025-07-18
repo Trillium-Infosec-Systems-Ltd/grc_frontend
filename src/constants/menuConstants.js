@@ -53,6 +53,11 @@ export const SIDE_MENU = [
     //     // icon: <AssetsIcon style={{ width: 18, height: 18 }} />,
     //     label: 'Reports',
     // },
+    {
+        key: PRIVATE.USERS.PARENT,
+        // icon: <AssetsIcon style={{ width: 18, height: 18 }} />,
+        label: 'User Management',
+    },
     // {
     //     key: PRIVATE.PROFILE,
     //     // icon: <AssetsIcon style={{ width: 18, height: 18 }} />,

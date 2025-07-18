@@ -39,6 +39,10 @@ export const ROUTES = {
       ...NESTED_ROUTES
     },
     REPORTS: '/reports',
+    USERS: {
+      PARENT: '/users',
+      ...NESTED_ROUTES
+    },
     PROFILE: '/profile',
     SETTING: '/setting',
     ADMINISTRATION: {
