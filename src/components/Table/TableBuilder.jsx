@@ -6,6 +6,8 @@ import { isNotNullOrEmpty } from "../../utils/utils";
 import { v4 as uuidv4 } from "uuid";
 import FilterPopover from "../Popover/Filters/Filter";
 import DropdownButton from "../Button/DropdownButton";
+import UploadBulkModal from "../Modals/UploadBulkModal";
+import { useState } from "react";
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -23,6 +25,7 @@ const TableBuilder = ({
   headerLinks = [],
   actionsList = [],
 }) => {
+  const [bulkModal, setBulkModal] = useState(false);
   const [schema, data, isLoading, fetchData] = useTableHook(screen);
   const { items = [], total = 0, skip = 0, limit = 10 } = data ?? {};
   const { columns = [] } = schema ?? {};
@@ -50,8 +53,13 @@ const TableBuilder = ({
       {isShowHeader && (
         <div className="table-header">
           <Title level={4}>{title ?? ""}</Title>
-
-          <DropdownButton />
+          <UploadBulkModal
+            screen={screen}
+            visible={bulkModal}
+            onClose={() => setBulkModal(false)}
+          />
+          <Button variant="primary" onClick={() => setBulkModal(true)}>Import</Button>
+          {/* <DropdownButton /> */}
 
           {isNotNullOrEmpty(headerLinks) && (
             <div className="actions" style={{ display: "flex", gap: "20px" }}>
