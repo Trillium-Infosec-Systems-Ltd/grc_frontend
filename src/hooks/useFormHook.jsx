@@ -1,15 +1,18 @@
 import { useCallback, useEffect, useState } from "react";
 import { callApi } from "../axios/callApi";
 import { APIS } from "../constants/apiConstants";
-import { isNotNullOrEmpty } from "../utils/utils";
+import { isNotNullOrEmpty, isNullOrEmpty } from "../utils/utils";
 import { message } from "antd";
 import { KEY } from "../constants/keysConstants";
 import { useLocation, useNavigate } from "react-router-dom";
+import useUploadHook from "./useUploadHook";
 
 const useFormHook = (screen, MODE = KEY.CREATE) => {
   const navigate = useNavigate();
   const location = useLocation();
   const record_id = location?.state?.id ?? null;
+
+  const { uploadAttachment } = useUploadHook(null);
 
   const [isLoading, setIsLoaing] = useState(false);
   const [schema, setForm] = useState({});
@@ -124,27 +127,3 @@ const useFormHook = (screen, MODE = KEY.CREATE) => {
 };
 
 export default useFormHook;
-
-const uploadAttachment = async (files) => {
-  try {
-    // setIsLoaing(true);
-
-    let formData = new FormData();
-    // formData.append('files', files)
-    files.forEach((file) => {
-      formData.append("files", file);
-    });
-
-    let payload = { ...APIS.UPLOAD };
-    payload.PAYLOAD = formData ?? {};
-
-    let result = await callApi(payload);
-
-    return result;
-  } catch (err) {
-    console.error("Submit error:", err);
-    message.error("Failed to save record");
-  } finally {
-    // setIsLoaing(false);
-  }
-};

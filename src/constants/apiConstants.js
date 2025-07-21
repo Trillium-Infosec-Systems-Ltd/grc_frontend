@@ -9,6 +9,11 @@ export const API_METHOD = {
 };
 
 export const APIS = {
+  CSV_TEMPLATE: {
+    URL: "/csv_template/",
+    METHOD: API_METHOD.GET,
+    AUTH: false,
+  },
   TABLE_SCHEMA: {
     URL: "/table_meta/",
     METHOD: API_METHOD.GET,
@@ -18,27 +23,27 @@ export const APIS = {
     URL: "/schemas/",
     METHOD: API_METHOD.GET,
     AUTH: true,
-    SERVER: 'private'
+    SERVER: "private",
   },
   GET_AUTH: {
     URL: "/auth/",
     METHOD: API_METHOD.GET,
     AUTH: true,
-    SERVER: 'private'
+    SERVER: "private",
   },
   POST_AUTH: {
     URL: "/auth/",
     METHOD: API_METHOD.POST,
     AUTH: true,
     PAYLOAD: {},
-    SERVER: 'private'
+    SERVER: "private",
   },
   UPDATE_AUTH: {
     URL: "/auth/",
     METHOD: API_METHOD.PUT,
     AUTH: true,
     PAYLOAD: {},
-    SERVER: 'private'
+    SERVER: "private",
   },
   GET_RECORDS: {
     URL: "/data/",
@@ -95,6 +100,15 @@ export const APIS = {
     METHOD: API_METHOD.POST,
     CONTENT_TYPE: API_CONTENT_TYPE.MULTIPART,
     AUTH: false,
+  },
+  UPLOAD_BULK: {
+    URL: "/bulk_upload/:screen",
+    METHOD: API_METHOD.POST,
+    CONTENT_TYPE: API_CONTENT_TYPE.MULTIPART,
+    AUTH: false,
+    PARAMS: {
+      PATH: { screen: "" },
+    },
   },
   DYNAMIC_CALL: {
     URL: "",
