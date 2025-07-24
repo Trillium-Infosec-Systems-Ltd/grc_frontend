@@ -113,10 +113,14 @@ const useFormHook = (screen, MODE = KEY.CREATE) => {
 
     if (result?.status === 200) {
       message.success(
-        MODE === KEY.EDIT
-          ? "Record updated successfully"
-          : "Record saved successfully"
+        result?.data?.msg ||
+          `Record ${MODE === KEY.EDIT ? "updated" : "saved"} successfully`
       );
+      // message.success(
+      //   MODE === KEY.EDIT
+      //     ? "Record updated successfully"
+      //     : "Record saved successfully"
+      // );
       if (isNotNullOrEmpty(redirect)) {
         navigate(redirect);
       }
