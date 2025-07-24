@@ -100,12 +100,14 @@ export const APIS = {
     METHOD: API_METHOD.POST,
     CONTENT_TYPE: API_CONTENT_TYPE.MULTIPART,
     AUTH: false,
+    SERVER: "formData",
   },
   UPLOAD_BULK: {
     URL: "/bulk_upload/:screen",
     METHOD: API_METHOD.POST,
     CONTENT_TYPE: API_CONTENT_TYPE.MULTIPART,
-    AUTH: false,
+  AUTH: false,
+    SERVER: "formData",
     PARAMS: {
       PATH: { screen: "" },
     },

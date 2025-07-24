@@ -62,6 +62,8 @@ export const createAxiosInstance = (
 
       const msg = err.response?.data?.detail || err.message || "Request failed";
       message.error(msg);
+      if (err.response?.status === 403)
+        window.location.href = ROUTES.PRIVATE.ROOT;
       return Promise.reject(err);
     }
   );

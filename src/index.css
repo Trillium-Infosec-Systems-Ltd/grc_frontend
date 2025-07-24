@@ -115,6 +115,9 @@ body {
 .text-violet {
   color: var(--cydea-violet);
 }
+.text-purple {
+  color: var(--cydea-purple) !important;
+}
 
 h4.ant-typography {
   color: var(--cydea-purple);
