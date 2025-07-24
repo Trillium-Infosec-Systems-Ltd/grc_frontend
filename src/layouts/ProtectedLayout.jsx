@@ -14,7 +14,7 @@ import AvatarComp from "../components/Image/Avatar";
 import useAuthHook from "../hooks/useAuthHook";
 
 const { Header, Sider, Content } = Layout;
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const ProtectedLayout = () => {
   const navigate = useNavigate();
@@ -22,7 +22,9 @@ const ProtectedLayout = () => {
   const { logout } = useAuthHook();
 
   const user = useSelector((state) => state.session.user);
-  const route = SIDE_MENU.find((item) => item?.key === location.pathname);
+  const route = SIDE_MENU().find((item) => item?.key === location.pathname);
+
+  const { name = "", role = "" } = user;
 
   if (isNullOrEmpty(user)) {
     return <Navigate to={ROUTES.PUBLIC.ROOT} replace />;
@@ -44,23 +46,27 @@ const ProtectedLayout = () => {
             defaultSelectedKeys={[ROUTES.PRIVATE.ROOT]}
             selectedKeys={[window.location.pathname]}
             style={{ height: "100%", borderRight: 0 }}
-            items={SIDE_MENU.map((item) => {
-              let newItem = {
-                ...item,
-                style: { marginBottom: 12 },
-                onClick: () => navigate(item?.key),
-              };
-              if (isNotNullOrEmpty(item?.children)) {
-                delete newItem.onClick;
-                // newItem.onClick = () => navigate(item.children[0]?.key)
-                newItem.children = item.children.map((child) => ({
-                  ...child,
+            items={SIDE_MENU(user)
+              ?.filter((item) => item?.show !== false)
+              .map((item) => {
+                let newItem = {
+                  ...item,
                   style: { marginBottom: 12 },
-                  onClick: () => navigate(child?.key),
-                }));
-              }
-              return newItem;
-            })}
+                  onClick: () => navigate(item?.key),
+                };
+                if (isNotNullOrEmpty(item?.children)) {
+                  delete newItem.onClick;
+                  // newItem.onClick = () => navigate(item.children[0]?.key)
+                  newItem.children = item.children
+                    ?.filter((child) => child?.show !== false)
+                    .map((child) => ({
+                      ...child,
+                      style: { marginBottom: 12 },
+                      onClick: () => navigate(child?.key),
+                    }));
+                }
+                return newItem;
+              })}
           />
         </Space>
       </Sider>
@@ -125,11 +131,20 @@ const ProtectedLayout = () => {
                   items: [
                     {
                       label: (
+                        <>
+                          <Text className="text-purple" strong>{name}</Text>{" "}
+                          <Text type="danger">({role})</Text>
+                        </>
+                      ),
+                      key: "0",
+                    },
+                    {
+                      label: (
                         <span className="text-danger" onClick={logout}>
                           Sign Out
                         </span>
                       ),
-                      key: "0",
+                      key: "1",
                     },
                   ],
                 }}
