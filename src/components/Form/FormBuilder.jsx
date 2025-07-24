@@ -200,11 +200,18 @@ const FormBuilder = ({
                 }
 
                 if (isFetchingData && isNotNullOrEmpty(fetch_to)) {
-                  fetchDataByValue(
-                    fetch_to,
-                    (k) => getFieldValue(k),
-                    (k, v) => setFieldValue(k, v)
-                  );
+                  let is_callable = true;
+                  for (const key of Object.keys(fetch_to?.isCall) || []) {
+                    is_callable = getFieldValue(key) === fetch_to?.isCall[key];
+                    if (!is_callable) break;
+                  }
+                  if (is_callable) {
+                    fetchDataByValue(
+                      fetch_to,
+                      (k) => getFieldValue(k),
+                      (k, v) => setFieldValue(k, v)
+                    );
+                  }
                 }
 
                 return (

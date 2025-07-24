@@ -73,10 +73,14 @@ const GenericSelect = ({ field, mode = undefined, ...rest }) => {
 
           const res = await callApi(payload);
 
-          const { asset_type = "", asset_value = "" } = res?.data ?? {};
+          // const { asset_type = "", asset_value = "" } = res?.data ?? {};
 
-          form.setFieldValue("type", asset_type);
-          form.setFieldValue("asset_value", asset_value);
+          for (let key of Object.keys(res?.data ?? {})) {
+            form.setFieldValue(key, res?.data[key]);
+          }
+
+          // form.setFieldValue("type", asset_type);
+          // form.setFieldValue("asset_value", asset_value);
 
           console.log({ res });
 
@@ -84,32 +88,33 @@ const GenericSelect = ({ field, mode = undefined, ...rest }) => {
         } catch (err) {
           console.error("Select search error", err);
         }
-      } else if (fieldname === "associated_threats") {
-        try {
-          let payload = { ...APIS.THREAT_INFO };
-          payload.URL = payload.URL + value ?? "";
-          payload.PARAMS.QUERY.asset_value =
-            form.getFieldValue("asset_value") ?? "";
-
-          const res = await callApi(payload);
-
-          const {
-            likelihood = "",
-            vulnerabilities = "",
-            control_id = "",
-            ease_of_exploitation = "",
-            risk = "",
-          } = res?.data ?? {};
-
-          form.setFieldValue("threat_probability", likelihood);
-          form.setFieldValue("ease_of_exploitation", ease_of_exploitation);
-          form.setFieldValue("related_vulnerabilities", vulnerabilities);
-          form.setFieldValue("control_ids", control_id);
-          form.setFieldValue("residual_risk", risk);
-        } catch (err) {
-          console.error("Select search error", err);
-        }
       }
+      // else if (fieldname === "associated_threats") {
+      //   try {
+      //     let payload = { ...APIS.THREAT_INFO };
+      //     payload.URL = payload.URL + value ?? "";
+      //     payload.PARAMS.QUERY.asset_value =
+      //       form.getFieldValue("asset_value") ?? "";
+
+      //     const res = await callApi(payload);
+
+      //     const {
+      //       likelihood = "",
+      //       vulnerabilities = "",
+      //       control_id = "",
+      //       ease_of_exploitation = "",
+      //       risk = "",
+      //     } = res?.data ?? {};
+
+      //     form.setFieldValue("threat_probability", likelihood);
+      //     form.setFieldValue("ease_of_exploitation", ease_of_exploitation);
+      //     form.setFieldValue("related_vulnerabilities", vulnerabilities);
+      //     form.setFieldValue("control_ids", control_id);
+      //     form.setFieldValue("residual_risk", risk);
+      //   } catch (err) {
+      //     console.error("Select search error", err);
+      //   }
+      // }
     }
   };
 
