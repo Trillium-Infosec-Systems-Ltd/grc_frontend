@@ -201,7 +201,7 @@ const FormBuilder = ({
 
                 if (isFetchingData && isNotNullOrEmpty(fetch_to)) {
                   let is_callable = true;
-                  for (const key of Object.keys(fetch_to?.isCall) || []) {
+                  for (const key of Object?.keys(fetch_to?.isCall ?? {}) || []) {
                     is_callable = getFieldValue(key) === fetch_to?.isCall[key];
                     if (!is_callable) break;
                   }
