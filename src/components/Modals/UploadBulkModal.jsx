@@ -7,18 +7,18 @@ import useUploadHook from "../../hooks/useUploadHook";
 const { Dragger } = Upload;
 const { Text, Title } = Typography;
 
-const UploadBulkModal = ({ screen = "", visible, onClose }) => {
+const UploadBulkModal = ({ screen = "", visible, onClose, onRefresh }) => {
   const [form] = Form.useForm();
   const { template, uploadBulk } = useUploadHook(screen);
   const [fileList, setFileList] = useState([]);
 
   // Only allow one file
   const uploadProps = {
-    accept: ".csv",
+    accept: ".csv, .xlsx",
     multiple: false,
     beforeUpload: (file) => {
-      if (!file.name.toLowerCase().endsWith(".csv")) {
-        message.error("Only .csv files are allowed");
+      if (!file.name.toLowerCase().endsWith(".csv") && !file.name.toLowerCase().endsWith(".xlsx")) {
+        message.error("Only .csv or xlsx files are allowed");
         return Upload.LIST_IGNORE;
       }
       setFileList([file]);
@@ -48,6 +48,7 @@ const UploadBulkModal = ({ screen = "", visible, onClose }) => {
         form.resetFields();
         setFileList([]);
         onClose()
+        onRefresh()
       }
     } catch (err) {
       message.error(err.message || "Something went wrong");

@@ -26,7 +26,7 @@ const TableBuilder = ({
   actionsList = [],
 }) => {
   const [bulkModal, setBulkModal] = useState(false);
-  const [schema, data, isLoading, fetchData] = useTableHook(screen);
+  const [schema, data, isLoading, fetchData, getTableSchema] = useTableHook(screen);
   const { items = [], total = 0, skip = 0, limit = 10 } = data ?? {};
   const { columns = [] } = schema ?? {};
 
@@ -57,20 +57,24 @@ const TableBuilder = ({
             screen={screen}
             visible={bulkModal}
             onClose={() => setBulkModal(false)}
+            onRefresh={getTableSchema}
+
           />
-          <Button variant="primary" onClick={() => setBulkModal(true)}>Import</Button>
+          {/* <Button variant="primary" onClick={() => setBulkModal(true)}>
+            Import
+          </Button> */}
           {/* <DropdownButton /> */}
 
           {isNotNullOrEmpty(headerLinks) && (
             <div className="actions" style={{ display: "flex", gap: "20px" }}>
-              {filters && (
+              {/* {filters && (
                 <FilterPopover
                   screen={screen}
                   onApply={(filters) => {
                     console.log("Applied filters:", filters);
                   }}
                 />
-              )}
+              )} */}
               {headerLinks?.map((link, index) =>
                 isNotNullOrEmpty(link?.Component) ? (
                   <div key={"table-h-link_" + index}>{link?.Component}</div>
@@ -84,6 +88,13 @@ const TableBuilder = ({
                   </span>
                 )
               )}
+              <span
+                key={"table-h-link_import"}
+                // className={link?.className ?? ""}
+                onClick={() => setBulkModal(true)}
+              >
+                Import
+              </span>
             </div>
           )}
         </div>

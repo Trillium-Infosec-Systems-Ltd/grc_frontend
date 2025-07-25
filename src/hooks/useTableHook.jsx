@@ -64,7 +64,7 @@ const useTableHook = (screen, MODE = KEY.VIEW) => {
     [screen]
   );
 
-  return [schema, data, isLoading, getTableData];
+  return [schema, data, isLoading, getTableData, getTableSchema];
 };
 
 export default useTableHook;
