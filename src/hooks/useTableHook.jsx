@@ -2,19 +2,23 @@ import { useCallback, useEffect, useState } from "react";
 import { callApi } from "../axios/callApi";
 import { APIS } from "../constants/apiConstants";
 import { KEY } from "../constants/keysConstants";
+import { useSelector } from "react-redux";
 
 const useTableHook = (screen, MODE = KEY.VIEW) => {
+  const user = useSelector((state) => state.session.user);
+
   const [isLoading, setIsLoaing] = useState(false);
   const [stateRef, setStateRef] = useState({
     data: { total: 0, skip: 0, limit: 10, items: [] },
     schema: {},
   });
 
+  const { org_id = "" } = user;
   const { schema, data } = stateRef ?? {};
 
   useEffect(() => {
     getTableSchema();
-  }, [screen]);
+  }, [screen, org_id]);
 
   const getTableSchema = useCallback(async () => {
     setIsLoaing(true);
@@ -84,7 +88,7 @@ const columnPropertiesUpdator = (columns = []) => {
         //     ? record[key.key]
         //     : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
 
-        let linesLen = Array.isArray(lines) ? lines[0].length : lines.length;
+        let linesLen = Array.isArray(lines) ? lines[0]?.length : lines?.length;
         const cellStyle = {
           minWidth: `${
             linesLen * 5 < 80 ? 80 : linesLen * 3 <= 400 ? linesLen * 3 : 400
