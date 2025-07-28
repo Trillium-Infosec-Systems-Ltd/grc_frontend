@@ -43,7 +43,34 @@ const useAuthHook = () => {
     // window.location.href = ROUTES.PUBLIC.ROOT;
   };
 
-  return { isLoading, login: loginUser, logout: logoutUser };
+  const onOrganizationChange = async (orgId) => {
+    if (orgId) {
+      let payload = {
+        ...APIS.GET_AUTH,
+        URL: APIS.POST_AUTH.URL + "switch-org",
+        PARAMS: { QUERY: {} },
+      };
+      payload.PARAMS.QUERY = { org_id: orgId };
+
+      let result = await callApi(payload);
+
+      const { status, data: respData } = result ?? {};
+
+      if (status === 200) {
+        dispatch(setUser({ ...respData }));
+        message.success("Switched organization successfully");
+      } else {
+        message.error("Failed to switch organization");
+      }
+    }
+  };
+
+  return {
+    isLoading,
+    login: loginUser,
+    logout: logoutUser,
+    switchOrg: onOrganizationChange,
+  };
 };
 
 export default useAuthHook;

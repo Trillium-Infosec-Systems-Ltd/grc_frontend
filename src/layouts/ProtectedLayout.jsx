@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { Dropdown, Input, Layout, Menu, Space, Typography } from "antd";
+import { Dropdown, Input, Layout, Menu, Select, Space, Typography } from "antd";
 import {
   SettingOutlined,
   BellOutlined,
@@ -19,12 +19,12 @@ const { Title, Text } = Typography;
 const ProtectedLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { logout } = useAuthHook();
+  const { logout, switchOrg } = useAuthHook();
 
   const user = useSelector((state) => state.session.user);
   const route = SIDE_MENU().find((item) => item?.key === location.pathname);
 
-  const { name = "", role = "" } = user;
+  const { name = "", role = "", org_id = "", all_org_ids = [] } = user || {};
 
   if (isNullOrEmpty(user)) {
     return <Navigate to={ROUTES.PUBLIC.ROOT} replace />;
@@ -83,7 +83,17 @@ const ProtectedLayout = () => {
           }}
         >
           <Title level={4}>{route?.label ?? ""}</Title>
+
           <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+            <Select
+              showSearch
+              placeholder="Organization"
+              optionFilterProp="label"
+              value={org_id}
+              onChange={switchOrg}
+              options={all_org_ids ?? []}
+              style={{ width: 200 }}
+            />
             <Input
               size="large"
               placeholder="Search for something"
@@ -132,7 +142,9 @@ const ProtectedLayout = () => {
                     {
                       label: (
                         <>
-                          <Text className="text-purple" strong>{name}</Text>{" "}
+                          <Text className="text-purple" strong>
+                            {name}
+                          </Text>{" "}
                           <Text type="danger">({role})</Text>
                         </>
                       ),
