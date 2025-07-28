@@ -19,7 +19,7 @@ export const callApi = async (schema) => {
   const {
     URL,
     METHOD = API_METHOD.GET,
-    SERVER = "public",
+    SERVER = "private",
     CONTENT_TYPE = "application/json",
     PAYLOAD = {},
     PARAMS = {},
