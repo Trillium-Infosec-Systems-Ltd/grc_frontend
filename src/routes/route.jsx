@@ -39,7 +39,11 @@ export default function AppRoutes() {
             element={<VulnerabilityManagement />}
           />
           <Route
-            path={ROUTES.PRIVATE.CONTROLS.PARENT + '/*'}
+            path={ROUTES.PRIVATE.CONTROL_MANAGEMENT.CHILD.CONTROL.PARENT + '/*'}
+            element={<ControlsManagement />}
+          />
+          <Route
+            path={ROUTES.PRIVATE.CONTROL_MANAGEMENT.CHILD.ASSESSMENT.PARENT + '/*'}
             element={<ControlsManagement />}
           />
           <Route

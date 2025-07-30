@@ -33,9 +33,19 @@ export const SIDE_MENU = (user = {}) => {
       label: "Vulnerability Management",
     },
     {
-      key: PRIVATE.CONTROLS.PARENT,
+      key: PRIVATE.CONTROL_MANAGEMENT.PARENT,
       // icon: <AssetsIcon style={{ width: 18, height: 18 }} />,
-      label: "Controls",
+      label: "Controls Management",
+      children: [
+        {
+          key: PRIVATE.CONTROL_MANAGEMENT.CHILD.CONTROL.PARENT,
+          label: "Controls",
+        },
+        {
+          key: PRIVATE.CONTROL_MANAGEMENT.CHILD.ASSESSMENT.PARENT,
+          label: "Assessments",
+        },
+      ],
     },
     {
       key: PRIVATE.COMPLIANCE.PARENT,
