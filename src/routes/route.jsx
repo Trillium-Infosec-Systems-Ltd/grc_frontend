@@ -17,6 +17,7 @@ import ControlQuestions from '../pages/Administration/ControlQuestions/ControlQu
 import ComplianceQuestions from '../pages/Administration/ComplianceQuestions/ComplianceQuestions';
 import Organizations from '../pages/Administration/Organizations/Organizations';
 import UserManagement from '../pages/UserManagement/UserManagement';
+import ControlAssessment from '../pages/ControlsAssessment/ControlAssessmentMain';
 
 export default function AppRoutes() {
   return (
@@ -44,7 +45,7 @@ export default function AppRoutes() {
           />
           <Route
             path={ROUTES.PRIVATE.CONTROL_MANAGEMENT.CHILD.ASSESSMENT.PARENT + '/*'}
-            element={<ControlsManagement />}
+            element={<ControlAssessment />}
           />
           <Route
             path={ROUTES.PRIVATE.COMPLIANCE.PARENT + '/*'}
