@@ -24,7 +24,7 @@ const ProtectedLayout = () => {
   const user = useSelector((state) => state.session.user);
   const route = SIDE_MENU().find((item) => item?.key === location.pathname);
 
-  const { name = "", role = "", org_id = "", all_org_ids = [] } = user || {};
+  const { name = "", role = "", org_id = "", organizations = [] } = user || {};
 
   if (isNullOrEmpty(user)) {
     return <Navigate to={ROUTES.PUBLIC.ROOT} replace />;
@@ -91,7 +91,7 @@ const ProtectedLayout = () => {
               optionFilterProp="label"
               value={org_id}
               onChange={switchOrg}
-              options={all_org_ids ?? []}
+              options={organizations ?? []}
               style={{ width: 200 }}
             />
             <Input
