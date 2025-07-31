@@ -1,26 +1,31 @@
 import { useCallback, useEffect, useState } from "react";
 import { callApi } from "../axios/callApi";
 import { APIS } from "../constants/apiConstants";
-import { isNotNullOrEmpty, isNullOrEmpty } from "../utils/utils";
+import { isNotNullOrEmpty } from "../utils/utils";
 import { message } from "antd";
 import { KEY } from "../constants/keysConstants";
 import { useLocation, useNavigate } from "react-router-dom";
 import useUploadHook from "./useUploadHook";
+// import { useSelector } from "react-redux";
 
 const useFormHook = (screen, MODE = KEY.CREATE) => {
   const navigate = useNavigate();
   const location = useLocation();
   const record_id = location?.state?.id ?? null;
 
+  // const user = useSelector((state) => state.session.user);
   const { uploadAttachment } = useUploadHook(null);
 
   const [isLoading, setIsLoaing] = useState(false);
   const [schema, setForm] = useState({});
   const [initialData, setData] = useState({});
 
+  // const { org_id = "" } = user;
+
   useEffect(() => {
     getFormSchema();
-  }, [screen]);
+  }, [screen, record_id]);
+  // }, [screen, org_id, record_id]);
 
   const getFormSchema = useCallback(async () => {
     setIsLoaing(true);
