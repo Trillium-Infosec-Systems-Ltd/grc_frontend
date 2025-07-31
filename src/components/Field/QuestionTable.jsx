@@ -1,6 +1,7 @@
 import { Checkbox, Table, Form, Input } from "antd";
 import { SERIAL_NO_COLUMN } from "./FormListField";
 import { useEffect, useState } from "react";
+import { isNotNullOrEmpty, isNullOrEmpty } from "../../utils/utils";
 
 const QuestionTable = ({ fieldname, form }) => {
   let formData = JSON.parse(JSON.stringify(form.getFieldsValue()));
@@ -8,7 +9,7 @@ const QuestionTable = ({ fieldname, form }) => {
   // const [percentage, setPercentage] = useState(86);
 
   useEffect(() => {
-    if (formData) {
+    if (isNotNullOrEmpty(formData)) {
       let status = formData?.compliance_status || "Non Compliant";
       let controlRating = formData?.rating || "Low";
       let currentPercentage = formData?.control_ratting_percentage || 0;
@@ -16,7 +17,7 @@ const QuestionTable = ({ fieldname, form }) => {
         (quest) => quest?.answer
       );
 
-      if (sQuestions?.length === 0) {
+      if (isNullOrEmpty(sQuestions?.length)) {
         status = "Non Compliant";
         controlRating = "Low";
       } else {
