@@ -2,11 +2,13 @@ import { Checkbox, Table, Form, Input } from "antd";
 import { SERIAL_NO_COLUMN } from "./FormListField";
 import { useEffect, useState } from "react";
 import { isNotNullOrEmpty, isNullOrEmpty } from "../../utils/utils";
+import { useSelector } from "react-redux";
 
 const QuestionTable = ({ fieldname, form }) => {
+  const user = useSelector((state) => state.session.user);
   let formData = JSON.parse(JSON.stringify(form.getFieldsValue()));
 
-  // const [percentage, setPercentage] = useState(86);
+  const { org_id = "" } = user;
 
   useEffect(() => {
     if (isNotNullOrEmpty(formData)) {
@@ -17,7 +19,7 @@ const QuestionTable = ({ fieldname, form }) => {
         (quest) => quest?.answer
       );
 
-      if (isNullOrEmpty(sQuestions?.length)) {
+      if (isNullOrEmpty(sQuestions?.length) || sQuestions?.length === 0) {
         status = "Non Compliant";
         controlRating = "Low";
       } else {
@@ -45,7 +47,13 @@ const QuestionTable = ({ fieldname, form }) => {
       form.setFieldValue("control_ratting_percentage", currentPercentage);
       // form.setFieldValue("control_assessment", formData?.control_assessment);
     }
-  }, [formData]);
+  }, [
+    formData,
+    // org_id,
+    // form.getFieldValue("compliance_status"),
+    // form.getFieldValue("rating"),
+    // form.getFieldValue("control_assessment"),
+  ]);
 
   return (
     <div className="childTableContainer">
