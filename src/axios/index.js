@@ -14,9 +14,9 @@ export const createBaseURL = (PORT = "8000") => {
   let baseURL = `:${PORT}/api`;
 
   if (isNullOrEmpty(hostname)) {
-    baseURL = `${protocol}//${hostname}${baseURL}`;
-  } else {
-    baseURL = `${protocol}//localhost${baseURL}`;
+      baseURL = `${protocol}//localhost${baseURL}`;
+    } else {
+      baseURL = `${protocol}//${hostname}${baseURL}`;
   }
 
   return baseURL;
