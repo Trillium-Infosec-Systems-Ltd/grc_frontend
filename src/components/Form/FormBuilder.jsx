@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Form, Button, Row, Col, Upload, Typography } from "antd";
 import useFormHook from "../../hooks/useFormHook";
-import AppLoader from "../Loader/Loader";
+import AppLoader from "../Loader/loader";
 import { KEY } from "../../constants/keysConstants";
 import { buildInitialValues } from "./utils";
 import { getValidators } from "./validator";

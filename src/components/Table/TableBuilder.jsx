@@ -1,7 +1,7 @@
 import { Table, Button, Select, Typography } from "antd";
 import "./tableStyle.css";
 import useTableHook from "../../hooks/useTableHook";
-import AppLoader from "../Loader/Loader";
+import AppLoader from "../Loader/loader";
 import { isNotNullOrEmpty } from "../../utils/utils";
 import { v4 as uuidv4 } from "uuid";
 import FilterPopover from "../Popover/Filters/Filter";
