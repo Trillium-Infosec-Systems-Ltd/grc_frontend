@@ -53,10 +53,12 @@ const GenericSelect = ({ field, mode = undefined, ...rest }) => {
           value: opt ?? "",
         })) ?? []
       );
+    // } else if (link_to && isNotNullOrEmpty(value)) {
     } else if (link_to) {
-      fetchOptions();
+      fetchOptions(value);
+      // fetchOptions();
     }
-  }, []);
+  }, [value]);
 
   useEffect(() => {
     if (isFetchingData && isNotNullOrEmpty(value) && isNullOrEmpty(fetch_to)) {
