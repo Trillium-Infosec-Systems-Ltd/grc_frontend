@@ -1,10 +1,8 @@
 import { useCallback, useState } from "react";
 import { callApi } from "../axios/callApi";
 import { APIS } from "../constants/apiConstants";
-import { logout, setUser } from "../features/user/userSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../constants/routesConstants";
 import { message } from "antd";
 import { PublicAPI } from "../axios";
 import { isNullOrEmpty } from "../utils/utils";
@@ -12,6 +10,8 @@ import { isNullOrEmpty } from "../utils/utils";
 const useUploadHook = (screen) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(false);
 
   const downloadTemplate = useCallback(async () => {
     if (isNullOrEmpty(screen)) return;
@@ -50,13 +50,14 @@ const useUploadHook = (screen) => {
   const uploadCSVData = useCallback(
     async (files = null) => {
       if (isNullOrEmpty(screen) || isNullOrEmpty(files)) return;
+      setLoading(true);
       try {
         let payload = { ...APIS.UPLOAD_BULK };
         payload.PARAMS.PATH.screen = screen;
         let resp = await uploadAttachment(files, "file", payload);
 
         if (resp?.status === 200) {
-          message.success("Assets uploaded successfully!");
+          message.success(`${screen} uploaded successfully!`);
           return true;
         } else {
           message.error(resp.data?.detail || "Upload failed");
@@ -65,6 +66,8 @@ const useUploadHook = (screen) => {
       } catch (err) {
         console.error("Download failed:", err);
         message.error(err.message || "Something went wrong");
+      } finally {
+        setLoading(false);
       }
     },
     [screen]
@@ -103,6 +106,7 @@ const useUploadHook = (screen) => {
   };
 
   return {
+    loading,
     template: downloadTemplate,
     uploadAttachment,
     uploadBulk: uploadCSVData,

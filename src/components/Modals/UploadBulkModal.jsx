@@ -9,7 +9,7 @@ const { Text, Title } = Typography;
 
 const UploadBulkModal = ({ screen = "", visible, onClose, onRefresh }) => {
   const [form] = Form.useForm();
-  const { template, uploadBulk } = useUploadHook(screen);
+  const { loading, template, uploadBulk } = useUploadHook(screen);
   const [fileList, setFileList] = useState([]);
 
   // Only allow one file
@@ -73,7 +73,8 @@ const UploadBulkModal = ({ screen = "", visible, onClose, onRefresh }) => {
           key="upload"
           type="primary"
           onClick={handleOk}
-          disabled={!fileList.length}
+          disabled={!fileList.length || loading}
+          loading={loading}
         >
           Upload <span className="">{screen ?? ""}</span>
         </Button>,
