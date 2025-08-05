@@ -92,7 +92,13 @@ export const APIS = {
     METHOD: API_METHOD.GET,
     AUTH: false,
     PARAMS: {
-      QUERY: { document_type: "", field: "", search_term: "", offset: 0 },
+      QUERY: {
+        document_type: "",
+        field: "",
+        filters: null,
+        search_term: "",
+        offset: 0,
+      },
     },
   },
   UPLOAD: {
@@ -106,7 +112,7 @@ export const APIS = {
     URL: "/bulk_upload/:screen",
     METHOD: API_METHOD.POST,
     CONTENT_TYPE: API_CONTENT_TYPE.MULTIPART,
-  AUTH: false,
+    AUTH: false,
     SERVER: "formData",
     PARAMS: {
       PATH: { screen: "" },

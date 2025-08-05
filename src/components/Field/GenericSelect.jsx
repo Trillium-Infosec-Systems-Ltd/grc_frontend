@@ -1,12 +1,11 @@
-import React, { useEffect, useState, useMemo } from "react";
-import { Select, Spin } from "antd";
+import { useEffect, useState, useMemo } from "react";
+import { Select } from "antd";
 import debounce from "lodash/debounce";
 import { callApi } from "../../axios/callApi";
 import { APIS } from "../../constants/apiConstants";
 import { isNotNullOrEmpty, isNullOrEmpty } from "../../utils/utils";
 
 const GenericSelect = ({ field, mode = undefined, ...rest }) => {
-  // console.log({ rest });
 
   const {
     link_to,
@@ -24,22 +23,37 @@ const GenericSelect = ({ field, mode = undefined, ...rest }) => {
   const [options, setOptions] = useState([]);
   const [fetching, setFetching] = useState(false);
 
-  const fetchOptions = async (search = "") => {
+  const fetchOptions = async (search = "", filters = null) => {
     setFetching(true);
     try {
-      let payload = { ...APIS.LINK_OPTIONS };
-      payload.PARAMS.QUERY.document_type = link_to ?? "";
-      // payload.PARAMS.QUERY.field = field?.fieldname ?? '';
-      // payload.PARAMS.QUERY.document_type = 'assets';
-      payload.PARAMS.QUERY.field = target_field ?? "";
-      payload.PARAMS.QUERY.search_term = search ?? "";
-
-      const res = await callApi(payload);
-      setOptions(res?.data ?? []);
+      const optList = await callFilterOptionAPi(search);
+      if (isNullOrEmpty(filters)) {
+        setOptions(optList ?? []);
+      } else {
+        const newOptList = await callFilterOptionAPi("", filters);
+        setOptions([...(newOptList ?? []), ...(optList ?? [])]);
+      }
     } catch (err) {
       console.error("Select search error", err);
     } finally {
       setFetching(false);
+    }
+  };
+
+  const callFilterOptionAPi = async (search = "", filters = null) => {
+    try {
+      let payload = { ...APIS.LINK_OPTIONS };
+      payload.PARAMS.QUERY.document_type = link_to ?? "";
+      payload.PARAMS.QUERY.filters = isNullOrEmpty(filters)
+        ? null
+        : JSON.stringify(filters);
+      payload.PARAMS.QUERY.field = target_field ?? "";
+      payload.PARAMS.QUERY.search_term = search ?? "";
+
+      const res = await callApi(payload);
+      return res?.data ?? [];
+    } catch (err) {
+      console.error("Select search error", err);
     }
   };
 
@@ -53,9 +67,9 @@ const GenericSelect = ({ field, mode = undefined, ...rest }) => {
           value: opt ?? "",
         })) ?? []
       );
-    // } else if (link_to && isNotNullOrEmpty(value)) {
+      // } else if (link_to && isNotNullOrEmpty(value)) {
     } else if (link_to) {
-      fetchOptions(value);
+      fetchOptions("", isNullOrEmpty(value) ? null : { id: value });
       // fetchOptions();
     }
   }, [value]);
@@ -91,32 +105,6 @@ const GenericSelect = ({ field, mode = undefined, ...rest }) => {
           console.error("Select search error", err);
         }
       }
-      // else if (fieldname === "associated_threats") {
-      //   try {
-      //     let payload = { ...APIS.THREAT_INFO };
-      //     payload.URL = payload.URL + value ?? "";
-      //     payload.PARAMS.QUERY.asset_value =
-      //       form.getFieldValue("asset_value") ?? "";
-
-      //     const res = await callApi(payload);
-
-      //     const {
-      //       likelihood = "",
-      //       vulnerabilities = "",
-      //       control_id = "",
-      //       ease_of_exploitation = "",
-      //       risk = "",
-      //     } = res?.data ?? {};
-
-      //     form.setFieldValue("threat_probability", likelihood);
-      //     form.setFieldValue("ease_of_exploitation", ease_of_exploitation);
-      //     form.setFieldValue("related_vulnerabilities", vulnerabilities);
-      //     form.setFieldValue("control_ids", control_id);
-      //     form.setFieldValue("residual_risk", risk);
-      //   } catch (err) {
-      //     console.error("Select search error", err);
-      //   }
-      // }
     }
   };
 
