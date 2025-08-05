@@ -9,6 +9,11 @@ export const API_METHOD = {
 };
 
 export const APIS = {
+  CSV_EXPORT: {
+    URL: "/export_csv/",
+    METHOD: API_METHOD.GET,
+    AUTH: false,
+  },
   CSV_TEMPLATE: {
     URL: "/csv_template/",
     METHOD: API_METHOD.GET,

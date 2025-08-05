@@ -13,39 +13,49 @@ const useUploadHook = (screen) => {
 
   const [loading, setLoading] = useState(false);
 
-  const downloadTemplate = useCallback(async () => {
-    if (isNullOrEmpty(screen)) return;
-    try {
-      let resp = await PublicAPI.get(APIS.CSV_TEMPLATE.URL + screen, {
-        responseType: "blob",
-      });
+  const downloadTemplate = useCallback(
+    async (endpointStr = "CSV_TEMPLATE") => {
+      if (isNullOrEmpty(screen)) return;
+      try {
+        let targetUrl = APIS[endpointStr]?.URL;
+        if (isNullOrEmpty(targetUrl)) return;
 
-      const blob = resp.data;
+        setLoading(true);
 
-      const url = window.URL.createObjectURL(blob);
-      const disposition = resp.headers["content-disposition"] || "";
-      let filename = screen;
-      const match = disposition.match(
-        /filename\*?=(?:UTF-8'')?["']?([^;"']+)/i
-      );
-      if (match?.[1]) {
-        filename = decodeURIComponent(match[1]);
+        let resp = await PublicAPI.get(targetUrl + screen, {
+          responseType: "blob",
+        });
+
+        const blob = resp.data;
+
+        const url = window.URL.createObjectURL(blob);
+        const disposition = resp.headers["content-disposition"] || "";
+        let filename = screen;
+        const match = disposition.match(
+          /filename\*?=(?:UTF-8'')?["']?([^;"']+)/i
+        );
+        if (match?.[1]) {
+          filename = decodeURIComponent(match[1]);
+        }
+
+        const a = document.createElement("a");
+        a.style.display = "none";
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+
+        window.URL.revokeObjectURL(url);
+        a.remove();
+      } catch (err) {
+        console.error("Download failed:", err);
+        message.error(err.message || "Something went wrong");
+      } finally {
+        setLoading(false);
       }
-
-      const a = document.createElement("a");
-      a.style.display = "none";
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-
-      window.URL.revokeObjectURL(url);
-      a.remove();
-    } catch (err) {
-      console.error("Download failed:", err);
-      message.error(err.message || "Something went wrong");
-    }
-  }, [screen]);
+    },
+    [screen]
+  );
 
   const uploadCSVData = useCallback(
     async (files = null) => {

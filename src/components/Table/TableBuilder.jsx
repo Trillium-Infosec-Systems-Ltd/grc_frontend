@@ -8,13 +8,13 @@ import FilterPopover from "../Popover/Filters/Filter";
 import DropdownButton from "../Button/DropdownButton";
 import UploadBulkModal from "../Modals/UploadBulkModal";
 import { useState } from "react";
+import useUploadHook from "../../hooks/useUploadHook";
 
 const { Option } = Select;
 const { Title } = Typography;
 
 const TableBuilder = ({
   pageSize = 5,
-  onDownload,
   downloadFormat = "csv",
   screen = "assets",
   title = "List of Assets",
@@ -26,7 +26,10 @@ const TableBuilder = ({
   actionsList = [],
 }) => {
   const [bulkModal, setBulkModal] = useState(false);
-  const [schema, data, isLoading, fetchData, getTableSchema] = useTableHook(screen);
+
+  const { loading, template } = useUploadHook(screen);
+  const [schema, data, isLoading, fetchData, getTableSchema] =
+    useTableHook(screen);
   const { items = [], total = 0, skip = 0, limit = 10 } = data ?? {};
   const { columns = [] } = schema ?? {};
 
@@ -58,7 +61,6 @@ const TableBuilder = ({
             visible={bulkModal}
             onClose={() => setBulkModal(false)}
             onRefresh={getTableSchema}
-
           />
           {/* <Button variant="primary" onClick={() => setBulkModal(true)}>
             Import
@@ -127,17 +129,20 @@ const TableBuilder = ({
               <span>Download List as</span>
               <Select
                 defaultValue={downloadFormat}
-                style={{ width: 220, marginLeft: 10 }}
+                style={{ marginLeft: 10 }}
+                disabled
               >
-                <Option value="xlsx">Portable document format (.pdf)</Option>
+                {/* <Option value="xlsx">Portable document format (.pdf)</Option> */}
                 <Option value="csv">comma separated values (.csv)</Option>
-                <Option value="html">HTML file(.html)</Option>
-                <Option value="json">Javascript Open Notaion (.json)</Option>
+                {/* <Option value="html">HTML file(.html)</Option> */}
+                {/* <Option value="json">Javascript Open Notaion (.json)</Option> */}
               </Select>
               <Button
                 type="primary"
                 className="ml-3 bg-primary"
-                onClick={onDownload}
+                onClick={() => template('CSV_EXPORT')}
+                disabled={loading}
+                loading={loading}
               >
                 Download
               </Button>

@@ -17,7 +17,10 @@ const UploadBulkModal = ({ screen = "", visible, onClose, onRefresh }) => {
     accept: ".csv, .xlsx",
     multiple: false,
     beforeUpload: (file) => {
-      if (!file.name.toLowerCase().endsWith(".csv") && !file.name.toLowerCase().endsWith(".xlsx")) {
+      if (
+        !file.name.toLowerCase().endsWith(".csv") &&
+        !file.name.toLowerCase().endsWith(".xlsx")
+      ) {
         message.error("Only .csv or xlsx files are allowed");
         return Upload.LIST_IGNORE;
       }
@@ -47,8 +50,8 @@ const UploadBulkModal = ({ screen = "", visible, onClose, onRefresh }) => {
       if (resp) {
         form.resetFields();
         setFileList([]);
-        onClose()
-        onRefresh()
+        onClose();
+        onRefresh();
       }
     } catch (err) {
       message.error(err.message || "Something went wrong");
@@ -116,7 +119,7 @@ const UploadBulkModal = ({ screen = "", visible, onClose, onRefresh }) => {
               rel="noopener noreferrer"
               className="text-primary"
               style={{ marginLeft: 16 }}
-              onClick={template}
+              onClick={() => template()}
             >
               sample file <DownloadOutlined />
             </a>
