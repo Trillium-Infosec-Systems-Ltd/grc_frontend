@@ -6,6 +6,7 @@ export const API_METHOD = {
   GET: "GET",
   POST: "POST",
   PUT: "PUT",
+  DELETE: "DELETE",
 };
 
 export const APIS = {
@@ -78,6 +79,14 @@ export const APIS = {
     METHOD: API_METHOD.PUT,
     AUTH: false,
     PAYLOAD: {},
+  },
+  DELETE_RECORD: {
+    URL: "/data/:screen/:record_id",
+    METHOD: API_METHOD.DELETE,
+    CONTENT_TYPE: API_CONTENT_TYPE.MULTIPART,
+    PARAMS: {
+      PATH: { screen: "", record_id: "" },
+    },
   },
   ASSETS_INFO: {
     URL: "/assets_info/",

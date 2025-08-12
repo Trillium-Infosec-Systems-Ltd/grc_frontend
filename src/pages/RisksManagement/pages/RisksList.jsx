@@ -1,49 +1,58 @@
-import TableBuilder from '../../../components/Table/TableBuilder';
-import { Button } from 'antd';
-import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../constants/routesConstants';
-import { FilterFilled } from '@ant-design/icons';
+import TableBuilder from "../../../components/Table/TableBuilder";
+import { Button, Row } from "antd";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../../constants/routesConstants";
+import {
+  CodeSandboxOutlined,
+  DeleteOutlined,
+  FilterFilled,
+} from "@ant-design/icons";
 
 const RiskList = () => {
   const navigate = useNavigate();
 
   const action = [
-
     {
-      title: 'Details',
-      render: (_, record) => (
-        <Button
-          shape="round"
-          onClick={() => navigate(
-            ROUTES.PRIVATE.RISK.PARENT + ROUTES.PRIVATE.RISK.EDIT,
-            { state: { id: record?.id ?? null } }
-          )}
-          className="view-details-button"
-        >
-          Manage
-        </Button>
-      ),
-      align: 'center',
+      title: "More Actions",
+      align: "center",
+      type: "popover",
+      actions: [
+        {
+          label: (
+            <Row gutter={8} style={{ cursor: "pointer" }}>
+              <CodeSandboxOutlined /> Manage
+            </Row>
+          ),
+          onClick: (record) =>
+            navigate(ROUTES.PRIVATE.RISK.PARENT + ROUTES.PRIVATE.RISK.EDIT, {
+              state: { id: record?.id ?? null },
+            }),
+        },
+        {
+          label: (
+            <Row gutter={8} style={{ cursor: "pointer" }}>
+              <DeleteOutlined /> Delete
+            </Row>
+          ),
+          type: "delete",
+        },
+      ],
     },
   ];
-
 
   return (
     <div>
       <TableBuilder
-        title='Risk Register'
-        screen='risks'
+        title="Risk Register"
+        screen="risks"
         actionsList={action}
         headerLinks={[
-         
           {
             Component: null,
-            label: '+ Add New Risk',
-            className: 'add-btn',
+            label: "+ Add New Risk",
+            className: "add-btn",
             onClick: () =>
-              navigate(
-                ROUTES.PRIVATE.RISK.PARENT + ROUTES.PRIVATE.RISK.CREATE
-              ),
+              navigate(ROUTES.PRIVATE.RISK.PARENT + ROUTES.PRIVATE.RISK.CREATE),
           },
         ]}
       />

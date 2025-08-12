@@ -3,6 +3,8 @@ import { callApi } from "../axios/callApi";
 import { APIS } from "../constants/apiConstants";
 import { KEY } from "../constants/keysConstants";
 import { useSelector } from "react-redux";
+import { isNullOrEmpty } from "../utils/utils";
+import { message } from "antd";
 
 const useTableHook = (screen, MODE = KEY.VIEW) => {
   const user = useSelector((state) => state.session.user);
@@ -68,7 +70,29 @@ const useTableHook = (screen, MODE = KEY.VIEW) => {
     [screen]
   );
 
-  return [schema, data, isLoading, getTableData, getTableSchema];
+  const deleteRecord = useCallback(
+    async (recordId = null) => {
+      if (isNullOrEmpty(recordId)) return;
+
+      setIsLoaing(true);
+
+      let apiConfig = { ...APIS.DELETE_RECORD };
+      const result = await callApi({
+        ...apiConfig,
+        PARAMS: {
+          PATH: { screen, record_id: recordId },
+        },
+      });
+      if (result?.status === 200) {
+        message.success(result?.data?.detail || `Record deleted successfully`);
+        await getTableSchema();
+      }
+      setIsLoaing(false);
+    },
+    [screen]
+  );
+
+  return [schema, data, isLoading, getTableData, getTableSchema, deleteRecord];
 };
 
 export default useTableHook;

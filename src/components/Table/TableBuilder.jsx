@@ -9,6 +9,7 @@ import DropdownButton from "../Button/DropdownButton";
 import UploadBulkModal from "../Modals/UploadBulkModal";
 import { useState } from "react";
 import useUploadHook from "../../hooks/useUploadHook";
+import PopoverAction from "../Popover/Popover";
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -28,14 +29,33 @@ const TableBuilder = ({
   const [bulkModal, setBulkModal] = useState(false);
 
   const { loading, template } = useUploadHook(screen);
-  const [schema, data, isLoading, fetchData, getTableSchema] =
+  const [schema, data, isLoading, fetchData, getTableSchema, deleteRecord] =
     useTableHook(screen);
   const { items = [], total = 0, skip = 0, limit = 10 } = data ?? {};
   const { columns = [] } = schema ?? {};
 
   let columnList = [
     ...(columns ?? []),
-    ...(actionsList?.map((action) => ({ ...action, fixed: "right" })) ?? []),
+    ...(actionsList?.map((action) =>
+      action?.type === "popover"
+        ? {
+            ...action,
+            fixed: "right",
+            render: (_, record) => (
+              <PopoverAction
+                screen={screen}
+                content={action?.actions ?? []}
+                record={record}
+                operations={{ delete: deleteRecord }}
+              >
+                <Button shape="round" className="view-details-button">
+                  {action?.title ?? "More Actions"}
+                </Button>
+              </PopoverAction>
+            ),
+          }
+        : { ...action, fixed: "right" }
+    ) ?? []),
   ];
 
   const ensureRecordIds = (records = []) => {
@@ -140,7 +160,7 @@ const TableBuilder = ({
               <Button
                 type="primary"
                 className="ml-3 bg-primary"
-                onClick={() => template('CSV_EXPORT')}
+                onClick={() => template("CSV_EXPORT")}
                 disabled={loading}
                 loading={loading}
               >
