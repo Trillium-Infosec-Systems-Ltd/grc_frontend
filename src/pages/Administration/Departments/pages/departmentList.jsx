@@ -1,7 +1,7 @@
-import TableBuilder from '../../../../components/Table/Table.Builder';
+import TableBuilder from '../../../../components/Table/TableBuilder';
 import { Button, Tag } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../../constants/routes.constants';
+import { ROUTES } from '../../../../constants/routesConstants';
 
 const { DEPARTMENTS } = ROUTES.PRIVATE.ADMINISTRATION.CHILD;
 

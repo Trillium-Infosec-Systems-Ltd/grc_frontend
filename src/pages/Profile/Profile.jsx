@@ -1,5 +1,5 @@
-import FormBuilder from '../../components/Form/Form.Builder';
-import { ROUTES } from '../../constants/routes.constants';
+import FormBuilder from '../../components/Form/FormBuilder';
+import { ROUTES } from '../../constants/routesConstants';
 
 const ProfileManagement = () => {
     return (
