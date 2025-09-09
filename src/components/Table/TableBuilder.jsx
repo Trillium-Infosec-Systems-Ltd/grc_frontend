@@ -29,7 +29,7 @@ const TableBuilder = ({
   const [bulkModal, setBulkModal] = useState(false);
 
   const { loading, template } = useUploadHook(screen);
-  const [schema, data, isLoading, fetchData, getTableSchema, deleteRecord] =
+  const { schema, data, isLoading, fetchData, getTableSchema, deleteRecord } =
     useTableHook(screen);
   const { items = [], total = 0, skip = 0, limit = 10 } = data ?? {};
   const { columns = [] } = schema ?? {};
@@ -141,6 +141,7 @@ const TableBuilder = ({
               : false
           }
           rowKey="t_row_record_id"
+          // size="middle"
         />
 
         {isExport && (

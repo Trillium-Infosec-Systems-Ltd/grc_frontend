@@ -2,15 +2,18 @@ import { useCallback, useEffect, useState } from "react";
 import { callApi } from "../axios/callApi";
 import { APIS } from "../constants/apiConstants";
 import { KEY } from "../constants/keysConstants";
-import { useSelector } from "react-redux";
-import { isNullOrEmpty } from "../utils/utils";
+import { useDispatch, useSelector } from "react-redux";
+import { isNotNullOrEmpty, isNullOrEmpty } from "../utils/utils";
 import { message } from "antd";
+import { clearUserQuery } from "../features/user/userSlice";
 
 const useTableHook = (screen, MODE = KEY.VIEW) => {
-  const user = useSelector((state) => state.session.user);
+  const dispatch = useDispatch();
+  const { user, userQuery } = useSelector((state) => state.session);
 
   const [isLoading, setIsLoaing] = useState(false);
   const [stateRef, setStateRef] = useState({
+    originalData: [],
     data: { total: 0, skip: 0, limit: 10, items: [] },
     schema: {},
   });
@@ -21,6 +24,16 @@ const useTableHook = (screen, MODE = KEY.VIEW) => {
   useEffect(() => {
     getTableSchema();
   }, [screen, org_id]);
+
+  useEffect(() => {
+    searchData(userQuery);
+  }, [userQuery]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearUserQuery());
+    };
+  }, []);
 
   const getTableSchema = useCallback(async () => {
     setIsLoaing(true);
@@ -62,6 +75,7 @@ const useTableHook = (screen, MODE = KEY.VIEW) => {
 
       setStateRef((prev) => ({
         ...prev,
+        originalData: items,
         data,
         schema: { ...tschema, columns: newColumns } ?? {},
       }));
@@ -92,7 +106,42 @@ const useTableHook = (screen, MODE = KEY.VIEW) => {
     [screen]
   );
 
-  return [schema, data, isLoading, getTableData, getTableSchema, deleteRecord];
+  const searchData = (query) => {
+    if (isNullOrEmpty(query)) {
+      // const { columns = [] } = stateRef.schema;
+
+      // let newColumns = columnPropertiesUpdator(columns, stateRef.originalData);
+
+      setStateRef((prev) => ({
+        ...prev,
+        data: { ...prev.data, items: prev.originalData },
+        // schema: { ...prev.schema, columns: newColumns } ?? {},
+      }));
+      return;
+    }
+    const lowerQuery = query.toLowerCase();
+    const filterData = stateRef.originalData.filter((entry) =>
+      Object.values(entry).some(
+        (value) =>
+          isNotNullOrEmpty(value) &&
+          String(value).toLowerCase().includes(lowerQuery)
+      )
+    );
+    setStateRef((prev) => ({
+      ...prev,
+      data: { ...prev.data, items: filterData },
+      // schema: { ...prev.schema, columns: newColumns } ?? {},
+    }));
+  };
+
+  return {
+    schema,
+    data,
+    isLoading,
+    getTableData,
+    getTableSchema,
+    deleteRecord,
+  };
 };
 
 export default useTableHook;

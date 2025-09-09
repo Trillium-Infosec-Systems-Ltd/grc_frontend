@@ -12,6 +12,7 @@ import { isNotNullOrEmpty, isNullOrEmpty } from "../utils/utils";
 import { SIDE_MENU } from "../constants/menuConstants";
 import AvatarComp from "../components/Image/Avatar";
 import useAuthHook from "../hooks/useAuthHook";
+import useSearchHook from "../hooks/useSearchHook";
 
 const { Header, Sider, Content } = Layout;
 const { Title, Text } = Typography;
@@ -20,6 +21,7 @@ const ProtectedLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { logout, switchOrg } = useAuthHook();
+  const { queryText, onSearch } = useSearchHook();
 
   const user = useSelector((state) => state.session.user);
   const route = SIDE_MENU().find((item) => item?.key === location.pathname);
@@ -98,6 +100,8 @@ const ProtectedLayout = () => {
               size="large"
               placeholder="Search for something"
               prefix={<SearchOutlined style={{ fontSize: "20px" }} />}
+              value={queryText}
+              onChange={onSearch}
               style={{
                 borderRadius: 40,
                 background: "#F5F7FA",
