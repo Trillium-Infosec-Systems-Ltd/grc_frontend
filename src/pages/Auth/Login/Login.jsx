@@ -5,6 +5,8 @@ import { Navigate, useLocation } from "react-router-dom";
 import { ROUTES } from "../../../constants/routesConstants";
 import { isNotNullOrEmpty } from "../../../utils/utils";
 import useAuthHook from "../../../hooks/useAuthHook";
+import Logo360 from "../../../components/Image/Logos/Logo360";
+import LogoText from "../../../components/Image/Logos/LogoText";
 
 const { Title, Text } = Typography;
 
@@ -131,7 +133,10 @@ const LoginForm = () => {
       </div>
 
       <div className="login-right">
-        {/* <img src="/assets/logo.png" alt="logo" className="logo-image" /> */}
+        <div className="logo-group-auth">
+          <Logo360 height={300} width={400} />
+          <LogoText width={400} />
+        </div>
       </div>
     </div>
   );

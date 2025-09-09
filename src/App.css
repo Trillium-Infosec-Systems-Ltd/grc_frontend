@@ -1,19 +1,19 @@
 .bg-primary {
-  background-color: #3ddad7 !important
+  background-color: #3ddad7 !important;
 }
 
 .text-primary {
-  color: #3ddad7 !important
+  color: #3ddad7 !important;
 }
 
 .text-secondary {
-  color: #FFFFFF80 !important
+  color: #ffffff80 !important;
 }
 
 .login-container {
   display: flex;
   height: 100vh;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
 }
 
 .login-left {
@@ -27,7 +27,8 @@
 
 .login-right {
   width: 60%;
-  background: #3ddad7;
+  /* background: #3ddad7; */
+  background-image: url("./assets/images/svg/login-right-bg.svg");
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,4 +56,12 @@
 
 .logo-image {
   max-width: 300px;
+}
+
+.logo-group-auth {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }
