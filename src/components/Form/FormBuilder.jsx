@@ -251,28 +251,28 @@ const FormBuilder = ({
   );
 
   const handleValuesChange = (changedValues, allValues) => {
-  schema?.fields?.forEach((field) => {
-    const { fieldname, isFetchingData, fetch_to } = field;
-    if (
-      isFetchingData &&
-      isNotNullOrEmpty(fetch_to) &&
-      Object.prototype.hasOwnProperty.call(changedValues, fieldname)
-    ) {
-      let is_callable = true;
-      for (const key of Object?.keys(fetch_to?.isCall ?? {}) || []) {
-        is_callable = allValues[key] === fetch_to?.isCall[key];
-        if (!is_callable) break;
+    schema?.fields?.forEach((field) => {
+      const { fieldname, isFetchingData, fetch_to } = field;
+      if (
+        isFetchingData &&
+        isNotNullOrEmpty(fetch_to) &&
+        Object.prototype.hasOwnProperty.call(changedValues, fieldname)
+      ) {
+        let is_callable = true;
+        for (const key of Object?.keys(fetch_to?.isCall ?? {}) || []) {
+          is_callable = allValues[key] === fetch_to?.isCall[key];
+          if (!is_callable) break;
+        }
+        if (is_callable) {
+          fetchDataByValue(
+            fetch_to,
+            (k) => allValues[k],
+            (k, v) => form.setFieldValue(k, v)
+          );
+        }
       }
-      if (is_callable) {
-        fetchDataByValue(
-          fetch_to,
-          (k) => allValues[k],
-          (k, v) => form.setFieldValue(k, v)
-        );
-      }
-    }
-  });
-};
+    });
+  };
 
   return (
     <AppLoader isLoading={isLoading}>
@@ -286,6 +286,14 @@ const FormBuilder = ({
         onFinish={(fields) => submit({ ...fields, fileList }, redirect)}
         initialValues={initialValues}
         onValuesChange={handleValuesChange}
+        onFinishFailed={({ errorFields }) => {
+          if (errorFields.length > 0) {
+            form.scrollToField(errorFields[0].name, {
+              behavior: "smooth",
+              block: "center",
+            });
+          }
+        }}
       >
         <Row gutter={16}>{fieldList}</Row>
 
