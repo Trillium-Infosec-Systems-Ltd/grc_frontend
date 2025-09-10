@@ -13,13 +13,14 @@ const useTableHook = (screen, MODE = KEY.VIEW) => {
 
   const [isLoading, setIsLoaing] = useState(false);
   const [stateRef, setStateRef] = useState({
+    filters: {},
     originalData: [],
     data: { total: 0, skip: 0, limit: 10, items: [] },
     schema: {},
   });
 
   const { org_id = "" } = user;
-  const { schema, data } = stateRef ?? {};
+  const { schema, data, filters } = stateRef ?? {};
 
   useEffect(() => {
     getTableSchema();
@@ -45,11 +46,16 @@ const useTableHook = (screen, MODE = KEY.VIEW) => {
 
     const { data: tSchema = {} } = result;
 
-    await getTableData(0, 10, tSchema ?? {});
+    await getTableData({
+      skip: 0,
+      limit: 10,
+      schema: tSchema ?? {},
+      filters: {},
+    });
   }, [screen]);
 
   const getTableData = useCallback(
-    async (skip = 0, limit = 10, tschema = {}) => {
+    async ({ skip = 0, limit = 10, schema: tschema = {}, filters = {} }) => {
       setIsLoaing(true);
 
       let apiConfig = { ...APIS.GET_RECORDS };
@@ -59,7 +65,7 @@ const useTableHook = (screen, MODE = KEY.VIEW) => {
         ...apiConfig,
         URL: apiConfig.URL + screen,
         PARAMS: {
-          QUERY: { skip, limit },
+          QUERY: { skip, limit, ...(isNotNullOrEmpty(filters) ? filters : {}) },
         },
       });
 
@@ -75,6 +81,7 @@ const useTableHook = (screen, MODE = KEY.VIEW) => {
 
       setStateRef((prev) => ({
         ...prev,
+        filters,
         originalData: items,
         data,
         schema: { ...tschema, columns: newColumns } ?? {},
@@ -137,8 +144,9 @@ const useTableHook = (screen, MODE = KEY.VIEW) => {
   return {
     schema,
     data,
+    filters,
     isLoading,
-    getTableData,
+    fetchData: getTableData,
     getTableSchema,
     deleteRecord,
   };

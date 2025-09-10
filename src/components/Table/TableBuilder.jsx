@@ -22,15 +22,22 @@ const TableBuilder = ({
   isShowHeader = true,
   isExport = true,
   pagination = true,
-  filters = true,
+  isfilter = true,
   headerLinks = [],
   actionsList = [],
 }) => {
   const [bulkModal, setBulkModal] = useState(false);
 
   const { loading, template } = useUploadHook(screen);
-  const { schema, data, isLoading, fetchData, getTableSchema, deleteRecord } =
-    useTableHook(screen);
+  const {
+    schema,
+    data,
+    filters,
+    isLoading,
+    fetchData,
+    getTableSchema,
+    deleteRecord,
+  } = useTableHook(screen);
   const { items = [], total = 0, skip = 0, limit = 10 } = data ?? {};
   const { columns = [] } = schema ?? {};
 
@@ -89,14 +96,23 @@ const TableBuilder = ({
 
           {isNotNullOrEmpty(headerLinks) && (
             <div className="actions" style={{ display: "flex", gap: "20px" }}>
-              {/* {filters && (
+              {isfilter && (
                 <FilterPopover
                   screen={screen}
+                  initialValues={filters}
                   onApply={(filters) => {
                     console.log("Applied filters:", filters);
+                    fetchData({ schema, filters });
                   }}
                 />
-              )} */}
+              )}
+              <span
+                key={"table-h-link_import"}
+                // className={link?.className ?? ""}
+                onClick={() => setBulkModal(true)}
+              >
+                Import
+              </span>
               {headerLinks?.map((link, index) =>
                 isNotNullOrEmpty(link?.Component) ? (
                   <div key={"table-h-link_" + index}>{link?.Component}</div>
@@ -110,13 +126,6 @@ const TableBuilder = ({
                   </span>
                 )
               )}
-              <span
-                key={"table-h-link_import"}
-                // className={link?.className ?? ""}
-                onClick={() => setBulkModal(true)}
-              >
-                Import
-              </span>
             </div>
           )}
         </div>
@@ -135,7 +144,12 @@ const TableBuilder = ({
                   pageSize,
                   total: total ?? 0,
                   onChange: (page, pageSize) => {
-                    fetchData((page - 1) * pageSize, pageSize, schema);
+                    fetchData({
+                      skip: (page - 1) * pageSize,
+                      limit: pageSize,
+                      schema,
+                      filters,
+                    });
                   },
                 }
               : false
