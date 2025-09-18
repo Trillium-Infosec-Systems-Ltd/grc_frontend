@@ -38,7 +38,7 @@ const FilterPopover = ({ screen = "", initialValues = null, onApply }) => {
           return (
             <Col xs={24} sm={24} md={12} key={field?.fieldname}>
               <Form.Item {...commonProps}>
-                <RenderField field={field} />
+                <RenderField field={{ ...field, fieldtype: field?.fieldtype_filter ?? field?.fieldtype}} />
               </Form.Item>
             </Col>
           );
