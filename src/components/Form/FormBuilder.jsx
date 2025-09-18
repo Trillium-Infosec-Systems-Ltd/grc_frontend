@@ -177,7 +177,20 @@ const FormBuilder = ({
                   }
                 }
 
-                if (!show) return null;
+                if (!show) {
+                  setFieldValue(
+                    fieldname,
+                    isNotNullOrEmpty(field?.default)
+                      ? field?.default
+                      : fieldtype === "question_table"
+                      ? field?.default_value?.map((q) => ({
+                          ...q,
+                          answer: false,
+                        }))
+                      : field?.default_value
+                  );
+                  return null;
+                }
 
                 let readonlyField = disabled || false;
 
@@ -197,6 +210,15 @@ const FormBuilder = ({
                   } else {
                     readonlyField = isNullOrEmpty(fieldValue);
                   }
+                }
+
+                if (readonlyField) {
+                  setFieldValue(
+                    fieldname,
+                    isNotNullOrEmpty(field?.default)
+                      ? field?.default
+                      : field?.default_value
+                  );
                 }
 
                 // if (isFetchingData && isNotNullOrEmpty(fetch_to)) {

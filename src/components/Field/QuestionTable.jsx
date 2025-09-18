@@ -1,6 +1,6 @@
 import { Checkbox, Table, Form, Input } from "antd";
 import { SERIAL_NO_COLUMN } from "./FormListField";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { isNotNullOrEmpty, isNullOrEmpty } from "../../utils/utils";
 import { useSelector } from "react-redux";
 
@@ -8,7 +8,7 @@ const QuestionTable = ({ fieldname, form }) => {
   const user = useSelector((state) => state.session.user);
   let formData = JSON.parse(JSON.stringify(form.getFieldsValue()));
 
-  const { org_id = "" } = user;
+  // const { org_id = "" } = user;
 
   useEffect(() => {
     if (isNotNullOrEmpty(formData)) {
@@ -29,17 +29,28 @@ const QuestionTable = ({ fieldname, form }) => {
           }, 0) || 0;
         currentPercentage = (currentPercentage / 2) * 100;
 
-        if (sQuestions?.length < formData?.control_assessment?.length) {
+        // if (sQuestions?.length < formData?.control_assessment?.length) {
+        //   status = "Partially Compliant";
+        // } else {
+        //   status = "Compliant";
+        // }
+        // controlRating =
+        //   currentPercentage > 85
+        //     ? "High"
+        //     : currentPercentage > 65
+        //     ? "Medium"
+        //     : "Low";
+
+        if (currentPercentage > 85) {
+          controlRating = "High";
+          status = "Compliant";
+        } else if (currentPercentage > 65) {
+          controlRating = "Medium";
           status = "Partially Compliant";
         } else {
-          status = "Compliant";
+          controlRating = "Low";
+          status = "Non Compliant";
         }
-        controlRating =
-          currentPercentage > 85
-            ? "High"
-            : currentPercentage > 65
-            ? "Medium"
-            : "Low";
       }
 
       form.setFieldValue("compliance_status", status);
