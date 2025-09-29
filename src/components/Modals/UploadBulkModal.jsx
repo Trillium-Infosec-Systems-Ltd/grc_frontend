@@ -3,13 +3,21 @@ import React, { useState } from "react";
 import { Modal, Form, Input, Upload, Button, Typography, message } from "antd";
 import { UploadOutlined, DownloadOutlined } from "@ant-design/icons";
 import useUploadHook from "../../hooks/useUploadHook";
+import ErrorListModal from "./ErrorListModal";
 
 const { Dragger } = Upload;
 const { Text, Title } = Typography;
 
 const UploadBulkModal = ({ screen = "", visible, onClose, onRefresh }) => {
   const [form] = Form.useForm();
-  const { loading, template, uploadBulk } = useUploadHook(screen);
+  const {
+    loading,
+    error = false,
+    errorDetail,
+    template,
+    uploadBulk,
+    resetError
+  } = useUploadHook(screen);
   const [fileList, setFileList] = useState([]);
 
   // Only allow one file
@@ -48,6 +56,7 @@ const UploadBulkModal = ({ screen = "", visible, onClose, onRefresh }) => {
       }
       let resp = await uploadBulk(fileList);
       if (resp) {
+        message.success(`${screen} uploaded successfully!`);
         form.resetFields();
         setFileList([]);
         onClose();
@@ -168,6 +177,7 @@ const UploadBulkModal = ({ screen = "", visible, onClose, onRefresh }) => {
           <Input style={{ width: 120 }} disabled />
         </Form.Item>
       </Form>
+      <ErrorListModal visible={error} errorData={errorDetail} onClose={resetError} />
     </Modal>
   );
 };

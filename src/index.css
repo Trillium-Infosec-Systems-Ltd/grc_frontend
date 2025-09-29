@@ -104,13 +104,16 @@ body {
   color: var(--cydea-primary);
 }
 .text-success {
-  color: var(--cydea-success);
+  color: var(--cydea-success) !important;
 }
 .text-golden {
   color: var(--cydea-golden);
 }
 .text-danger {
   color: var(--cydea-danger) !important;
+}
+.text-dark {
+  color: var(--title) !important;
 }
 .text-violet {
   color: var(--cydea-violet);
@@ -4757,6 +4760,20 @@ a {
 .d-flex-valign {
   display: flex;
   align-items: center;
+}
+
+.d-flex-valign-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.gap-1 {
+  gap: 4px;
+}
+
+.gap-2 {
+  gap: 8px;
 }
 
 .weather-tag {
