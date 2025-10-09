@@ -1,11 +1,5 @@
-// import DashboardIcon from '../assets/icon/dashboard.svg';
-// import { ReactComponent as AssetsIcon } from '../assets/icon/assets.svg';
-// import { ReactComponent as ThreatsIcon } from '../assets/icon/threats_hub.svg';
-// import { ReactComponent as VulnerabilityIcon } from '../assets/icon/Vulnerability.svg';
-import { isNullOrEmpty } from "../utils/utils";
 import { ROLE } from "./keysConstants";
 import { ROUTES } from "./routesConstants";
-// ... import all other icons
 
 const { PRIVATE } = ROUTES;
 
@@ -14,33 +8,33 @@ export const SIDE_MENU = (user = {}) => {
   return [
     {
       key: PRIVATE.ROOT,
-      // icon: <HomeFilled style={{ width: 18, height: 18 }} />,
       label: "Dashboard",
+      icon: "/src/assets/icon/dashboard.svg",
     },
     {
       key: PRIVATE.ASSETS.PARENT,
-      // icon: <AssetsIcon style={{ width: 18, height: 18 }} />,
       label: "Assets",
+      icon: "/src/assets/icon/assets.svg",
     },
     {
       key: PRIVATE.THREATS_HUB.PARENT,
-      // icon: <ThreatsIcon style={{ width: 18, height: 18 }} />,
       label: "Threats Hub",
+      icon: "/src/assets/icon/threats_hub.svg",
     },
     {
       key: PRIVATE.VULNERABILITY.PARENT,
-      // icon: <VulnerabilityIcon style={{ width: 18, height: 18 }} />,
       label: "Vulnerability Management",
+      icon: "/src/assets/icon/Vulnerability.svg",
     },
     {
       key: PRIVATE.CONTROLS.PARENT,
-      // icon: <AssetsIcon style={{ width: 18, height: 18 }} />,
       label: "Controls",
+      icon: "/src/assets/icon/controls.svg",
     },
     {
       key: PRIVATE.COMPLIANCE.PARENT,
-      // icon: <AssetsIcon style={{ width: 18, height: 18 }} />,
       label: "Compliance",
+      icon: "/src/assets/icon/compliance.svg",
     },
     // {
     //     key: PRIVATE.INCIDENT.PARENT,
@@ -49,8 +43,8 @@ export const SIDE_MENU = (user = {}) => {
     // },
     {
       key: PRIVATE.RISK.PARENT,
-      // icon: <AssetsIcon style={{ width: 18, height: 18 }} />,
       label: "Risk Management",
+      icon: "/src/assets/icon/risk_management.svg",
     },
     // {
     //     key: PRIVATE.REPORTS,
@@ -61,6 +55,7 @@ export const SIDE_MENU = (user = {}) => {
       key: PRIVATE.USERS.PARENT,
       // icon: <AssetsIcon style={{ width: 18, height: 18 }} />,
       label: "User Management",
+      icon: "/src/assets/icon/user_management.svg",
       show: role === ROLE.SUPER_ADMIN || role === ROLE.PARTNER,
     },
     // {
@@ -75,7 +70,7 @@ export const SIDE_MENU = (user = {}) => {
     // },
     {
       key: PRIVATE.ADMINISTRATION.PARENT,
-      // icon: <AssetsIcon style={{ width: 18, height: 18 }} />,
+      icon: "/src/assets/icon/settings.svg",
       label: "Administartion",
       children: [
         {

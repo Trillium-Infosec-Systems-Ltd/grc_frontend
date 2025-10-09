@@ -26,6 +26,7 @@ const TableBuilder = ({
   headerLinks = [],
   actionsList = [],
 }) => {
+  const [tPageSize, setTPage] = useState(pageSize);
   const [bulkModal, setBulkModal] = useState(false);
 
   const { loading, template } = useUploadHook(screen);
@@ -140,16 +141,28 @@ const TableBuilder = ({
           pagination={
             pagination
               ? {
+                  size: "default",
+                  pageSizeOptions: [5, 10],
                   current: Math.floor(skip / limit) + 1,
-                  pageSize,
+                  pageSize: tPageSize,
                   total: total ?? 0,
                   onChange: (page, pageSize) => {
+                    setTPage(pageSize);
                     fetchData({
                       skip: (page - 1) * pageSize,
                       limit: pageSize,
                       schema,
                       filters,
                     });
+                  },
+                  itemRender: (_, type, originalElement) => {
+                    if (type === "prev") {
+                      return <a>Previous</a>;
+                    }
+                    if (type === "next") {
+                      return <a>Next</a>;
+                    }
+                    return originalElement;
                   },
                 }
               : false

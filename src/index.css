@@ -3191,11 +3191,11 @@ a {
 .ant-pagination .ant-pagination-item {
   color: var(--nevada);
   font-weight: 400;
-  line-height: 40px;
+  /* line-height: 40px; */
   font-size: 14px;
   border: none;
-  height: 40px;
-  width: 40px;
+  height: 30px;
+  width: 30px;
   border-radius: 15%;
   margin: 0px;
 }
@@ -3211,6 +3211,18 @@ a {
   font-size: 15px;
   font-weight: 500;
 }
+.ant-pagination-next a {
+  color: var(--cydea-primary);
+}
+
+.ant-pagination-prev a {
+  color: var(--cydea-primary);
+  margin-right: 10px;
+}
+.ant-pagination-disabled a {
+  color: var(--nevada-disable) !important;
+}
+
 .ant-pagination .ant-pagination-item-active a {
   color: var(--white);
 }
@@ -4758,8 +4770,8 @@ a {
 }
 
 .d-flex-valign {
-  display: flex;
-  align-items: center;
+  display: flex !important;
+  align-items: center !important;
 }
 
 .d-flex-valign-between {

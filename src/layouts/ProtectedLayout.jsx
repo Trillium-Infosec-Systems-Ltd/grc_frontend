@@ -7,12 +7,13 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import { ROUTES } from "../constants/routesConstants";
-import logo from "../assets/logo/CYDEA-GRC.png";
 import { isNotNullOrEmpty, isNullOrEmpty } from "../utils/utils";
 import { SIDE_MENU } from "../constants/menuConstants";
 import AvatarComp from "../components/Image/Avatar";
 import useAuthHook from "../hooks/useAuthHook";
 import useSearchHook from "../hooks/useSearchHook";
+import Logo360Text from "../components/Image/Logos/Logo360Text";
+import IMAGE from "../components/Image/Image";
 
 const { Header, Sider, Content } = Layout;
 const { Title, Text } = Typography;
@@ -41,7 +42,7 @@ const ProtectedLayout = () => {
       >
         <Space direction="vertical" size="large">
           <div className="flex justify-center items-center py-4">
-            <img src={logo} alt="Logo" className="w-32" />
+            <Logo360Text width={200} height={40} />
           </div>
           <Menu
             mode="inline"
@@ -55,10 +56,12 @@ const ProtectedLayout = () => {
                   ...item,
                   style: { marginBottom: 12 },
                   onClick: () => navigate(item?.key),
+                  icon: isNotNullOrEmpty(item?.icon) ? (
+                    <IMAGE src={item.icon} width={18} height={18} className="d-flex-valign" />
+                  ) : null,
                 };
                 if (isNotNullOrEmpty(item?.children)) {
                   delete newItem.onClick;
-                  // newItem.onClick = () => navigate(item.children[0]?.key)
                   newItem.children = item.children
                     ?.filter((child) => child?.show !== false)
                     .map((child) => ({

@@ -4,6 +4,7 @@ import { Modal, Form, Input, Upload, Button, Typography, message } from "antd";
 import { UploadOutlined, DownloadOutlined } from "@ant-design/icons";
 import useUploadHook from "../../hooks/useUploadHook";
 import ErrorListModal from "./ErrorListModal";
+import { isNullOrEmpty } from "../../utils/utils";
 
 const { Dragger } = Upload;
 const { Text, Title } = Typography;
@@ -16,7 +17,7 @@ const UploadBulkModal = ({ screen = "", visible, onClose, onRefresh }) => {
     errorDetail,
     template,
     uploadBulk,
-    resetError
+    resetError,
   } = useUploadHook(screen);
   const [fileList, setFileList] = useState([]);
 
@@ -67,6 +68,13 @@ const UploadBulkModal = ({ screen = "", visible, onClose, onRefresh }) => {
     }
   };
 
+  const labelFormatter = (label) => {
+    if (isNullOrEmpty(label)) return "";
+    let labelTxt = label.split("_").join(" ");
+    labelTxt = labelTxt.charAt(0).toUpperCase() + labelTxt.slice(1);
+    return labelTxt;
+  };
+
   return (
     <Modal
       open={visible}
@@ -88,7 +96,7 @@ const UploadBulkModal = ({ screen = "", visible, onClose, onRefresh }) => {
           disabled={!fileList.length || loading}
           loading={loading}
         >
-          Upload <span className="">{screen ?? ""}</span>
+          Upload<span className="">{labelFormatter(screen)}</span>
         </Button>,
       ]}
     >
@@ -177,7 +185,11 @@ const UploadBulkModal = ({ screen = "", visible, onClose, onRefresh }) => {
           <Input style={{ width: 120 }} disabled />
         </Form.Item>
       </Form>
-      <ErrorListModal visible={error} errorData={errorDetail} onClose={resetError} />
+      <ErrorListModal
+        visible={error}
+        errorData={errorDetail}
+        onClose={resetError}
+      />
     </Modal>
   );
 };
