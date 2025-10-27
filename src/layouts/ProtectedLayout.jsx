@@ -23,9 +23,15 @@ const ProtectedLayout = () => {
   const location = useLocation();
   const { logout, switchOrg } = useAuthHook();
   const { queryText, onSearch } = useSearchHook();
+  const currentPath = location.pathname;
 
   const user = useSelector((state) => state.session.user);
-  const route = SIDE_MENU().find((item) => item?.key === location.pathname);
+  const allMenuItems = SIDE_MENU(user).flatMap((item) => [
+    item,
+    ...(item.children || []),
+  ]);
+
+  const route = allMenuItems.find((item) => currentPath.startsWith(item?.key));
 
   const { name = "", role = "", org_id = "", organizations = [] } = user || {};
 
@@ -47,7 +53,7 @@ const ProtectedLayout = () => {
           <Menu
             mode="inline"
             defaultSelectedKeys={[ROUTES.PRIVATE.ROOT]}
-            selectedKeys={[window.location.pathname]}
+            selectedKeys={[route?.key]}
             style={{ height: "100%", borderRight: 0 }}
             items={SIDE_MENU(user)
               ?.filter((item) => item?.show !== false)
@@ -57,7 +63,12 @@ const ProtectedLayout = () => {
                   style: { marginBottom: 12 },
                   onClick: () => navigate(item?.key),
                   icon: isNotNullOrEmpty(item?.icon) ? (
-                    <IMAGE src={item.icon} width={18} height={18} className="d-flex-valign" />
+                    <IMAGE
+                      src={item.icon}
+                      width={18}
+                      height={18}
+                      className="d-flex-valign"
+                    />
                   ) : null,
                 };
                 if (isNotNullOrEmpty(item?.children)) {

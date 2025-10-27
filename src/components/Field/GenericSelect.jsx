@@ -20,13 +20,20 @@ const GenericSelect = ({ field, mode = undefined, ...rest }) => {
 
   const { screen = "", value = "", form } = rest;
 
+  console.log({ field, screen })
+
   const [options, setOptions] = useState([]);
   const [fetching, setFetching] = useState(false);
 
   const fetchOptions = async (search = "", filters = null) => {
     setFetching(true);
     try {
-      const optList = await callFilterOptionAPi(search);
+      let optList = await callFilterOptionAPi(search);
+      if(screen === 'control_question' && fieldname === 'control'){
+        optList = optList?.map(opt => ({ ...opt, value: JSON.stringify(opt.label) }))
+      }
+      console.log({ optList });
+      
       if (isNullOrEmpty(filters)) {
         setOptions(optList ?? []);
       } else {

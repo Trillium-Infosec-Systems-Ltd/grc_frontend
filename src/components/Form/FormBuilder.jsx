@@ -113,6 +113,7 @@ const FormBuilder = ({
           min,
           max,
           fieldtype,
+          is_edit_disabled = false,
           disabled = false,
           display_on_field,
           display_on_value,
@@ -192,7 +193,7 @@ const FormBuilder = ({
                   return null;
                 }
 
-                let readonlyField = disabled || false;
+                let readonlyField = disabled ? disabled : is_edit_disabled && MODE === KEY.EDIT ? is_edit_disabled : false;
 
                 if (isNotNullOrEmpty(disable_on_field) && !disabled) {
                   let fieldValue = getFieldValue(disable_on_field) || null;

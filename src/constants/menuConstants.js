@@ -71,7 +71,7 @@ export const SIDE_MENU = (user = {}) => {
     {
       key: PRIVATE.ADMINISTRATION.PARENT,
       icon: "/src/assets/icon/settings.svg",
-      label: "Administartion",
+      label: "Administration",
       children: [
         {
           key: PRIVATE.ADMINISTRATION.CHILD.ASSET_TYPE.PARENT,
