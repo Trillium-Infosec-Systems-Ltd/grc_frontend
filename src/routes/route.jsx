@@ -12,11 +12,12 @@ import IncidentManagement from '../pages/IncidentManagement/IncidentManagement';
 import RiskManagement from '../pages/RisksManagement/RisksManagement';
 import ProfileManagement from '../pages/Profile/Profile';
 import AssetTypes from '../pages/Administration/AssetTypes/AssetTypes';
-import Departments from '../pages/Administration/Departments/departments';
+import Departments from '../pages/Administration/Departments/Departments';
 import ControlQuestions from '../pages/Administration/ControlQuestions/ControlQuestions';
 import ComplianceQuestions from '../pages/Administration/ComplianceQuestions/ComplianceQuestions';
 import Organizations from '../pages/Administration/Organizations/Organizations';
 import UserManagement from '../pages/UserManagement/UserManagement';
+import Frameworks from '../pages/Administration/Frameworks/Frameworks';
 
 export default function AppRoutes() {
   return (
@@ -72,6 +73,10 @@ export default function AppRoutes() {
           <Route
             path={ROUTES.PRIVATE.ADMINISTRATION.CHILD.ORGANIZATIONS.PARENT + '/*'}
             element={<Organizations />}
+          />
+          <Route
+            path={ROUTES.PRIVATE.ADMINISTRATION.CHILD.FRAMEWORKS.PARENT + '/*'}
+            element={<Frameworks />}
           />
         </Route>
       </Routes>

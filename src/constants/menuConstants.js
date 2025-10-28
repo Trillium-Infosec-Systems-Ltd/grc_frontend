@@ -17,14 +17,14 @@ export const SIDE_MENU = (user = {}) => {
       icon: "/src/assets/icon/assets.svg",
     },
     {
-      key: PRIVATE.THREATS_HUB.PARENT,
-      label: "Threats Hub",
-      icon: "/src/assets/icon/threats_hub.svg",
-    },
-    {
       key: PRIVATE.VULNERABILITY.PARENT,
       label: "Vulnerability Management",
       icon: "/src/assets/icon/Vulnerability.svg",
+    },
+    {
+      key: PRIVATE.THREATS_HUB.PARENT,
+      label: "Threats Hub",
+      icon: "/src/assets/icon/threats_hub.svg",
     },
     {
       key: PRIVATE.CONTROLS.PARENT,
@@ -89,6 +89,11 @@ export const SIDE_MENU = (user = {}) => {
         {
           key: PRIVATE.ADMINISTRATION.CHILD.ORGANIZATIONS.PARENT,
           label: "Organizations",
+          show: role === ROLE.SUPER_ADMIN || role === ROLE.PARTNER,
+        },
+        {
+          key: PRIVATE.ADMINISTRATION.CHILD.FRAMEWORKS.PARENT,
+          label: "Frameworks",
           show: role === ROLE.SUPER_ADMIN || role === ROLE.PARTNER,
         },
       ],

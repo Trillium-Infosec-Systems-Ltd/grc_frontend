@@ -21,6 +21,7 @@ const FormBuilder = ({
 }) => {
   const [schema, isLoading, initialData, submit] = useFormHook(screen, MODE);
   const [fileList, setFileList] = useState([]);
+  const [extraFields, setExtraFields] = useState({});
 
   const [form] = Form.useForm();
 
@@ -148,6 +149,8 @@ const FormBuilder = ({
             >
               {({ getFieldValue, setFieldValue }) => {
                 let show = true;
+                let extra_fields_obj = { ...extraFields };
+                delete extra_fields_obj[fieldname];
 
                 let commonProps = {
                   // ...field,
@@ -179,21 +182,29 @@ const FormBuilder = ({
                 }
 
                 if (!show) {
-                  setFieldValue(
-                    fieldname,
-                    isNotNullOrEmpty(field?.default)
-                      ? field?.default
-                      : fieldtype === "question_table"
-                      ? field?.default_value?.map((q) => ({
-                          ...q,
-                          answer: false,
-                        }))
-                      : field?.default_value
-                  );
+                  let fiel_value_default = isNotNullOrEmpty(field?.default)
+                    ? field?.default
+                    : fieldtype === "question_table"
+                    ? field?.default_value?.map((q) => ({
+                        ...q,
+                        answer: false,
+                      }))
+                    : field?.default_value;
+                  setFieldValue(fieldname, fiel_value_default);
+                  setExtraFields((prev) => ({
+                    ...prev,
+                    [fieldname]: fiel_value_default,
+                  }));
                   return null;
                 }
 
-                let readonlyField = disabled ? disabled : is_edit_disabled && MODE === KEY.EDIT ? is_edit_disabled : false;
+                setExtraFields(extra_fields_obj);
+
+                let readonlyField = disabled
+                  ? disabled
+                  : is_edit_disabled && MODE === KEY.EDIT
+                  ? is_edit_disabled
+                  : false;
 
                 if (isNotNullOrEmpty(disable_on_field) && !disabled) {
                   let fieldValue = getFieldValue(disable_on_field) || null;
@@ -306,7 +317,7 @@ const FormBuilder = ({
         name={`form_of_${screen}`}
         form={form}
         layout="vertical"
-        onFinish={(fields) => submit({ ...fields, fileList }, redirect)}
+        onFinish={(fields) => submit({ ...fields, ...extraFields, fileList }, redirect)}
         initialValues={initialValues}
         onValuesChange={handleValuesChange}
         onFinishFailed={({ errorFields }) => {

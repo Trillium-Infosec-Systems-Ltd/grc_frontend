@@ -68,6 +68,10 @@ export const ROUTES = {
           PARENT: '/organizations',
           ...NESTED_ROUTES
         },
+        FRAMEWORKS: {
+          PARENT: '/frameworks',
+          ...NESTED_ROUTES
+        },
       }
     },
   },
