@@ -6,7 +6,6 @@ import { APIS } from "../../constants/apiConstants";
 import { isNotNullOrEmpty, isNullOrEmpty } from "../../utils/utils";
 
 const GenericSelect = ({ field, mode = undefined, ...rest }) => {
-
   const {
     link_to,
     options: dropdownOptions,
@@ -18,9 +17,9 @@ const GenericSelect = ({ field, mode = undefined, ...rest }) => {
     fetch_to = null,
   } = field;
 
-  const { screen = "", value = "", form } = rest;
+  const { screen = "", value = "", form, isFromFilter = false } = rest;
 
-  console.log({ field, screen })
+  console.log({ field, screen });
 
   const [options, setOptions] = useState([]);
   const [fetching, setFetching] = useState(false);
@@ -29,11 +28,18 @@ const GenericSelect = ({ field, mode = undefined, ...rest }) => {
     setFetching(true);
     try {
       let optList = await callFilterOptionAPi(search);
-      if(screen === 'control_question' && fieldname === 'control'){
-        optList = optList?.map(opt => ({ ...opt, value: JSON.stringify(opt.label) }))
+      if (
+        screen === "control_question" &&
+        fieldname === "control_id" &&
+        isFromFilter
+      ) {
+        optList = optList?.map((opt) => ({
+          ...opt,
+          value: JSON.stringify(opt.label),
+        }));
       }
       console.log({ optList });
-      
+
       if (isNullOrEmpty(filters)) {
         setOptions(optList ?? []);
       } else {

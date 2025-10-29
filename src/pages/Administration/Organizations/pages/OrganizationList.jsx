@@ -1,28 +1,43 @@
 import TableBuilder from "../../../../components/Table/TableBuilder";
-import { Button, Tag } from "antd";
+import { Row } from "antd";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../../constants/routesConstants";
+import {
+  CodeSandboxOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
 
 const { ORGANIZATIONS } = ROUTES.PRIVATE.ADMINISTRATION.CHILD;
 
 const OrganizationList = () => {
   const navigate = useNavigate();
 
-  const actions = [
+   const actions = [
     {
-      title: "Details",
-      render: (_, record) => (
-        <Button
-          shape="round"
-          onClick={() =>
+      title: "More Actions",
+      align: "center",
+      type: "popover",
+      actions: [
+        {
+          label: (
+            <Row gutter={8} style={{ cursor: "pointer" }}>
+              <CodeSandboxOutlined /> Manage
+            </Row>
+          ),
+          onClick: (record) =>
             navigate(ORGANIZATIONS.PARENT + ORGANIZATIONS.EDIT, {
               state: { id: record?.id ?? null },
-            })
-          }
-        >
-          Manage
-        </Button>
-      ),
+            }),
+        },
+        {
+          label: (
+            <Row gutter={8} style={{ cursor: "pointer" }}>
+              <DeleteOutlined /> Delete
+            </Row>
+          ),
+          type: "delete",
+        },
+      ],
     },
   ];
 

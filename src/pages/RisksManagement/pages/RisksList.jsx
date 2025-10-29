@@ -5,7 +5,6 @@ import { ROUTES } from "../../../constants/routesConstants";
 import {
   CodeSandboxOutlined,
   DeleteOutlined,
-  FilterFilled,
 } from "@ant-design/icons";
 
 const RiskList = () => {
