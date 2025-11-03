@@ -12,7 +12,7 @@ import IncidentManagement from '../pages/IncidentManagement/IncidentManagement';
 import RiskManagement from '../pages/RisksManagement/RisksManagement';
 import ProfileManagement from '../pages/Profile/Profile';
 import AssetTypes from '../pages/Administration/AssetTypes/AssetTypes';
-import Departments from '../pages/Administration/Departments/Departments';
+import Departments from '../pages/Administration/Departments/departments';
 import ControlQuestions from '../pages/Administration/ControlQuestions/ControlQuestions';
 import ComplianceQuestions from '../pages/Administration/ComplianceQuestions/ComplianceQuestions';
 import Organizations from '../pages/Administration/Organizations/Organizations';
