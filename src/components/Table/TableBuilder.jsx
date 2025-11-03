@@ -188,7 +188,7 @@ const TableBuilder = ({
               <Button
                 type="primary"
                 className="ml-3 bg-primary"
-                onClick={() => template("CSV_EXPORT")}
+                onClick={() => template("CSV_EXPORT", filters)}
                 disabled={loading}
                 loading={loading}
               >

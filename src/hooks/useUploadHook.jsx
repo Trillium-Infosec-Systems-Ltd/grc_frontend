@@ -4,7 +4,7 @@ import { APIS } from "../constants/apiConstants";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { message } from "antd";
-import { PublicAPI } from "../axios";
+import { privateAPI, PublicAPI } from "../axios";
 import { isNotNullOrEmpty, isNullOrEmpty } from "../utils/utils";
 
 const useUploadHook = (screen) => {
@@ -17,20 +17,33 @@ const useUploadHook = (screen) => {
     errorDetail: {},
   });
 
-  const {error, errorDetail} = uploadingErrors;
+  const { error, errorDetail } = uploadingErrors;
 
   const downloadTemplate = useCallback(
-    async (endpointStr = "CSV_TEMPLATE") => {
+    async (endpointStr = "CSV_TEMPLATE", filters = null) => {
       if (isNullOrEmpty(screen)) return;
       try {
+        const targetEndpoint = APIS[endpointStr];
+        if (isNullOrEmpty(targetEndpoint)) return;
+
         let targetUrl = APIS[endpointStr]?.URL;
         if (isNullOrEmpty(targetUrl)) return;
 
         setLoading(true);
 
-        let resp = await PublicAPI.get(targetUrl + screen, {
-          responseType: "blob",
-        });
+        let resp = null;
+        const { AUTH = false, SERVER = "public" } = targetEndpoint;
+
+        if (AUTH && SERVER === "private") {
+          resp = await privateAPI.get(targetUrl + screen, {
+            responseType: "blob",
+            params: { ...(isNotNullOrEmpty(filters) ? filters : {}) },
+          });
+        } else {
+          await PublicAPI.get(targetUrl + screen, {
+            responseType: "blob",
+          });
+        }
 
         const blob = resp.data;
 
@@ -73,11 +86,11 @@ const useUploadHook = (screen) => {
         let resp = await uploadAttachment(files, "file", payload);
         const { status, data } = resp || {};
         if (status === 200) {
-          if(isNotNullOrEmpty(data?.errors) && data?.failed_count > 0){
-            setUploadingErrors({error: true, errorDetail: data})
-            return false
+          if (isNotNullOrEmpty(data?.errors) && data?.failed_count > 0) {
+            setUploadingErrors({ error: true, errorDetail: data });
+            return false;
           } else {
-            setUploadingErrors({error: false, errorDetail: {}})
+            setUploadingErrors({ error: false, errorDetail: {} });
             return true;
           }
           // message.success(`${screen} uploaded successfully!`);
@@ -134,7 +147,7 @@ const useUploadHook = (screen) => {
     template: downloadTemplate,
     uploadAttachment,
     uploadBulk: uploadCSVData,
-    resetError: () => setUploadingErrors({error: false, errorDetail: {}}),
+    resetError: () => setUploadingErrors({ error: false, errorDetail: {} }),
   };
 };
 

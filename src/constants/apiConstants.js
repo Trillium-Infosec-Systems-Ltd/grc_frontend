@@ -13,7 +13,8 @@ export const APIS = {
   CSV_EXPORT: {
     URL: "/export_csv/",
     METHOD: API_METHOD.GET,
-    AUTH: false,
+    AUTH: true,
+    SERVER: "private",
   },
   CSV_TEMPLATE: {
     URL: "/csv_template/",
