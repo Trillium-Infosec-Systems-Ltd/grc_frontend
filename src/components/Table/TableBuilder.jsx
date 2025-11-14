@@ -1,15 +1,15 @@
-import { Table, Button, Select, Typography } from "antd";
+import { Table, Button, Select, Typography, Row } from "antd";
 import "./tableStyle.css";
 import useTableHook from "../../hooks/useTableHook";
 import AppLoader from "../Loader/loader";
-import { isNotNullOrEmpty } from "../../utils/utils";
+import { isNotNullOrEmpty, textCapitalize } from "../../utils/utils";
 import { v4 as uuidv4 } from "uuid";
 import FilterPopover from "../Popover/Filters/Filter";
-import DropdownButton from "../Button/DropdownButton";
 import UploadBulkModal from "../Modals/UploadBulkModal";
 import { useState } from "react";
 import useUploadHook from "../../hooks/useUploadHook";
 import PopoverAction from "../Popover/Popover";
+import { CodeSandboxOutlined, UploadOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -95,8 +95,21 @@ const TableBuilder = ({
           </Button> */}
           {/* <DropdownButton /> */}
 
-          {isNotNullOrEmpty(headerLinks) && (
-            <div className="actions" style={{ display: "flex", gap: "20px" }}>
+          {(isNotNullOrEmpty(headerLinks) || isExport) && (
+            <div className="actions">
+              {isExport && (
+                <Button
+                  type="primary"
+                  className="bg-primary"
+                  onClick={() => template("CSV_EXPORT", filters)}
+                  disabled={loading}
+                  loading={loading}
+                >
+                  <span className="text-white" style={{ fontWeight: 600 }}>
+                    Export
+                  </span>
+                </Button>
+              )}
               {isfilter && (
                 <FilterPopover
                   screen={screen}
@@ -107,24 +120,37 @@ const TableBuilder = ({
                   }}
                 />
               )}
-              <span
-                key={"table-h-link_import"}
-                // className={link?.className ?? ""}
-                onClick={() => setBulkModal(true)}
-              >
-                Import
-              </span>
+
               {headerLinks?.map((link, index) =>
                 isNotNullOrEmpty(link?.Component) ? (
                   <div key={"table-h-link_" + index}>{link?.Component}</div>
                 ) : (
-                  <span
+                  <PopoverAction
                     key={"table-h-link_" + index}
-                    className={link?.className ?? ""}
-                    onClick={link?.onClick}
+                    screen={screen}
+                    content={[
+                      {
+                        label: (
+                          <Row gutter={8} className="action-items">
+                            <CodeSandboxOutlined /> Add {textCapitalize(screen)}
+                          </Row>
+                        ),
+                        onClick: link?.onClick,
+                      },
+                      {
+                        label: (
+                          <Row gutter={8} className="action-items">
+                            <UploadOutlined /> Import
+                          </Row>
+                        ),
+                        onClick: () => setBulkModal(true),
+                      },
+                    ]}
                   >
-                    {link?.label ?? ""}
-                  </span>
+                    <span className={link?.className ?? ""}>
+                      {link?.label ?? ""}
+                    </span>
+                  </PopoverAction>
                 )
               )}
             </div>
@@ -171,7 +197,7 @@ const TableBuilder = ({
           // size="middle"
         />
 
-        {isExport && (
+        {/* {isExport && (
           <div className="table-footer">
             <div className="export">
               <span>Download List as</span>
@@ -180,10 +206,10 @@ const TableBuilder = ({
                 style={{ marginLeft: 10 }}
                 disabled
               >
-                {/* <Option value="xlsx">Portable document format (.pdf)</Option> */}
+                <Option value="xlsx">Portable document format (.pdf)</Option>
                 <Option value="csv">comma separated values (.csv)</Option>
-                {/* <Option value="html">HTML file(.html)</Option> */}
-                {/* <Option value="json">Javascript Open Notaion (.json)</Option> */}
+                <Option value="html">HTML file(.html)</Option>
+                <Option value="json">Javascript Open Notaion (.json)</Option>
               </Select>
               <Button
                 type="primary"
@@ -196,7 +222,7 @@ const TableBuilder = ({
               </Button>
             </div>
           </div>
-        )}
+        )} */}
       </div>
     </AppLoader>
   );

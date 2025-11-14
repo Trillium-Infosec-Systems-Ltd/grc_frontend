@@ -4,7 +4,7 @@ import { Modal, Form, Input, Upload, Button, Typography, message } from "antd";
 import { UploadOutlined, DownloadOutlined } from "@ant-design/icons";
 import useUploadHook from "../../hooks/useUploadHook";
 import ErrorListModal from "./ErrorListModal";
-import { isNullOrEmpty } from "../../utils/utils";
+import { isNullOrEmpty, textCapitalize } from "../../utils/utils";
 
 const { Dragger } = Upload;
 const { Text, Title } = Typography;
@@ -68,13 +68,6 @@ const UploadBulkModal = ({ screen = "", visible, onClose, onRefresh }) => {
     }
   };
 
-  const labelFormatter = (label) => {
-    if (isNullOrEmpty(label)) return "";
-    let labelTxt = label.split("_").join(" ");
-    labelTxt = labelTxt.charAt(0).toUpperCase() + labelTxt.slice(1);
-    return labelTxt;
-  };
-
   return (
     <Modal
       open={visible}
@@ -95,8 +88,9 @@ const UploadBulkModal = ({ screen = "", visible, onClose, onRefresh }) => {
           onClick={handleOk}
           disabled={!fileList.length || loading}
           loading={loading}
+          className="text-white"
         >
-          Upload<span className="">{labelFormatter(screen)}</span>
+          Upload<span className="">{textCapitalize(screen)}</span>
         </Button>,
       ]}
     >

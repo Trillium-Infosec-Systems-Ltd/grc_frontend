@@ -57,3 +57,10 @@ export const debounce = (fn, delay) => {
     timer = setTimeout(() => fn.apply(this, args), delay);
   };
 };
+
+export const textCapitalize = (label) => {
+  if (isNullOrEmpty(label)) return "";
+  let labelTxt = label.split("_").join(" ");
+  labelTxt = labelTxt.charAt(0).toUpperCase() + labelTxt.slice(1);
+  return labelTxt;
+};

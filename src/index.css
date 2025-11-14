@@ -63,6 +63,11 @@
   --cydea-golden: #ffbb38;
   --cydea-danger: #fe5c73;
   --cydea-violet: #ac39d4;
+  --cydea-white: #fff;
+
+  --cydea-non-copliant: #ff2a04;
+  --cydea-partial-compliant: #ffb302;
+  --cydea-compliant: #00b050;
 
   /* UI Colors */
   --cydea-bg-primary: var(--cydea-primary);
@@ -100,6 +105,15 @@ body {
 .bg-primary {
   background-color: var(--cydea-primary);
 }
+.text-non-compliant {
+  color: var(--cydea-non-copliant);
+}
+.text-partial-compliant {
+  color: var(--cydea-partial-compliant);
+}
+.text-compliant {
+  color: var(--cydea-compliant);
+}
 .text-primary {
   color: var(--cydea-primary);
 }
@@ -121,6 +135,9 @@ body {
 .text-purple {
   color: var(--cydea-purple) !important;
 }
+.text-white {
+  color: var(--cydea-white) !important;
+}
 
 h4.ant-typography {
   color: var(--cydea-purple);
@@ -133,6 +150,19 @@ div[class*=" ant-layout"] {
 
 label[class*=" ant-radio"] {
   font-family: var(--font-family-base) !important;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.action-items {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
 }
 
 .ant-layout,
@@ -400,8 +430,8 @@ button[type="submit"] {
 /*ant-btn-primary  */
 .ant-btn.ant-btn-primary {
   background: var(--green);
-  color: var(--bg-primary);
-  border-color: var(--green);
+  /* color: var(--bg-primary); */
+  /* border-color: var(--green); */
   border-radius: 5px;
 }
 

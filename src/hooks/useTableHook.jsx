@@ -215,17 +215,17 @@ const colColorSwitcher = (caseValue) => {
   switch (caseValue) {
     case "Compliant":
     case "Low":
-      colorClass = "text-primary";
+      colorClass = "text-compliant";
       break;
 
     case "Partially Compliant":
     case "Medium":
-      colorClass = "text-golden";
+      colorClass = "text-partial-comliant";
       break;
 
     case "Non-Compliant":
     case "High":
-      colorClass = "text-danger";
+      colorClass = "text-non-compliant";
       break;
 
     case "Critical":

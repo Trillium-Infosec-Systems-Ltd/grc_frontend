@@ -1,9 +1,9 @@
 import { Progress } from "antd";
 
 const progressData = {
-  "Non Compliant": { percent: 25, strokeColor: "#fe5c73" },
-  "Partially Compliant": { percent: 75, strokeColor: "#ffbb38" },
-  Compliant: { percent: 100, strokeColor: "#4fd1c5" },
+  "Non Compliant": { percent: 25, strokeColor: "#FF2A04" },
+  "Partially Compliant": { percent: 75, strokeColor: "#FFB302" },
+  Compliant: { percent: 100, strokeColor: "#00B050" },
 };
 
 const AssessmentProgress = ({ form, field, ...rest }) => {

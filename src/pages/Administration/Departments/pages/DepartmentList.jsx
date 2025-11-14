@@ -1,18 +1,15 @@
-import TableBuilder from '../../../../components/Table/TableBuilder';
-import { Row } from 'antd';
-import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../../constants/routesConstants';
-import {
-  CodeSandboxOutlined,
-  DeleteOutlined,
-} from "@ant-design/icons";
+import TableBuilder from "../../../../components/Table/TableBuilder";
+import { Row } from "antd";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../../../constants/routesConstants";
+import { CodeSandboxOutlined, DeleteOutlined } from "@ant-design/icons";
 
 const { DEPARTMENTS } = ROUTES.PRIVATE.ADMINISTRATION.CHILD;
 
 const DepartmentList = () => {
   const navigate = useNavigate();
 
-   const actions = [
+  const actions = [
     {
       title: "More Actions",
       align: "center",
@@ -20,7 +17,7 @@ const DepartmentList = () => {
       actions: [
         {
           label: (
-            <Row gutter={8} style={{ cursor: "pointer" }}>
+            <Row gutter={8} className="action-items">
               <CodeSandboxOutlined /> Manage
             </Row>
           ),
@@ -31,7 +28,7 @@ const DepartmentList = () => {
         },
         {
           label: (
-            <Row gutter={8} style={{ cursor: "pointer" }}>
+            <Row gutter={8} className="action-items">
               <DeleteOutlined /> Delete
             </Row>
           ),
@@ -44,18 +41,15 @@ const DepartmentList = () => {
   return (
     <div>
       <TableBuilder
-        title='List of Departments'
-        screen='department'
+        title="List of Departments"
+        screen="department"
         actionsList={actions}
         headerLinks={[
           {
             Component: null,
-            label: '+ Add New Department',
-            className: 'add-btn',
-            onClick: () =>
-              navigate(
-                DEPARTMENTS.PARENT + DEPARTMENTS.CREATE
-              ),
+            label: "+ Add New Department",
+            className: "add-btn",
+            onClick: () => navigate(DEPARTMENTS.PARENT + DEPARTMENTS.CREATE),
           },
         ]}
       />

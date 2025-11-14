@@ -125,6 +125,7 @@ const FormBuilder = ({
           required_on_value,
           required_on_field,
           isFetchingData = false,
+          is_fetch_on_load = false,
           fetch_to,
         } = field;
 
@@ -233,20 +234,20 @@ const FormBuilder = ({
                   );
                 }
 
-                // if (isFetchingData && isNotNullOrEmpty(fetch_to)) {
-                //   let is_callable = true;
-                //   for (const key of Object?.keys(fetch_to?.isCall ?? {}) || []) {
-                //     is_callable = getFieldValue(key) === fetch_to?.isCall[key];
-                //     if (!is_callable) break;
-                //   }
-                //   if (is_callable) {
-                //     fetchDataByValue(
-                //       fetch_to,
-                //       (k) => getFieldValue(k),
-                //       (k, v) => setFieldValue(k, v)
-                //     );
-                //   }
-                // }
+                if (isFetchingData && is_fetch_on_load && isNotNullOrEmpty(fetch_to)) {
+                  let is_callable = true;
+                  for (const key of Object?.keys(fetch_to?.isCall ?? {}) || []) {
+                    is_callable = getFieldValue(key) === fetch_to?.isCall[key];
+                    if (!is_callable) break;
+                  }
+                  if (is_callable) {
+                    fetchDataByValue(
+                      fetch_to,
+                      (k) => getFieldValue(k),
+                      (k, v) => setFieldValue(k, v)
+                    );
+                  }
+                }
 
                 return (
                   <Col xs={24} sm={24} md={span} key={fieldname}>

@@ -20,7 +20,7 @@ const OrganizationList = () => {
       actions: [
         {
           label: (
-            <Row gutter={8} style={{ cursor: "pointer" }}>
+            <Row gutter={8} className="action-items">
               <CodeSandboxOutlined /> Manage
             </Row>
           ),
@@ -31,7 +31,7 @@ const OrganizationList = () => {
         },
         {
           label: (
-            <Row gutter={8} style={{ cursor: "pointer" }}>
+            <Row gutter={8} className="action-items">
               <DeleteOutlined /> Delete
             </Row>
           ),
