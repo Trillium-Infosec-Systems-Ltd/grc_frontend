@@ -1,43 +1,30 @@
 import TableBuilder from "../../../../components/Table/TableBuilder";
-import { Row } from "antd";
+import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../../constants/routesConstants";
-import {
-  CodeSandboxOutlined,
-  DeleteOutlined,
-} from "@ant-design/icons";
 
 const { ORGANIZATIONS } = ROUTES.PRIVATE.ADMINISTRATION.CHILD;
 
 const OrganizationList = () => {
   const navigate = useNavigate();
 
-   const actions = [
+  const action = [
     {
-      title: "More Actions",
-      align: "center",
-      type: "popover",
-      actions: [
-        {
-          label: (
-            <Row gutter={8} className="action-items">
-              <CodeSandboxOutlined /> Manage
-            </Row>
-          ),
-          onClick: (record) =>
+      title: "Details",
+      render: (_, record) => (
+        <Button
+          shape="round"
+          onClick={() =>
             navigate(ORGANIZATIONS.PARENT + ORGANIZATIONS.EDIT, {
               state: { id: record?.id ?? null },
-            }),
-        },
-        {
-          label: (
-            <Row gutter={8} className="action-items">
-              <DeleteOutlined /> Delete
-            </Row>
-          ),
-          type: "delete",
-        },
-      ],
+            })
+          }
+          className="view-details-button"
+        >
+          Manage
+        </Button>
+      ),
+      align: "center",
     },
   ];
 
@@ -46,13 +33,15 @@ const OrganizationList = () => {
       <TableBuilder
         title="List of Organizations"
         screen="organization"
-        actionsList={actions}
+        actionsList={action}
+        isDeletAble={true}
         headerLinks={[
           {
             Component: null,
             label: "+ Add New Organization",
             className: "add-btn",
-            onClick: () => navigate(ORGANIZATIONS.PARENT + ORGANIZATIONS.CREATE),
+            onClick: () =>
+              navigate(ORGANIZATIONS.PARENT + ORGANIZATIONS.CREATE),
           },
         ]}
       />

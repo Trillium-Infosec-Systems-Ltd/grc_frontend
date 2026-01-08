@@ -11,6 +11,7 @@ const useTableHook = (screen, MODE = KEY.VIEW) => {
   const dispatch = useDispatch();
   const { user, userQuery } = useSelector((state) => state.session);
 
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [isLoading, setIsLoaing] = useState(false);
   const [stateRef, setStateRef] = useState({
     filters: {},
@@ -38,6 +39,7 @@ const useTableHook = (screen, MODE = KEY.VIEW) => {
 
   const getTableSchema = useCallback(async () => {
     setIsLoaing(true);
+    setSelectedRowKeys([]);
 
     const result = await callApi({
       ...APIS.TABLE_SCHEMA,
@@ -92,21 +94,22 @@ const useTableHook = (screen, MODE = KEY.VIEW) => {
   );
 
   const deleteRecord = useCallback(
-    async (recordId = null) => {
-      if (isNullOrEmpty(recordId)) return;
+    async (recordIds = []) => {
+      if (isNullOrEmpty(recordIds)) return;
 
       setIsLoaing(true);
 
       let apiConfig = { ...APIS.DELETE_RECORD };
+      apiConfig.PAYLOAD = { ids: recordIds };
       const result = await callApi({
         ...apiConfig,
-        PARAMS: {
-          PATH: { screen, record_id: recordId },
-        },
+        PARAMS: { PATH: { screen } },
       });
       if (result?.status === 200) {
         message.success(result?.data?.detail || `Record deleted successfully`);
         await getTableSchema();
+      } else {
+        message.error(result?.data?.detail || `Failed to delete record`);
       }
       setIsLoaing(false);
     },
@@ -141,9 +144,16 @@ const useTableHook = (screen, MODE = KEY.VIEW) => {
     }));
   };
 
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: (onSelectedRowKeys) => setSelectedRowKeys(onSelectedRowKeys),
+  };
+
   return {
     schema,
     data,
+    selectedRowKeys,
+    rowSelection,
     filters,
     isLoading,
     fetchData: getTableData,

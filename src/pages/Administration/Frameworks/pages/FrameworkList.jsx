@@ -1,61 +1,46 @@
-import TableBuilder from '../../../../components/Table/TableBuilder';
-import { Button, Row, Tag } from 'antd';
-import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../../constants/routesConstants';
-import {
-  CodeSandboxOutlined,
-  DeleteOutlined,
-} from "@ant-design/icons";
+import TableBuilder from "../../../../components/Table/TableBuilder";
+import { Button } from "antd";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../../../constants/routesConstants";
 
 const { FRAMEWORKS } = ROUTES.PRIVATE.ADMINISTRATION.CHILD;
 
 const FrameworkList = () => {
   const navigate = useNavigate();
 
-   const actions = [
+  const action = [
     {
-      title: "More Actions",
-      align: "center",
-      type: "popover",
-      actions: [
-        {
-          label: (
-            <Row gutter={8} className="action-items">
-              <CodeSandboxOutlined /> Manage
-            </Row>
-          ),
-          onClick: (record) =>
+      title: "Details",
+      render: (_, record) => (
+        <Button
+          shape="round"
+          onClick={() =>
             navigate(FRAMEWORKS.PARENT + FRAMEWORKS.EDIT, {
               state: { id: record?.id ?? null },
-            }),
-        },
-        {
-          label: (
-            <Row gutter={8} className="action-items">
-              <DeleteOutlined /> Delete
-            </Row>
-          ),
-          type: "delete",
-        },
-      ],
+            })
+          }
+          className="view-details-button"
+        >
+          Manage
+        </Button>
+      ),
+      align: "center",
     },
   ];
 
   return (
     <div>
       <TableBuilder
-        title='List of Frameworks'
-        screen='framework'
-        actionsList={actions}
+        title="List of Frameworks"
+        screen="framework"
+        actionsList={action}
+        isDeletAble={true}
         headerLinks={[
           {
             Component: null,
-            label: '+ Add New Framework',
-            className: 'add-btn',
-            onClick: () =>
-              navigate(
-                FRAMEWORKS.PARENT + FRAMEWORKS.CREATE
-              ),
+            label: "+ Add New Framework",
+            className: "add-btn",
+            onClick: () => navigate(FRAMEWORKS.PARENT + FRAMEWORKS.CREATE),
           },
         ]}
       />

@@ -1,4 +1,4 @@
-import { Table, Button, Select, Typography, Row } from "antd";
+import { Table, Button, Select, Typography, Row, Popconfirm } from "antd";
 import "./tableStyle.css";
 import useTableHook from "../../hooks/useTableHook";
 import AppLoader from "../Loader/loader";
@@ -20,6 +20,7 @@ const TableBuilder = ({
   screen = "assets",
   title = "List of Assets",
   isShowHeader = true,
+  isDeletAble = false,
   isExport = true,
   pagination = true,
   isfilter = true,
@@ -28,6 +29,7 @@ const TableBuilder = ({
 }) => {
   const [tPageSize, setTPage] = useState(pageSize);
   const [bulkModal, setBulkModal] = useState(false);
+  
 
   const { loading, template } = useUploadHook(screen);
   const {
@@ -35,6 +37,8 @@ const TableBuilder = ({
     data,
     filters,
     isLoading,
+    selectedRowKeys,
+    rowSelection,
     fetchData,
     getTableSchema,
     deleteRecord,
@@ -70,7 +74,7 @@ const TableBuilder = ({
     return records.map((record, index) => {
       return {
         ...record,
-        t_row_record_id: uuidv4(),
+        t_row_record_id: record?.id ?? uuidv4(),
         _generatedId: true,
       };
     });
@@ -79,6 +83,7 @@ const TableBuilder = ({
   const tableProps = {
     size: "small",
   };
+
   return (
     <AppLoader isLoading={isLoading}>
       {isShowHeader && (
@@ -97,6 +102,34 @@ const TableBuilder = ({
 
           {(isNotNullOrEmpty(headerLinks) || isExport) && (
             <div className="actions">
+              {isDeletAble && isNotNullOrEmpty(selectedRowKeys) && (
+                <Popconfirm
+                  title="Delete"
+                  description="Are you sure to delete this record?"
+                  okText="Yes"
+                  cancelText="No"
+                  onConfirm={() => deleteRecord(selectedRowKeys)}
+                >
+                  {/* <span
+                  style={{
+                    cursor: "pointer",
+                    color: "red",
+                  }}
+                >
+                  {action?.label}
+                </span> */}
+                  <Button
+                    type="primary"
+                    disabled={loading}
+                    loading={loading}
+                    style={{ backgroundColor: 'red' }}
+                  >
+                    <span className="text-white" style={{ fontWeight: 600 }}>
+                      Delete
+                    </span>
+                  </Button>
+                </Popconfirm>
+              )}
               {isExport && (
                 <Button
                   type="primary"
@@ -163,6 +196,7 @@ const TableBuilder = ({
           columns={columnList}
           dataSource={ensureRecordIds(items ?? [])}
           scroll={{ x: "max-content" }}
+          rowSelection={isDeletAble && rowSelection}
           tableProps={tableProps}
           pagination={
             pagination

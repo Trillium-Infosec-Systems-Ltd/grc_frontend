@@ -82,12 +82,13 @@ export const APIS = {
     PAYLOAD: {},
   },
   DELETE_RECORD: {
-    URL: "/data/:screen/:record_id",
+    URL: "/data/:screen",
     METHOD: API_METHOD.DELETE,
     CONTENT_TYPE: API_CONTENT_TYPE.MULTIPART,
     PARAMS: {
-      PATH: { screen: "", record_id: "" },
+      PATH: { screen: "" },
     },
+    PAYLOAD: {},
   },
   ASSETS_INFO: {
     URL: "/assets_info/",

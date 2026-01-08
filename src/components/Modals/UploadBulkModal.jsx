@@ -4,7 +4,7 @@ import { Modal, Form, Input, Upload, Button, Typography, message } from "antd";
 import { UploadOutlined, DownloadOutlined } from "@ant-design/icons";
 import useUploadHook from "../../hooks/useUploadHook";
 import ErrorListModal from "./ErrorListModal";
-import { isNullOrEmpty, textCapitalize } from "../../utils/utils";
+import { textCapitalize } from "../../utils/utils";
 
 const { Dragger } = Upload;
 const { Text, Title } = Typography;
