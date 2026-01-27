@@ -27,13 +27,13 @@ const AssetTypesList = () => {
   return (
     <div>
       <TableBuilder
-      title='List of Asset Types'
+      title='List of Asset Categories'
       screen='asset_type'
         actionsList={actions}
         headerLinks={[
           {
             Component: null,
-            label: '+ Add New Asset Type',
+            label: '+ Add New Asset Category',
             className: 'add-btn',
             onClick: () =>
               navigate(

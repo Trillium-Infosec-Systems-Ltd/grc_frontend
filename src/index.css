@@ -341,6 +341,11 @@ h6 {
   padding-right: 0px !important;
 }
 
+label {
+  white-space: normal !important;
+  word-spacing: normal !important;
+}
+
 /*************ant btns***************/
 .ant-btn {
   font-family: var(--font-family-base) !important;

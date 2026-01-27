@@ -75,7 +75,7 @@ export const SIDE_MENU = (user = {}) => {
       children: [
         {
           key: PRIVATE.ADMINISTRATION.CHILD.ASSET_TYPE.PARENT,
-          label: "Asset Types",
+          label: "Asset Category",
         },
         {
           key: PRIVATE.ADMINISTRATION.CHILD.DEPARTMENTS.PARENT,

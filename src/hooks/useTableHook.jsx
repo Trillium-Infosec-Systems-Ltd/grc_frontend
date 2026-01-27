@@ -202,7 +202,7 @@ const columnPropertiesUpdator = (columns = []) => {
         return Array.isArray(lines) ? (
           <ul style={cellStyle}>
             {lines.map((line, index) =>
-              line.trim() ? (
+              line?.toString()?.trim() ? (
                 <>
                   <li key={index + "_cell_list"}>{line}</li>{" "}
                 </>
