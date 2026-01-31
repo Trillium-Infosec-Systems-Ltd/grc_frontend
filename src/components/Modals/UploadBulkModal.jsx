@@ -9,7 +9,13 @@ import { textCapitalize } from "../../utils/utils";
 const { Dragger } = Upload;
 const { Text, Title } = Typography;
 
-const UploadBulkModal = ({ screen = "", visible, onClose, onRefresh }) => {
+const UploadBulkModal = ({
+  screen = "",
+  screenAlias = "",
+  visible,
+  onClose,
+  onRefresh,
+}) => {
   const [form] = Form.useForm();
   const {
     loading,
@@ -57,7 +63,7 @@ const UploadBulkModal = ({ screen = "", visible, onClose, onRefresh }) => {
       }
       let resp = await uploadBulk(fileList);
       if (resp) {
-        message.success(`${screen} uploaded successfully!`);
+        message.success(`${textCapitalize(screenAlias || screen)} uploaded successfully!`);
         form.resetFields();
         setFileList([]);
         onClose();
@@ -90,7 +96,7 @@ const UploadBulkModal = ({ screen = "", visible, onClose, onRefresh }) => {
           loading={loading}
           className="text-white"
         >
-          Upload<span className="">{textCapitalize(screen)}</span>
+          Upload<span className="">{textCapitalize(screenAlias || screen)}</span>
         </Button>,
       ]}
     >

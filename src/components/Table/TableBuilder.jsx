@@ -18,6 +18,7 @@ const TableBuilder = ({
   pageSize = 5,
   downloadFormat = "csv",
   screen = "assets",
+  screenAlias = "",
   title = "List of Assets",
   isShowHeader = true,
   isDeletAble = false,
@@ -29,7 +30,6 @@ const TableBuilder = ({
 }) => {
   const [tPageSize, setTPage] = useState(pageSize);
   const [bulkModal, setBulkModal] = useState(false);
-  
 
   const { loading, template } = useUploadHook(screen);
   const {
@@ -66,7 +66,7 @@ const TableBuilder = ({
               </PopoverAction>
             ),
           }
-        : { ...action, fixed: "right" }
+        : { ...action, fixed: "right" },
     ) ?? []),
   ];
 
@@ -91,6 +91,7 @@ const TableBuilder = ({
           <Title level={4}>{title ?? ""}</Title>
           <UploadBulkModal
             screen={screen}
+            screenAlias={screenAlias}
             visible={bulkModal}
             onClose={() => setBulkModal(false)}
             onRefresh={getTableSchema}
@@ -122,7 +123,7 @@ const TableBuilder = ({
                     type="primary"
                     disabled={loading}
                     loading={loading}
-                    style={{ backgroundColor: 'red' }}
+                    style={{ backgroundColor: "red" }}
                   >
                     <span className="text-white" style={{ fontWeight: 600 }}>
                       Delete
@@ -165,7 +166,8 @@ const TableBuilder = ({
                       {
                         label: (
                           <Row gutter={8} className="action-items">
-                            <CodeSandboxOutlined /> Add {textCapitalize(screen)}
+                            <CodeSandboxOutlined /> Add{" "}
+                            {textCapitalize(screenAlias || screen)}
                           </Row>
                         ),
                         onClick: link?.onClick,
@@ -184,7 +186,7 @@ const TableBuilder = ({
                       {link?.label ?? ""}
                     </span>
                   </PopoverAction>
-                )
+                ),
               )}
             </div>
           )}

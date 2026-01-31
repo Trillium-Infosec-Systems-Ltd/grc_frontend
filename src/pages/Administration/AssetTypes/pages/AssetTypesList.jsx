@@ -1,7 +1,7 @@
-import TableBuilder from '../../../../components/Table/TableBuilder';
-import { Button, Tag } from 'antd';
-import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../../constants/routesConstants';
+import TableBuilder from "../../../../components/Table/TableBuilder";
+import { Button, Tag } from "antd";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../../../constants/routesConstants";
 
 const { ASSET_TYPE } = ROUTES.PRIVATE.ADMINISTRATION.CHILD;
 
@@ -10,14 +10,16 @@ const AssetTypesList = () => {
 
   const actions = [
     {
-      title: 'Details',
+      title: "Details",
       render: (_, record) => (
-        <Button shape="round" onClick={() => navigate(
-          ASSET_TYPE.PARENT + ASSET_TYPE.EDIT,
-          {
-            state: { id: record?.id ?? null },
+        <Button
+          shape="round"
+          onClick={() =>
+            navigate(ASSET_TYPE.PARENT + ASSET_TYPE.EDIT, {
+              state: { id: record?.id ?? null },
+            })
           }
-        )}>
+        >
           Manage
         </Button>
       ),
@@ -27,18 +29,16 @@ const AssetTypesList = () => {
   return (
     <div>
       <TableBuilder
-      title='List of Asset Categories'
-      screen='asset_type'
+        title="List of Asset Categories"
+        screen="asset_type"
+        screenAlias="Asset Category"
         actionsList={actions}
         headerLinks={[
           {
             Component: null,
-            label: '+ Add New Asset Category',
-            className: 'add-btn',
-            onClick: () =>
-              navigate(
-                ASSET_TYPE.PARENT + ASSET_TYPE.CREATE
-              ),
+            label: "+ Add New Asset Category",
+            className: "add-btn",
+            onClick: () => navigate(ASSET_TYPE.PARENT + ASSET_TYPE.CREATE),
           },
         ]}
       />

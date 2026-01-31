@@ -1261,7 +1261,7 @@ button[type="submit"] {
 
 .ant-table .ant-table-container .ant-table-thead .ant-table-cell {
   /* background-color: var(--light-green); */
-  /* background-color: transparent; */
+  background-color: white;
 }
 
 .ant-table-content .ant-table-thead th.ant-table-cell:before {
