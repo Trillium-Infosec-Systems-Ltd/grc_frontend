@@ -44,7 +44,16 @@ const GenericSelect = ({ field, mode = undefined, ...rest }) => {
         setOptions(optList ?? []);
       } else {
         const newOptList = await callFilterOptionAPi("", filters);
-        setOptions([...(newOptList ?? []), ...(optList ?? [])]);
+
+        const mergedArr = Array.from(
+          new Map(
+            [...(newOptList ?? []), ...(optList ?? [])].map((item) => [
+              item.value,
+              item,
+            ]),
+          ).values(),
+        );
+        setOptions(mergedArr);
       }
     } catch (err) {
       console.error("Select search error", err);
@@ -78,7 +87,7 @@ const GenericSelect = ({ field, mode = undefined, ...rest }) => {
         dropdownOptions?.map((opt) => ({
           label: opt ?? "",
           value: opt ?? "",
-        })) ?? []
+        })) ?? [],
       );
       // } else if (link_to && isNotNullOrEmpty(value)) {
     } else if (link_to) {
