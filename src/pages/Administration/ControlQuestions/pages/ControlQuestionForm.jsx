@@ -9,7 +9,7 @@ const ControlQuestionForm = ({ MODE = KEY.VIEW }) => {
     <FormBuilder
       screen="control_question"
       title={
-        MODE === KEY.EDIT ? "Edit Control Question" : "Add New Control Question"
+        MODE === KEY.EDIT ? "Edit Framwork Question" : "Add New Framwork Question"
       }
       redirect={CONTROL_QUESTIONS.PARENT}
       MODE={MODE}

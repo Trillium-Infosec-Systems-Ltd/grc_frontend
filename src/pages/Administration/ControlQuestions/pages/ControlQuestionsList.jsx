@@ -31,7 +31,7 @@ const ContolQuestionsList = () => {
   return (
     <div>
       <TableBuilder
-        title="List of Control Questions"
+        title="List of Framework Questions"
         screen="control_question"
         actionsList={action}
         isDeletAble={true}

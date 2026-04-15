@@ -83,7 +83,7 @@ export const SIDE_MENU = (user = {}) => {
         },
         {
           key: PRIVATE.ADMINISTRATION.CHILD.CONTROL_QUESTIONS.PARENT,
-          label: "Control Questions",
+          label: "Framework Questions",
         },
         // { key: PRIVATE.ADMINISTRATION.CHILD.COMPLIANCE_QUESTIONS.PARENT, label: 'Compliance Questions' },
         {

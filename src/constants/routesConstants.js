@@ -57,7 +57,7 @@ export const ROUTES = {
           ...NESTED_ROUTES
         },
         CONTROL_QUESTIONS: {
-          PARENT: '/control_questions',
+          PARENT: '/framework_questions',
           ...NESTED_ROUTES
         },
         COMPLIANCE_QUESTIONS: {
