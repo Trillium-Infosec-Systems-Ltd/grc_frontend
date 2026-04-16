@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Pie, PieChart, ResponsiveContainer, Legend, Cell } from "recharts";
 
 const dataSet = [
@@ -79,7 +80,7 @@ const renderLegend = ({ payload }) => {
   );
 };
 
-export default function DoughnutChart({ data = dataSet }) {
+const DoughnutChart = memo(({ data = dataSet }) => {
   return (
     <>
       <style>
@@ -99,6 +100,7 @@ export default function DoughnutChart({ data = dataSet }) {
             outerRadius={100}
             dataKey="value"
             paddingAngle={0}
+            label
           >
             {data?.map((entry, index) => (
               <Cell
@@ -134,4 +136,6 @@ export default function DoughnutChart({ data = dataSet }) {
       </ResponsiveContainer>
     </>
   );
-}
+});
+
+export default DoughnutChart;

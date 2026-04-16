@@ -1,3 +1,4 @@
+import { memo } from "react";
 import {
   BarChart,
   Bar,
@@ -6,6 +7,7 @@ import {
   CartesianGrid,
   Legend,
   ResponsiveContainer,
+  LabelList,
 } from "recharts";
 
 const dataSet = [
@@ -53,7 +55,7 @@ const COLORS = {
   "Very High": "#ff2a04",
 };
 
-const BarChartGallery = ({ data = dataSet, isStacked = false }) => {
+const BarChartGallery = memo(({ data = dataSet, isStacked = false }) => {
   const textColor = "#718EBF";
   const BARS = [...new Set(data?.map((d) => Object.keys(d))?.flat()?.filter(k => k?.toLowerCase() !== 'name'))];
 
@@ -77,7 +79,9 @@ const BarChartGallery = ({ data = dataSet, isStacked = false }) => {
         {isStacked ? (
           <>
           {BARS?.map((k) => 
-        <Bar dataKey={k} stackId='a' fill={COLORS[k]} barSize={40} />
+        <Bar dataKey={k} stackId='a' fill={COLORS[k]} barSize={40}>
+          <LabelList dataKey={k} position="inside" fill="black" />
+        </Bar>
           )}
         {/* <Bar dataKey="pv" name='Alert' stackId='a' barSize={10} fill="#FE5C73" radius={[10, 10, 10, 10]} />
         <Bar dataKey="uv" name='Resolved' stackId='a' barSize={10} fill="#16DBCC" radius={[10, 10, 10, 10]} /> */}
@@ -91,6 +95,6 @@ const BarChartGallery = ({ data = dataSet, isStacked = false }) => {
       </BarChart>
     </ResponsiveContainer>
   );
-};
+});
 
 export default BarChartGallery;

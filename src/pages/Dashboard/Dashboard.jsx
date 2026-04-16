@@ -1,4 +1,13 @@
-import { Col, Row, Typography, Select } from "antd";
+import {
+  Col,
+  Row,
+  Typography,
+  Select,
+  Button,
+  Dropdown,
+  Flex,
+} from "antd";
+import { ArrowDownOutlined } from "@ant-design/icons";
 import BarChartGallery from "../../chart_gallery/BarChart";
 import DoughnutChart from "../../chart_gallery/DoughnutChart";
 import RadarChartGallery from "../../chart_gallery/RadarChart";
@@ -11,6 +20,17 @@ import {
 import { useMemo, useState } from "react";
 
 const { Title } = Typography;
+
+const exportOptions = [
+  {
+    key: "1",
+    label: "PDF",
+  },
+  {
+    key: "2",
+    label: "Excel",
+  },
+];
 
 function Dashboard() {
   const [activeFramework, setActiveFramework] = useState(
@@ -25,6 +45,7 @@ function Dashboard() {
     <Row gutter={[20, 80]}>
       <Col span={12} style={{ height: "350px" }}>
         <Title level={4}>Compliance Status</Title>
+        <Flex justify="space-around" alignItems="center">
         <Select
           showSearch
           placeholder="Framework"
@@ -34,10 +55,31 @@ function Dashboard() {
           options={FRAMWORKS_MOCK ?? []}
           style={{ width: 200 }}
         />
+        <Dropdown
+            menu={{
+              items: exportOptions,
+              onClick: () => console.log("Exporting..."),
+            }}
+            placement="bottomRight"
+          >
+            <Button icon={<ArrowDownOutlined />} color="cyan" variant="solid">Export</Button>
+          </Dropdown>
+        </Flex>
         <DoughnutChart data={complianceData} />
       </Col>
       <Col span={12} style={{ height: "350px" }}>
         <Title level={4}>Risk</Title>
+        <Flex justify="end" alignItems="center">
+          <Dropdown
+            menu={{
+              items: exportOptions,
+              onClick: () => console.log("Exporting..."),
+            }}
+            placement="bottomRight"
+          >
+            <Button icon={<ArrowDownOutlined />} color="cyan" variant="solid">Export</Button>
+          </Dropdown>
+        </Flex>
         <DoughnutChart data={getDashboardData("risk_by_status")} />
       </Col>
       <Col span={24} style={{ height: "350px" }}>
