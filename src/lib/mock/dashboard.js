@@ -1,6 +1,6 @@
 import { isNotNullOrEmpty, isNullOrEmpty } from "../../utils/utils";
 
-const FRAMEWORKS_KEYS = {
+export const FRAMEWORKS_KEYS = {
   ISO_27001: "ISO 27001",
   PISF: "PISF",
   NIST_CSF: "NIST CSF",
@@ -49,7 +49,7 @@ export const ASSET_CATEGORY_MOCK = {
 
 export const DASHBOARD_MOCK = {
   COMPLIANCE: {
-    ISO_27001: [
+    [FRAMEWORKS_KEYS.ISO_27001]: [
       {
         name: "Compliant",
         value: 38,
@@ -63,7 +63,7 @@ export const DASHBOARD_MOCK = {
         value: 25,
       },
     ],
-    PISF: [
+    [FRAMEWORKS_KEYS.PISF]: [
       {
         name: "Compliant",
         value: 28,
@@ -77,7 +77,7 @@ export const DASHBOARD_MOCK = {
         value: 15,
       },
     ],
-    NIST_CSF: [
+    [FRAMEWORKS_KEYS.NIST_CSF]: [
       {
         name: "Compliant",
         value: 20,
@@ -164,14 +164,16 @@ export const DASHBOARD_MOCK = {
 };
 
 export const getDashboardData = (doctype, framework = null) => {
-  let data = {};
-  if (isNullOrEmpty(doctype)) return data;
+    console.log({ framework });
+    
+  let data = [];
+  if (isNullOrEmpty(doctype)) return [];
   doctype = doctype.toUpperCase();
-  data = DASHBOARD_MOCK[doctype] ?? {};
+  data = DASHBOARD_MOCK[doctype] ?? [];
 
   if (isNotNullOrEmpty(framework)) {
     framework = framework.toUpperCase();
-    data = data[framework] ?? {};
+    data = data[framework] ?? [];
   }
   return data;
 };

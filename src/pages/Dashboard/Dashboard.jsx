@@ -1,20 +1,39 @@
-import { Col, Row, Typography } from "antd";
+import { Col, Row, Typography, Select } from "antd";
 import BarChartGallery from "../../chart_gallery/BarChart";
 import DoughnutChart from "../../chart_gallery/DoughnutChart";
 import RadarChartGallery from "../../chart_gallery/RadarChart";
 import AreaLineChart from "../../chart_gallery/AreaLineChart";
-import { getDashboardData } from "../../lib/mock/dashboard";
+import {
+  FRAMEWORKS_KEYS,
+  FRAMWORKS_MOCK,
+  getDashboardData,
+} from "../../lib/mock/dashboard";
+import { useMemo, useState } from "react";
 
 const { Title } = Typography;
 
 function Dashboard() {
-  let complianceData = getDashboardData("compliance", "ISO_27001") ?? {};
+  const [activeFramework, setActiveFramework] = useState(
+    FRAMEWORKS_KEYS.ISO_27001,
+  );
+  let initialData = useMemo(() => getDashboardData("compliance") ?? {}, []);
+  let complianceData = initialData[activeFramework] ?? [];
+
   console.log({ complianceData });
 
   return (
     <Row gutter={[20, 80]}>
       <Col span={12} style={{ height: "350px" }}>
         <Title level={4}>Compliance Status</Title>
+        <Select
+          showSearch
+          placeholder="Framework"
+          optionFilterProp="label"
+          value={activeFramework}
+          onChange={setActiveFramework}
+          options={FRAMWORKS_MOCK ?? []}
+          style={{ width: 200 }}
+        />
         <DoughnutChart data={complianceData} />
       </Col>
       <Col span={12} style={{ height: "350px" }}>

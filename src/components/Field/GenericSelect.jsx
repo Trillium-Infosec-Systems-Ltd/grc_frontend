@@ -5,7 +5,7 @@ import { callApi } from "../../axios/callApi";
 import { APIS } from "../../constants/apiConstants";
 import { isNotNullOrEmpty, isNullOrEmpty } from "../../utils/utils";
 
-const GenericSelect = ({ field, mode = undefined, ...rest }) => {
+const GenericSelect = ({ field = {}, mode = undefined, ...rest }) => {
   const {
     link_to,
     options: dropdownOptions,

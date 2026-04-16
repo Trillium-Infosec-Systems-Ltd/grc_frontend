@@ -100,7 +100,7 @@ export default function DoughnutChart({ data = dataSet }) {
             dataKey="value"
             paddingAngle={0}
           >
-            {data.map((entry, index) => (
+            {data?.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
                 fill={COLORS[entry.name]}
