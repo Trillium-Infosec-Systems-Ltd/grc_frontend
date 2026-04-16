@@ -1,6 +1,6 @@
 import { Pie, PieChart, ResponsiveContainer, Legend, Cell } from "recharts";
 
-const data = [
+const dataSet = [
   { name: "Assets", value: 300 },
   { name: "Vulnerabilities", value: 300 },
   { name: "Controls", value: 300 },
@@ -12,12 +12,28 @@ const COLORS = {
   Vulnerabilities: "#FF82AC",
   Assets: "#16DBCC",
   Controls: "#FFBB38",
+  Compliant: "#00b050",
+  "Partially Compliant": "#ffb302",
+  "Non-Compliant": "#ff2a04",
+
+  Low: "#00b050",
+  "Medium": "#ffe602",
+  "High": "#ffb302",
+  "Very High": "#ff2a04",
 };
 const INNER_COLORS = {
   Incidents: "#3464F3",
   Vulnerabilities: "#FF6195",
   Assets: "#1EC6B8",
   Controls: "#FFB11F",
+  Low: "#00b050",
+  "Medium": "#ffe602",
+  "High": "#ffb302",
+  "Very High": "#ff2a04",
+
+  Compliant: "#00b050",
+  "Partially Compliant": "#ffb302",
+  "Non-Compliant": "#ff2a04",
 };
 
 const renderLegend = ({ payload }) => {
@@ -63,7 +79,7 @@ const renderLegend = ({ payload }) => {
   );
 };
 
-export default function DoughnutChart() {
+export default function DoughnutChart({ data = dataSet }) {
   return (
     <>
       <style>
