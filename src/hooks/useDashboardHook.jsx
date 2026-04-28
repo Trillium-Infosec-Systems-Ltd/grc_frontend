@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { callApi } from "../axios/callApi";
 import { APIS } from "../constants/apiConstants";
 import { isNotNullOrEmpty, isNullOrEmpty } from "../utils/utils";
+import { useSelector } from "react-redux";
 
 const COMLIANCE_INIT = {
   data: [],
@@ -14,6 +15,9 @@ const RISK_INIT = {
 };
 
 const useDashboardHook = () => {
+  const { user, userQuery } = useSelector((state) => state.session);
+  const { org_id = "" } = user;
+
   const [isLoading, setIsLoading] = useState(false);
   const [complianceData, setComplianceData] = useState(COMLIANCE_INIT);
   const [riskData, setRiskData] = useState(RISK_INIT);
@@ -28,12 +32,12 @@ const useDashboardHook = () => {
 
   useEffect(() => {
     getComplianceData();
-  }, [activeFramework]);
+  }, [activeFramework, org_id]);
 
   useEffect(() => {
     getRiskByStatus();
     getRiskByCategory();
-  }, []);
+  }, [org_id]);
 
   const getComplianceData = useCallback(async () => {
     setIsLoading(true);
@@ -62,7 +66,7 @@ const useDashboardHook = () => {
     });
 
     setIsLoading(false);
-  }, [activeFramework]);
+  }, [activeFramework, org_id]);
 
   const getRiskByStatus = useCallback(async () => {
     setIsLoading(true);
@@ -73,7 +77,7 @@ const useDashboardHook = () => {
     getRiskByCategory(RISK_BY_STATUS);
 
     // setIsLoading(false);
-  }, []);
+  }, [org_id]);
 
   const getRiskByCategory = useCallback(async (RISK_BY_STATUS = []) => {
     let PAYLOAD = { ...APIS.DASHBOARD_RISKS_BY_ASSET_CATEGORY };
@@ -94,7 +98,7 @@ const useDashboardHook = () => {
     }
 
     setIsLoading(false);
-  }, []);
+  }, [org_id]);
 
   return {
     isLoading,

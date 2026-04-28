@@ -81,7 +81,35 @@ const renderLegend = ({ payload }) => {
 };
 
 const DoughnutChart = memo(({ data = [] }) => {
-  console.log("Rendering DoughnutChart with data:", data);
+  const isAllZero = data.every(item => item.value === 0);
+  data = isAllZero ? data?.map(entry => ({ ...entry, value: 1})) : data;
+
+  const renderCustomizedLabel = (props) => {
+  const { cx, cy, midAngle, innerRadius, outerRadius, percent, value } = props;
+
+  // ❌ Hide label if value is 0
+  if (value === 0) return null;
+
+  const RADIAN = Math.PI / 180;
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+
+  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+  const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+  return (
+    <text
+      x={x}
+      y={y}
+      fill="black"
+      textAnchor="middle"
+      dominantBaseline="central"
+      fontSize={20}
+    >
+      {value}
+    </text>
+  );
+}; 
+
   return (
     <>
       <style>
@@ -101,12 +129,12 @@ const DoughnutChart = memo(({ data = [] }) => {
             outerRadius={100}
             dataKey="value"
             paddingAngle={0}
-            label
+           label={isAllZero ? false : renderCustomizedLabel}
           >
             {data?.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
-                fill={COLORS[entry.name]}
+                fill={isAllZero ? "#e5e7eb" : COLORS[entry.name]}
                 strokeWidth={0}
               />
             ))}
@@ -126,7 +154,7 @@ const DoughnutChart = memo(({ data = [] }) => {
             {data?.map((entry, index) => (
               <Cell
                 key={`inner-${index}`}
-                fill={INNER_COLORS[entry.name]}
+                fill={isAllZero ? "#e5e7eb" : COLORS[entry.name]}
                 strokeWidth={0}
               />
             ))}

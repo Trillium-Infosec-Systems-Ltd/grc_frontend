@@ -30,17 +30,8 @@ function Dashboard() {
   return (
     <Row gutter={[20, 80]}>
       <Col span={12} style={{ height: "350px" }}>
+        <Flex justify="space-between" style={{ alignItems: "center"}}>
         <Title level={4}>Compliance Status</Title>
-        <Flex justify="space-around" alignItems="center">
-          <Select
-            showSearch
-            placeholder="Framework"
-            optionFilterProp="label"
-            value={activeFramework}
-            onChange={setActiveFramework}
-            options={frameworks ?? []}
-            style={{ width: 200 }}
-          />
           <Dropdown
             menu={{
               items: exportOptions,
@@ -53,11 +44,22 @@ function Dashboard() {
             </Button>
           </Dropdown>
         </Flex>
+        <Flex justify="space-between" alignItems="center">
+          <Select
+            showSearch
+            placeholder="Framework"
+            optionFilterProp="label"
+            value={activeFramework}
+            onChange={setActiveFramework}
+            options={frameworks ?? []}
+            style={{ width: 200 }}
+          />
+        </Flex>
         <DoughnutChart data={compliance} />
       </Col>
       <Col span={12} style={{ height: "350px" }}>
+        <Flex justify="space-between" style={{ alignItems: "center"}}>
         <Title level={4}>Risk</Title>
-        <Flex justify="end" alignItems="center">
           <Dropdown
             menu={{
               items: exportOptions,
@@ -72,8 +74,21 @@ function Dashboard() {
         </Flex>
         <DoughnutChart data={riskByStatus} />
       </Col>
-      <Col span={24} style={{ height: "350px" }}>
+      <Col span={24} style={{ height: "350px", marginTop: '30px' }}>
+      <Flex justify="space-between" style={{ alignItems: "center"}}>
         <Title level={4}>Risk By Asset Category</Title>
+        <Dropdown
+            menu={{
+              items: exportOptions,
+              onClick: () => console.log("Exporting..."),
+            }}
+            placement="bottomRight"
+          >
+            <Button icon={<ArrowDownOutlined />} color="cyan" variant="solid">
+              Export
+            </Button>
+          </Dropdown>
+        </Flex>
         <BarChartGallery data={riskByCategory} isStacked />
       </Col>
       {/* 

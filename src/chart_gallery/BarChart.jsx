@@ -80,7 +80,7 @@ const BarChartGallery = memo(({ data = dataSet, isStacked = false }) => {
           <>
           {BARS?.map((k) => 
         <Bar dataKey={k} stackId='a' fill={COLORS[k]} barSize={40}>
-          <LabelList dataKey={k} position="inside" fill="black" />
+          <LabelList dataKey={k} position="inside" fill="black" fontSize={20} formatter={(value) => (value === 0 ? '' : value)} />
         </Bar>
           )}
         {/* <Bar dataKey="pv" name='Alert' stackId='a' barSize={10} fill="#FE5C73" radius={[10, 10, 10, 10]} />
