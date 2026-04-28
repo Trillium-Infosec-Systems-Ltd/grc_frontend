@@ -80,7 +80,8 @@ const renderLegend = ({ payload }) => {
   );
 };
 
-const DoughnutChart = memo(({ data = dataSet }) => {
+const DoughnutChart = memo(({ data = [] }) => {
+  console.log("Rendering DoughnutChart with data:", data);
   return (
     <>
       <style>
@@ -122,7 +123,7 @@ const DoughnutChart = memo(({ data = dataSet }) => {
             dataKey="value"
             paddingAngle={0}
           >
-            {data.map((entry, index) => (
+            {data?.map((entry, index) => (
               <Cell
                 key={`inner-${index}`}
                 fill={INNER_COLORS[entry.name]}

@@ -21,6 +21,33 @@ export const APIS = {
     METHOD: API_METHOD.GET,
     AUTH: false,
   },
+  DASHBOARD_COMPLIANCE: {
+    URL: "/dashboard/compliance",
+    METHOD: API_METHOD.GET,
+    AUTH: true,
+    SERVER: "private",
+    // PARAMS: {
+    //   QUERY: { framework: "" },
+    // },
+  },
+  DASHBOARD_RISKS_BY_STATUS: {
+    URL: "/dashboard/risks-by-status",
+    METHOD: API_METHOD.GET,
+    AUTH: true,
+    SERVER: "private",
+    // PARAMS: {
+    //   QUERY: { framework: "" },
+    // },
+  },
+  DASHBOARD_RISKS_BY_ASSET_CATEGORY: {
+    URL: "/dashboard/risks-by-asset-category",
+    METHOD: API_METHOD.GET,
+    AUTH: true,
+    SERVER: "private",
+    // PARAMS: {
+    //   QUERY: { framework: "" },
+    // },
+  },
   TABLE_SCHEMA: {
     URL: "/table_meta/",
     METHOD: API_METHOD.GET,

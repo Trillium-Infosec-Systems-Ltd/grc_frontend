@@ -1,23 +1,8 @@
-import {
-  Col,
-  Row,
-  Typography,
-  Select,
-  Button,
-  Dropdown,
-  Flex,
-} from "antd";
+import { Col, Row, Typography, Select, Button, Dropdown, Flex } from "antd";
 import { ArrowDownOutlined } from "@ant-design/icons";
 import BarChartGallery from "../../chart_gallery/BarChart";
 import DoughnutChart from "../../chart_gallery/DoughnutChart";
-import RadarChartGallery from "../../chart_gallery/RadarChart";
-import AreaLineChart from "../../chart_gallery/AreaLineChart";
-import {
-  FRAMEWORKS_KEYS,
-  FRAMWORKS_MOCK,
-  getDashboardData,
-} from "../../lib/mock/dashboard";
-import { useMemo, useState } from "react";
+import useDashboardHook from "../../hooks/useDashboardHook";
 
 const { Title } = Typography;
 
@@ -33,39 +18,42 @@ const exportOptions = [
 ];
 
 function Dashboard() {
-  const [activeFramework, setActiveFramework] = useState(
-    FRAMEWORKS_KEYS.ISO_27001,
-  );
-  let initialData = useMemo(() => getDashboardData("compliance") ?? {}, []);
-  let complianceData = initialData[activeFramework] ?? [];
-
-  console.log({ complianceData });
+  const {
+    frameworks,
+    activeFramework,
+    compliance,
+    riskByStatus,
+    riskByCategory,
+    setActiveFramework
+  } = useDashboardHook();
 
   return (
     <Row gutter={[20, 80]}>
       <Col span={12} style={{ height: "350px" }}>
         <Title level={4}>Compliance Status</Title>
         <Flex justify="space-around" alignItems="center">
-        <Select
-          showSearch
-          placeholder="Framework"
-          optionFilterProp="label"
-          value={activeFramework}
-          onChange={setActiveFramework}
-          options={FRAMWORKS_MOCK ?? []}
-          style={{ width: 200 }}
-        />
-        <Dropdown
+          <Select
+            showSearch
+            placeholder="Framework"
+            optionFilterProp="label"
+            value={activeFramework}
+            onChange={setActiveFramework}
+            options={frameworks ?? []}
+            style={{ width: 200 }}
+          />
+          <Dropdown
             menu={{
               items: exportOptions,
               onClick: () => console.log("Exporting..."),
             }}
             placement="bottomRight"
           >
-            <Button icon={<ArrowDownOutlined />} color="cyan" variant="solid">Export</Button>
+            <Button icon={<ArrowDownOutlined />} color="cyan" variant="solid">
+              Export
+            </Button>
           </Dropdown>
         </Flex>
-        <DoughnutChart data={complianceData} />
+        <DoughnutChart data={compliance} />
       </Col>
       <Col span={12} style={{ height: "350px" }}>
         <Title level={4}>Risk</Title>
@@ -77,17 +65,16 @@ function Dashboard() {
             }}
             placement="bottomRight"
           >
-            <Button icon={<ArrowDownOutlined />} color="cyan" variant="solid">Export</Button>
+            <Button icon={<ArrowDownOutlined />} color="cyan" variant="solid">
+              Export
+            </Button>
           </Dropdown>
         </Flex>
-        <DoughnutChart data={getDashboardData("risk_by_status")} />
+        <DoughnutChart data={riskByStatus} />
       </Col>
       <Col span={24} style={{ height: "350px" }}>
         <Title level={4}>Risk By Asset Category</Title>
-        <BarChartGallery
-          data={getDashboardData("RISK_BY_ASSET_CATEGORY")}
-          isStacked
-        />
+        <BarChartGallery data={riskByCategory} isStacked />
       </Col>
       {/* 
       <Col span={16} style={{ height: "350px" }}>
