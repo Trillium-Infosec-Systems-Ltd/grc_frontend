@@ -13,8 +13,10 @@ export const buildInitialValues = (schema, initialData) => {
     if (field.fieldtype === "File" && val) {
       val = val.map((file, index) => ({
         uid: index + 1,
-        name: file,
-        url: createBaseURL() + file,
+        name: file?.name || file,
+        url: file?.url || createBaseURL() + file,
+        // name: file,
+        // url: createBaseURL() + file,
         status: "uploaded",
       }));
     }
