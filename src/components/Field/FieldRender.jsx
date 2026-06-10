@@ -11,6 +11,7 @@ import { useMemo } from "react";
 import FormListField from "./FormListField";
 import QuestionTable from "./QuestionTable";
 import AssessmentProgress from "./AssessmentProgress";
+import dayjs from "dayjs";
 
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -39,7 +40,7 @@ const RenderField = ({ field = {}, ...rest }) => {
       case "LongText":
         return <TextArea {...rest} rows={4} />;
       case "Date":
-        return <DatePicker {...rest} style={{ width: "100%" }} />;
+        return <DatePicker {...rest} style={{ width: "100%" }} minDate={dayjs()} />;
       case "Tags":
         return <Select {...rest} mode="tags" />;
       case "MultiLink":

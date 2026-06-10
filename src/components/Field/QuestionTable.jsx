@@ -19,15 +19,17 @@ const QuestionTable = ({ fieldname, form }) => {
         (quest) => quest?.answer
       );
 
-      if (isNullOrEmpty(sQuestions?.length) || sQuestions?.length === 0) {
-        status = "Non Compliant";
-        controlRating = "Low";
-      } else {
-        currentPercentage =
-          sQuestions?.reduce((a, b) => {
-            return (a += b?.weight);
-          }, 0) || 0;
-        currentPercentage = (currentPercentage / 2) * 100;
+      currentPercentage = ((sQuestions?.length || 0) * 100) / (formData?.control_assessment?.length || 1);
+
+      // if (isNullOrEmpty(sQuestions?.length) || sQuestions?.length === 0) {
+      //   status = "Non Compliant";
+      //   controlRating = "Low";
+      // } else {
+      //   currentPercentage =
+      //     sQuestions?.reduce((a, b) => {
+      //       return (a += b?.weight);
+      //     }, 0) || 0;
+      //   currentPercentage = (currentPercentage / 2) * 100;
 
         // if (sQuestions?.length < formData?.control_assessment?.length) {
         //   status = "Partially Compliant";
@@ -41,17 +43,17 @@ const QuestionTable = ({ fieldname, form }) => {
         //     ? "Medium"
         //     : "Low";
 
-        if (currentPercentage > 85) {
+        if (currentPercentage === 100) {
           controlRating = "High";
           status = "Compliant";
-        } else if (currentPercentage > 65) {
+        } else if (currentPercentage > 50) {
           controlRating = "Medium";
           status = "Partially Compliant";
         } else {
           controlRating = "Low";
           status = "Non Compliant";
         }
-      }
+      // }
 
       form.setFieldValue("compliance_status", status);
       form.setFieldValue("rating", controlRating);
