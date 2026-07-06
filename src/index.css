@@ -1427,7 +1427,7 @@ button[type="submit"] {
 }
 
 a {
-  color: var(--headline);
+  color: var(--cydea-navy-blue);
 }
 
 .ant-picker-dropdown
