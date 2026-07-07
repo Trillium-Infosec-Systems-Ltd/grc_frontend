@@ -10,6 +10,7 @@ import { useState } from "react";
 import useUploadHook from "../../hooks/useUploadHook";
 import PopoverAction from "../Popover/Popover";
 import { CodeSandboxOutlined, UploadOutlined } from "@ant-design/icons";
+import { useSelector } from "react-redux";
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -28,7 +29,13 @@ const TableBuilder = ({
   headerLinks = [],
   actionsList = [],
 }) => {
-  const [tPageSize, setTPage] = useState(pageSize);
+ const { module } = useSelector((state) => state.session);
+const { pagination: storedPagination } = module ?? {};
+
+const [tPageSize, setTPage] = useState(() => {
+  // Sync with Redux persistence if available, otherwise fall back to prop default
+  return storedPagination?.pageSize || pageSize;
+});
   const [bulkModal, setBulkModal] = useState(false);
 
   const { loading, template } = useUploadHook(screen);
@@ -36,6 +43,7 @@ const TableBuilder = ({
     schema,
     data,
     filters,
+    currentPage,
     isLoading,
     selectedRowKeys,
     rowSelection,
@@ -45,6 +53,11 @@ const TableBuilder = ({
   } = useTableHook(screen);
   const { items = [], total = 0, skip = 0, limit = 10 } = data ?? {};
   const { columns = [] } = schema ?? {};
+
+  console.log("TableBuilder: ", {
+    schema,
+    data,
+  })
 
   let columnList = [
     ...(columns ?? []),
@@ -205,11 +218,12 @@ const TableBuilder = ({
               ? {
                   size: "default",
                   pageSizeOptions: [5, 10],
-                  current: Math.floor(skip / limit) + 1,
+                  current: currentPage,
                   pageSize: tPageSize,
                   total: total ?? 0,
                   onChange: (page, pageSize) => {
                     setTPage(pageSize);
+                    // alert(pageSize);
                     fetchData({
                       skip: (page - 1) * pageSize,
                       limit: pageSize,

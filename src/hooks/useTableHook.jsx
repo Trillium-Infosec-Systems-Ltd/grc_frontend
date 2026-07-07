@@ -5,18 +5,19 @@ import { KEY } from "../constants/keysConstants";
 import { useDispatch, useSelector } from "react-redux";
 import { isNotNullOrEmpty, isNullOrEmpty } from "../utils/utils";
 import { message } from "antd";
-import { clearUserQuery } from "../features/user/userSlice";
+import { clearUserQuery, setModule } from "../features/user/userSlice";
 
 const useTableHook = (screen, MODE = KEY.VIEW) => {
   const dispatch = useDispatch();
-  const { user, userQuery } = useSelector((state) => state.session);
+  const { user, userQuery, module } = useSelector((state) => state.session);
+  const { pagination = {}, screen: moduleScreen, filters: moduleFilters } = module ?? {};
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [isLoading, setIsLoaing] = useState(false);
   const [stateRef, setStateRef] = useState({
-    filters: {},
+    filters: moduleFilters,
     originalData: [],
-    data: { total: 0, skip: 0, limit: 10, items: [] },
+    data: { total: 0, skip: (pagination.current - 1) * 5, limit: 5, items: [] },
     schema: {},
   });
 
@@ -49,16 +50,19 @@ const useTableHook = (screen, MODE = KEY.VIEW) => {
     const { data: tSchema = {} } = result;
 
     await getTableData({
-      skip: 0,
-      limit: 10,
+      skip: moduleScreen === screen ? data.skip : 0,
+      limit: 5,
       schema: tSchema ?? {},
-      filters: {},
+      filters: moduleScreen === screen ? moduleFilters : {},
     });
   }, [screen]);
 
   const getTableData = useCallback(
-    async ({ skip = 0, limit = 10, schema: tschema = {}, filters = {} }) => {
+    async ({ skip = data.skip, limit = 5, schema: tschema = {}, filters }) => {
+      const currentPage = (skip / limit) + 1;
       setIsLoaing(true);
+
+      dispatch(setModule({ screen, pagination: { current: currentPage }, filters }));
 
       let apiConfig = { ...APIS.GET_RECORDS };
       if (screen?.toLowerCase() === "users") apiConfig = { ...APIS.GET_AUTH };
@@ -90,7 +94,7 @@ const useTableHook = (screen, MODE = KEY.VIEW) => {
       }));
       setIsLoaing(false);
     },
-    [screen]
+    [screen, pagination, moduleFilters]
   );
 
   const deleteRecord = useCallback(
@@ -154,7 +158,8 @@ const useTableHook = (screen, MODE = KEY.VIEW) => {
     data,
     selectedRowKeys,
     rowSelection,
-    filters,
+    filters: moduleScreen === screen ? moduleFilters : filters,
+    currentPage: moduleScreen === screen ? module.pagination?.current : 1,
     isLoading,
     fetchData: getTableData,
     getTableSchema,
